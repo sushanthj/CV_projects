@@ -1,0 +1,61 @@
+I"6<p>For Jekyll reference see <a href="https://pmarsceill.github.io/just-the-docs/">just_the_docs</a></p>
+
+<p>The following pages are built in order to understand Computer Vision and Machine Learning</p>
+
+<p>To deploy on heroku follow the steps in the link below (and use the gem files, rake files and proc files in this repo for reference)</p>
+
+<p>The following files will need to be copied from this repo:</p>
+<ul>
+  <li>config.ru</li>
+  <li>Rakefile</li>
+  <li>Procfile</li>
+  <li>static.json</li>
+  <li>config.yaml (modify this file as per requirement)</li>
+  <li>Gemfile</li>
+</ul>
+
+<p>And only if necessary:</p>
+<ul>
+  <li>Gemfile.lock</li>
+  <li>remove _sites from .gitignore</li>
+</ul>
+
+<p>Run bundle once to intialize
+Run bundle exec jekyll serve
+Go to the specified webpage by the above command</p>
+
+<p>After copying these files (or their necessary contents), install heroku cli and do:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>heroku login
+</code></pre></div></div>
+
+<p>Then do heroku create as per the below link and the other steps necessary (git push heroku master)</p>
+
+<p><a href="https://blog.heroku.com/jekyll-on-heroku">Deploy jekyll on heroku</a></p>
+
+<p>Finally, go to heroku page -&gt; settings -&gt; change the name of the app and find the url</p>
+
+<h1 id="to-better-your-experience-of-writing-in-code">To better your experience of writing in code</h1>
+
+<p>Download the following extensions in vscode:</p>
+<ol>
+  <li>Markdown All in one</li>
+  <li>code runner (see youtube video on how to setup vscode for C++)</li>
+</ol>
+
+<h1 id="shortcuts-in-general-pour-toi">Shortcuts in general pour toi</h1>
+<ul>
+  <li>Once Markdown all in one is installed, you can do <strong>ctrl+shift+v</strong> to see preview of markdown immediately</li>
+  <li>To run any C++ file it’s just <strong>ctrl+shift+n</strong></li>
+  <li>If you want to bold any specific text in markdown just select the text by holding down <strong>ctrl+shift</strong> and using arrow keys to select the required text. Then once text is selected just do <strong>ctrl+b</strong> to <strong>bolden</strong> and <strong>ctrl+i</strong> to <strong><em>italicize</em></strong>
+    <ul>
+      <li>click on tab after using <strong>-</strong> for normal bullet pointing to get sub-points</li>
+    </ul>
+  </li>
+  <li>
+    <p>To get numbered list continuously, in-between two headings 1. and 2. all content should be indented with 4 spaces in the markdown script</p>
+  </li>
+  <li>To shift between windows in ubuntu, just do <strong>windows_key+shift+right/left_arrow</strong></li>
+  <li>To minimize or unmaximize any window in <strong>hold down alt and press space</strong>, then choose to minimize</li>
+  <li>To then maximize or move window to right half/left half of screen, <strong>windows_key+shift+right/left_arrow</strong></li>
+</ul>
+:ET
