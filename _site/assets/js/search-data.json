@@ -161,12 +161,36 @@
     "url": "http://localhost:4000/numpy/",
     "relUrl": "/numpy/"
   },"27": {
-    "doc": "Home",
-    "title": "Python Notes",
-    "content": "Courseware . ",
-    "url": "http://localhost:4000/#python-notes",
-    "relUrl": "/#python-notes"
+    "doc": "Planar Homography",
+    "title": "Before you Begin",
+    "content": "Reference Book 1 Reference Book 2 . ",
+    "url": "http://localhost:4000/planar_homography/#before-you-begin",
+    "relUrl": "/planar_homography/#before-you-begin"
   },"28": {
+    "doc": "Planar Homography",
+    "title": "PDFs",
+    "content": "Assignment Writeup . My Answers . ",
+    "url": "http://localhost:4000/planar_homography/#pdfs",
+    "relUrl": "/planar_homography/#pdfs"
+  },"29": {
+    "doc": "Planar Homography",
+    "title": "Understanding Planar Homography",
+    "content": ". ",
+    "url": "http://localhost:4000/planar_homography/#understanding-planar-homography",
+    "relUrl": "/planar_homography/#understanding-planar-homography"
+  },"30": {
+    "doc": "Planar Homography",
+    "title": "Planar Homography",
+    "content": ". | Before you Begin | PDFs | Understanding Planar Homography | . ",
+    "url": "http://localhost:4000/planar_homography/",
+    "relUrl": "/planar_homography/"
+  },"31": {
+    "doc": "Home",
+    "title": "Computer Vision Projects and Assignments",
+    "content": "Compiled list of projects and assignments during my time at CMU’s Robotics Institute . Main CV Reference . ",
+    "url": "http://localhost:4000/#computer-vision-projects-and-assignments",
+    "relUrl": "/#computer-vision-projects-and-assignments"
+  },"32": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
