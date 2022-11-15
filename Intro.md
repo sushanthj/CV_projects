@@ -28,12 +28,13 @@ Run bundle once to intialize
 Run bundle exec jekyll serve
 Go to the specified webpage by the above command
 
-After copying these files (or their necessary contents), install heroku cli and do:
+After copying these files (or their necessary contents), install heroku cli and do heroku login:
 ```bash
+curl https://cli-assets.heroku.com/install.sh | sh
 heroku login
 ```
 
-Then do heroku create as per the below link and the other steps necessary (git push heroku master)
+Then directly start with heroku create as per the below link and the other steps necessary (git push heroku master)
 
 [Deploy jekyll on heroku](https://blog.heroku.com/jekyll-on-heroku)
 
