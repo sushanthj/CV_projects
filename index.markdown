@@ -6,8 +6,10 @@ description: "Just the Docs is a responsive Jekyll theme with built-in search th
 permalink: /
 ---
 
-# Python Notes
+# Computer Vision Projects and Assignments
+
+Compiled list of projects and assignments during my time at CMU's Robotics Institute
 {: .fs-9 }
 
 
-[Courseware](https://drive.google.com/file/d/1fDNsbM9I3apBssYNU1ecQZVF7eIbeEzQ/view?usp=sharing){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Main CV Reference](https://szeliski.org/Book/){: .btn .fs-5 .mb-4 .mb-md-0 }
