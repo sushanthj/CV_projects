@@ -23,20 +23,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Triangulation Theory | CV projects</title>
+<title>3D_reconstruction | CV projects</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="Triangulation Theory" />
+<meta property="og:title" content="3D_reconstruction" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Computer Vision projects and assignments during my time in CMU" />
 <meta property="og:description" content="Computer Vision projects and assignments during my time in CMU" />
-<link rel="canonical" href="http://localhost:4000/triangulation_theory/" />
-<meta property="og:url" content="http://localhost:4000/triangulation_theory/" />
+<link rel="canonical" href="http://localhost:4000/3D_reconstruction/" />
+<meta property="og:url" content="http://localhost:4000/3D_reconstruction/" />
 <meta property="og:site_name" content="CV projects" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Triangulation Theory" />
+<meta property="twitter:title" content="3D_reconstruction" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Computer Vision projects and assignments during my time in CMU","headline":"Triangulation Theory","url":"http://localhost:4000/triangulation_theory/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Computer Vision projects and assignments during my time in CMU","headline":"3D_reconstruction","url":"http://localhost:4000/3D_reconstruction/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -90,7 +90,7 @@
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
       
-        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item active"><a href="http://localhost:4000/triangulation_theory/" class="nav-list-link active">Triangulation Theory</a></li><li class="nav-list-item"><a href="http://localhost:4000/git_concepts" class="nav-list-link">Git Concepts</a></li></ul>
+        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item active"><a href="http://localhost:4000/3D_reconstruction/" class="nav-list-link active">3D_reconstruction</a></li><li class="nav-list-item"><a href="http://localhost:4000/git_concepts" class="nav-list-link">Git Concepts</a></li></ul>
 
       
     </nav>
@@ -137,7 +137,7 @@
     Table of contents
   </summary>
 <ol id="markdown-toc">
-  <li><a href="#basic-method-of-behind-estimating-the-rotation-and-traslation-between-2-cameras" id="markdown-toc-basic-method-of-behind-estimating-the-rotation-and-traslation-between-2-cameras">Basic Method of behind estimating the rotation and traslation between 2 cameras</a>    <ol>
+  <li><a href="#estimating-the-rotation-and-translation-between-two-camera-views" id="markdown-toc-estimating-the-rotation-and-translation-between-two-camera-views">Estimating the Rotation and Translation between two camera views</a>    <ol>
       <li><a href="#triangulate3d" id="markdown-toc-triangulate3d">triangulate3D</a></li>
       <li><a href="#findm2" id="markdown-toc-findm2">findM2</a></li>
       <li><a href="#combining-the-above-two-functions" id="markdown-toc-combining-the-above-two-functions">Combining the above two functions</a></li>
@@ -154,14 +154,16 @@
 </ol>
 
 </details>
-      <h1 id="basic-method-of-behind-estimating-the-rotation-and-traslation-between-2-cameras">
+      <h1 id="estimating-the-rotation-and-translation-between-two-camera-views">
         
         
-          <a href="#basic-method-of-behind-estimating-the-rotation-and-traslation-between-2-cameras" class="anchor-heading" aria-labelledby="basic-method-of-behind-estimating-the-rotation-and-traslation-between-2-cameras"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Basic Method of behind estimating the rotation and traslation between 2 cameras
+          <a href="#estimating-the-rotation-and-translation-between-two-camera-views" class="anchor-heading" aria-labelledby="estimating-the-rotation-and-translation-between-two-camera-views"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Estimating the Rotation and Translation between two camera views
         
         
       </h1>
     
+
+<p>Here we are given two images (the two camera views)</p>
       <h2 id="triangulate3d">
         
         
@@ -190,8 +192,9 @@
 
 <p>After finding the 3D points, we will reproject them back onto the image and compare them with our original correspondence points (which we either manually selected or got from some keypoint detector like ORB or BRIEF)</p>
 
-<p>The formula for reprojection error in this case is:
-\(\operatorname{err}=\sum_i\left\|\mathbf{x}_{1 i}, \widehat{\mathbf{x}_{1 i}}\right\|^2+\left\|\mathbf{x}_{2 i}, \widehat{\mathbf{x}_{2 i}}\right\|^2\)</p>
+<p>The formula for reprojection error in this case is:</p>
+
+<p><img src="/images/3d_reconstruction/1.png" alt="" /></p>
       <h2 id="findm2">
         
         

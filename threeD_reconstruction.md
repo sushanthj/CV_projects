@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Triangulation Theory
-permalink: /triangulation_theory/
+title: 3D_reconstruction
+permalink: /3D_reconstruction/
 nav_order: 5
 ---
 
@@ -14,7 +14,9 @@ nav_order: 5
 {:toc}
 </details>
 
-# Basic Method of behind estimating the rotation and traslation between 2 cameras
+# Estimating the Rotation and Translation between two camera views
+
+Here we are given two images (the two camera views)
 
 ## triangulate3D
 
@@ -34,9 +36,8 @@ The above theory is summarized as:
 After finding the 3D points, we will reproject them back onto the image and compare them with our original correspondence points (which we either manually selected or got from some keypoint detector like ORB or BRIEF)
 
 The formula for reprojection error in this case is:
-$$
-\operatorname{err}=\sum_i\left\|\mathbf{x}_{1 i}, \widehat{\mathbf{x}_{1 i}}\right\|^2+\left\|\mathbf{x}_{2 i}, \widehat{\mathbf{x}_{2 i}}\right\|^2
-$$
+
+![](/images/3d_reconstruction/1.png)
 
 
 ## findM2
