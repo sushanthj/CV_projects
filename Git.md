@@ -17,9 +17,11 @@ nav_order: 14
 # Before you Begin
 {: .fs-9 }
 
-[Reference](https://www.w3schools.com/git/git_getstarted.asp?remote=github){: .btn .fs-5 .mb-4 .mb-md-0}
+[Reference](https://www.w3schools.com/git/git_getstarted.asp?remote=github)
+{: .btn .fs-5 .mb-4 .mb-md-0}
 
-In the above link, follow the procedures, but instead of using username and password each time, setup the ssh keys and use them more often
+In the above link, follow the procedures, but instead of using username and password each time, 
+setup the ssh keys and use them more often
 
 *ssh keys are found in ./.ssh folder (or lookup keygen to generate your keys)*
 
@@ -54,18 +56,21 @@ git branch --set-upstream-to=origin/master
 
 or git branch --set-upstream-to=origin/develop
 
-## If you cloned a repo, forked your own branch (using git checkout)
+## Handling merge conflicts
 
-You may need to pull from upstream to update your codebase \
+If you cloned a repo or forked your own branch 
+you may need to pull from upstream to update your codebase.
 However, running a simple 'git pull' may throw merge conflicts
 
 So do the following
 1. Run a 'git fetch' to get the updates on all branches (and if any new branch has been added)
 2. In your personal branch commit all changes by doing: git add, commit and push
 3. sudo apt install meld
-4. Now to get the upstream updates do 'git checkout develop' (whichever is the main branch)
+4. Now to get the upstream updates do 'git checkout main' 
+(or whichever is the upstream branch with latest updates)
 5. Now to put this in your personal branch run 'git checkout feature/sj'
-6. Now we do the actual merging using 'git merge develop' (this will merge everythin in deveop into the current branch viz feature/sj)
+6. Now we do the actual merging using 'git merge develop' **(this will merge everythin in 
+deveop into the current branch viz feature/sj)**
 7. The above step would have thrown some merge conflicts, to solve that run 'git mergetool'
 8. The above step opens meld, make all necessary resolutions and save
 9. Now our codebase would have been updated to whatever we resolved in meld
@@ -74,16 +79,20 @@ So do the following
 
 ## Points to Note
 
-- If you checkout a file 'git checkout blade.py' it resets the file to whatever is the latest from that branch in upstream
+- If you checkout a file 'git checkout blade.py' 
+it resets the file to whatever is the latest from that branch in upstream
 
-- If you want to physically add or change remotes go to the respective folder and do 'nano .git/config'
+- If you want to physically add or change remotes go to the respective folder
+and do 'nano .git/config'
 
 - the correct syntax for the merge command is: \
 'git merge ts_origin/master' \
 What this does is that if the current branch is origin/develop it will merge the files of \
 current branch i.e origin/develop with ts_origin/master
 
-- Note that even if ts_origin/master is in ts_github account and origin/master is in sushanthj github account, it will still merge as long as remotes exist for both these accounts. If remotes don't exist, you can always add as shown up above 
+- Note that even if ts_origin/master is in ts_github account and origin/master is in sushanthj 
+github account, it will still merge as long as remotes exist for both these accounts. 
+If remotes don't exist, you can always add as shown up above 
 
 ### Concepts for working with two repos or two repos on two different github accounts:
 
@@ -100,7 +109,8 @@ i.e if you do a git pull, it will pull from the latest branch to which you pushe
 in this case it will pull from ts_origin/develop
 
 ### Saving a patch file
-If you have changes made which you want to save locally and not push to remote, you can save a patch file
+If you have changes made which you want to save locally and not push to remote, 
+you can save a patch file
 
 ```bash
 git diff > new_changes.patch
@@ -113,12 +123,15 @@ git apply new_changes.patch
 
 ### Saving changes by stashing
 
-Instead of saving a specific file for changes (such as a patch file), you could also stash your changes locally
+Instead of saving a specific file for changes (such as a patch file), 
+you could also stash your changes locally
 
 ```
 git stash
 ```
-The above command will stash all tracked changes. You could also stash only committed changes. Refer: [stashing](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)
+The above command will stash all tracked changes. 
+You could also stash only committed changes. 
+Refer: [stashing](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)
 
 To then apply the stashed changes (one time use only as pop will remove from stash)
 ```
