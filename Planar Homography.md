@@ -36,26 +36,26 @@ To understand how a camera views the 3D world, first we look at the projection o
 3D points onto an image plane. We use basic high school physics and some similar triangle properties
 to derive the following formula:
 
-![](images/homography/0.png)
+![](/images/homography/0.png)
 
 Notice that the minus sign is bit irritating to work with. (Also we don't see inverted images
 as the formula suggests. This is becauase our brain does the inversion in real time)
 
 Therefore, let's start with the below version of the formula by ignoring this inversion effect
 
-![](images/homography/1.png)
+![](/images/homography/1.png)
 
 Now, the above equation can be written in matrix form, 
 **but we'll form one artifact in this conversion i.e. lambda**
 
-![](images/homography/2.png)
+![](/images/homography/2.png)
 
 It's clear that we can find this lambda as shown. However, why do we even need this? \
 Ans. We want to represent the coordinates in **homogenous coordinates**
 
-![](images/homography/4.png)
+![](/images/homography/4.png)
 
-![](images/homography/3.png)
+![](/images/homography/3.png)
 
 
 ## Camera Matrices
@@ -75,7 +75,7 @@ The rotation shown in the above video in the 8th minute **is a rotation matrix i
 Now, adding a **3D translation** (just 3 numbers which add to the x,y,z component of a 3D vector) 
 along with a **3D rotation** we get the **basic projection equation**
 
-![](images/homography/5.png)
+![](/images/homography/5.png)
 
 *Where the two matrices are called the camera intrinsics (captures focal lengths) and the 
 camera extrinsics (capturing rotation and translation)*
@@ -84,20 +84,20 @@ This rotation (r-matrix) can also be visualized as fixing a world coordinate fra
 plane in the 3D world (think of a it as a flat table top) and then thinking 
 how our camera is rotated w.r.t that frame:
 
-![](images/homography/10.png)
+![](/images/homography/10.png)
 
 Now, most cameras also distort images due to lens optics or other properties inherent in building
 the camera itself. These are captured as shown below:
 
-![](images/homography/8.png)
+![](/images/homography/8.png)
 
 Now, adding these intrinsic and extrinsic factors, we get:
 
-![](images/homography/9.png)
+![](/images/homography/9.png)
 
 ### Alternate notation of camera matrices
 
-![](images/homography/6.png)
+![](/images/homography/6.png)
 
 
 # The Homography Situation
@@ -108,7 +108,7 @@ Now, if we focus on only planes (table top and human holding camera situation): 
 We can make certain simplifying assumptions. This is primarily that the 3D point we're looking at
 has constant depth in it's immediate neighbourhood. Using this we simplify our equations to:
 
-![](images/homography/11.png)
+![](/images/homography/11.png)
 
 **This 3x3 m-matrix now represents the mapping of 3D points on a plane to 2D point in an image**
 
@@ -121,9 +121,9 @@ Now, by simple extension of the above logic we can derive the following:
 - Therefore if two cameras can see the same 3D point, we can find a mapping between the two cameras
 - This mapping between the two cameras is given by a new 3x3 matrix called the homography matrix
 
-![](images/homography/12.png)
+![](/images/homography/12.png)
 
-![](images/homography/13.png)
+![](/images/homography/13.png)
 
 ## Limitations of Planar Homography
 
@@ -145,7 +145,7 @@ ________________________________________________________________________________
 The main application of homography transforms is to find how some reference template has been warped
 due to movement of the camera. This is seem below as:
 
-[](images/homography/15.png)
+![](/images/homography/15.png)
 
 The applications of this are:
 - image stitching (think of two images from two views as a warped version of view 0)
@@ -174,14 +174,14 @@ Let's go deeper into the each of the above steps:
 - The common methods are Harris Corner Detector, polygon fitting, FAST detectors etc.
 - **Here we use the FAST detector**
 
-[](images/homography/16.png)
+![](/images/homography/16.png)
 
 
 ### Keypoint Descriptors
 
 Common descriptors include BRIEF, ORB, SIFT etc. **Here we've used the BRIEF descriptor**
 
-[](images/homography/18.png)
+![](/images/homography/18.png)
 
 The BRIEF descriptor works by creating a binary feature vector of a patch from random
 (x,y) point pairs. This randomness in generating point pairs ensures changes in pixel
@@ -262,13 +262,13 @@ def briefMatch(desc1,desc2,ratio):
 
 Let's say we have two images: **image1 and image2**
 
-[](images/homography/19.png)
+![](/images/homography/19.png)
 
 To Derive the A matrix we undergo the following steps:
 
-[](images/homography/20.png)
+![](/images/homography/20.png)
 
-[](images/homography/21.png)
+![](/images/homography/21.png)
 
 Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
 which forms the null space of A.
@@ -276,7 +276,7 @@ which forms the null space of A.
 
 ### (Bonus) Rejecting outliers during our homography calculation
 
-[](images/homography/24.png)
+![](/images/homography/24.png)
 
 
 ### Implementation of above steps
@@ -673,12 +673,12 @@ ________________________________________________________________________________
 
 If we know how a template matches to a warped image, such as:
 
-[](images/homography/15.png)
+![](/images/homography/15.png)
 
 We can then use this homography matrix to map any plane (here a different book cover) 
 onto our destination image
 
-[](images/homography/22.png)
+![](/images/homography/22.png)
 
 
 ## AR Video
@@ -701,7 +701,19 @@ only rotating about my hip (to ensure no translational movement) while taking th
 
 The results of the stitching are shown below:
 
-[](images/homography/23.png)
+![](/images/homography/23.png)
+
+
+# Acknowledgement and References
+
+A lot of images are taken from the lecture slides during my computer vision class at CMU. These were
+taught by Prof. Kris Kitani and Prof. Deva Ramanan
+
+These slides are publicly available ![(slides)](http://16720.courses.cs.cmu.edu/lec.html)
+
+## My Ohiopyle trip
+
+![](/images/homography/25.jpeg)
 
 
 # Helper Functions
@@ -814,14 +826,3 @@ def loadVid(path):
 
     return frames
 ```
-
-# Acknowledgement and References
-
-A lot of images are taken from the lecture slides during my computer vision class at CMU. These were
-taught by Prof. Kris Kitani and Prof. Deva Ramanan
-
-These slides are publicly available ![(slides)](http://16720.courses.cs.cmu.edu/lec.html)
-
-## My Ohiopyle trip
-
-![](images/homography/25.jpeg)

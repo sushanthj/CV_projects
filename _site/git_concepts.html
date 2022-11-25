@@ -90,7 +90,7 @@
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
       
-        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item active"><a href="http://localhost:4000/git_concepts" class="nav-list-link active">Git Concepts</a></li></ul>
+        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item"><a href="http://localhost:4000/triangulation_theory/" class="nav-list-link">Triangulation Theory</a></li><li class="nav-list-item active"><a href="http://localhost:4000/git_concepts" class="nav-list-link active">Git Concepts</a></li></ul>
 
       
     </nav>
@@ -142,11 +142,15 @@
       <li><a href="#process-for-adding-to-a-github-page" id="markdown-toc-process-for-adding-to-a-github-page">Process for adding to a github page</a></li>
       <li><a href="#if-you-want-to-track-a-different-branch" id="markdown-toc-if-you-want-to-track-a-different-branch">If you want to track a different branch</a></li>
       <li><a href="#working-with-remotes" id="markdown-toc-working-with-remotes">Working with remotes</a></li>
-      <li><a href="#if-you-cloned-a-repo-forked-your-own-branch-using-git-checkout" id="markdown-toc-if-you-cloned-a-repo-forked-your-own-branch-using-git-checkout">If you cloned a repo, forked your own branch (using git checkout)</a></li>
+      <li><a href="#handling-merge-conflicts" id="markdown-toc-handling-merge-conflicts">Handling merge conflicts</a></li>
       <li><a href="#points-to-note" id="markdown-toc-points-to-note">Points to Note</a>        <ol>
           <li><a href="#concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts" id="markdown-toc-concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts">Concepts for working with two repos or two repos on two different github accounts:</a></li>
           <li><a href="#saving-a-patch-file" id="markdown-toc-saving-a-patch-file">Saving a patch file</a></li>
           <li><a href="#saving-changes-by-stashing" id="markdown-toc-saving-changes-by-stashing">Saving changes by stashing</a></li>
+        </ol>
+      </li>
+      <li><a href="#nomenclature-of-git-branches" id="markdown-toc-nomenclature-of-git-branches">Nomenclature of Git Branches</a>        <ol>
+          <li><a href="#maintaining-better-commit-history" id="markdown-toc-maintaining-better-commit-history">Maintaining better commit history</a></li>
         </ol>
       </li>
     </ol>
@@ -163,9 +167,10 @@
       </h1>
     
 
-<p><a href="https://www.w3schools.com/git/git_getstarted.asp?remote=github" class="btn fs-5 mb-4 mb-md-0">Reference</a></p>
+<p class="btn fs-5 mb-4 mb-md-0"><a href="https://www.w3schools.com/git/git_getstarted.asp?remote=github">Reference</a></p>
 
-<p>In the above link, follow the procedures, but instead of using username and password each time, setup the ssh keys and use them more often</p>
+<p>In the above link, follow the procedures, but instead of using username and password each time, 
+setup the ssh keys and use them more often</p>
 
 <p><em>ssh keys are found in ./.ssh folder (or lookup keygen to generate your keys)</em></p>
       <h1 id="basics-of-generating-new-content-in-local-and-pushing-to-github">
@@ -226,32 +231,54 @@ origin and ts_origin_github</p>
 git branch –set-upstream-to=origin/master</p>
 
 <p>or git branch –set-upstream-to=origin/develop</p>
-      <h2 id="if-you-cloned-a-repo-forked-your-own-branch-using-git-checkout">
+      <h2 id="handling-merge-conflicts">
         
         
-          <a href="#if-you-cloned-a-repo-forked-your-own-branch-using-git-checkout" class="anchor-heading" aria-labelledby="if-you-cloned-a-repo-forked-your-own-branch-using-git-checkout"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> If you cloned a repo, forked your own branch (using git checkout)
+          <a href="#handling-merge-conflicts" class="anchor-heading" aria-labelledby="handling-merge-conflicts"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Handling merge conflicts
         
         
       </h2>
     
 
-<p>You may need to pull from upstream to update your codebase <br />
+<p>If you cloned a repo or forked your own branch 
+you may need to pull from upstream to update your codebase.
 However, running a simple ‘git pull’ may throw merge conflicts</p>
+
+<p>Let’s begin by assuming our local branch is called ‘feature/sj’ <br />
+Our remote branch is called ‘develop’</p>
 
 <p>So do the following</p>
 <ol>
   <li>Run a ‘git fetch’ to get the updates on all branches (and if any new branch has been added)</li>
   <li>In your personal branch commit all changes by doing: git add, commit and push</li>
   <li>sudo apt install meld</li>
-  <li>Now to get the upstream updates do ‘git checkout develop’ (whichever is the main branch)</li>
+  <li>Now to get the upstream updates do ‘git checkout main’ 
+(or whichever is the upstream branch with latest updates)</li>
   <li>Now to put this in your personal branch run ‘git checkout feature/sj’</li>
-  <li>Now we do the actual merging using ‘git merge develop’ (this will merge everythin in deveop into the current branch viz feature/sj)</li>
+  <li>Now we do the actual merging using ‘git merge develop’ <strong>(this will merge everythin in 
+deveop into the current branch viz feature/sj)</strong></li>
   <li>The above step would have thrown some merge conflicts, to solve that run ‘git mergetool’</li>
   <li>The above step opens meld, make all necessary resolutions and save</li>
   <li>Now our codebase would have been updated to whatever we resolved in meld</li>
   <li>Now run ‘git commit’ without any arguments as it is a ‘merge commit’</li>
   <li>Now as usual do ‘git push origin feature/sj’ to push your updated personal branch to github</li>
 </ol>
+
+<p>Note. When you open meld, the <strong>middle window is the final merged file</strong> which you will finally
+get as output. Your job will be to choose which lines of code :</p>
+<ul>
+  <li>from develop</li>
+  <li>from feature/sj
+that will be going into your final output. develop may be on the right window and feature/sj may
+be on the left window. You will have two options:
+    <ol>
+      <li>Move the lines from the left into both middle and right windows (the code highlight for that
+ line should vanish)</li>
+      <li>Move the lines from the right into both middle and left windows (the code highlight for that
+ line should vanish)</li>
+    </ol>
+  </li>
+</ul>
       <h2 id="points-to-note">
         
         
@@ -263,10 +290,12 @@ However, running a simple ‘git pull’ may throw merge conflicts</p>
 
 <ul>
   <li>
-    <p>If you checkout a file ‘git checkout blade.py’ it resets the file to whatever is the latest from that branch in upstream</p>
+    <p>If you checkout a file ‘git checkout blade.py’ 
+it resets the file to whatever is the latest from that branch in upstream</p>
   </li>
   <li>
-    <p>If you want to physically add or change remotes go to the respective folder and do ‘nano .git/config’</p>
+    <p>If you want to physically add or change remotes go to the respective folder
+and do ‘nano .git/config’</p>
   </li>
   <li>
     <p>the correct syntax for the merge command is: <br />
@@ -275,7 +304,9 @@ What this does is that if the current branch is origin/develop it will merge the
 current branch i.e origin/develop with ts_origin/master</p>
   </li>
   <li>
-    <p>Note that even if ts_origin/master is in ts_github account and origin/master is in sushanthj github account, it will still merge as long as remotes exist for both these accounts. If remotes don’t exist, you can always add as shown up above</p>
+    <p>Note that even if ts_origin/master is in ts_github account and origin/master is in sushanthj 
+github account, it will still merge as long as remotes exist for both these accounts. 
+If remotes don’t exist, you can always add as shown up above</p>
   </li>
 </ul>
       <h3 id="concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts">
@@ -306,7 +337,8 @@ in this case it will pull from ts_origin/develop</p>
         
       </h3>
     
-<p>If you have changes made which you want to save locally and not push to remote, you can save a patch file</p>
+<p>If you have changes made which you want to save locally and not push to remote, 
+you can save a patch file</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff <span class="o">&gt;</span> new_changes.patch
 </code></pre></div></div>
@@ -323,11 +355,14 @@ in this case it will pull from ts_origin/develop</p>
       </h3>
     
 
-<p>Instead of saving a specific file for changes (such as a patch file), you could also stash your changes locally</p>
+<p>Instead of saving a specific file for changes (such as a patch file), 
+you could also stash your changes locally</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash
 </code></pre></div></div>
-<p>The above command will stash all tracked changes. You could also stash only committed changes. Refer: <a href="https://www.atlassian.com/git/tutorials/saving-changes/git-stash">stashing</a></p>
+<p>The above command will stash all tracked changes. 
+You could also stash only committed changes. 
+Refer: <a href="https://www.atlassian.com/git/tutorials/saving-changes/git-stash">stashing</a></p>
 
 <p>To then apply the stashed changes (one time use only as pop will remove from stash)</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash pop
@@ -347,6 +382,38 @@ git stash apply n
 </code></pre></div></div>
 
 <p>n = stash item number</p>
+      <h2 id="nomenclature-of-git-branches">
+        
+        
+          <a href="#nomenclature-of-git-branches" class="anchor-heading" aria-labelledby="nomenclature-of-git-branches"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Nomenclature of Git Branches
+        
+        
+      </h2>
+    
+
+<p>Usually you will need to follow the branch nomenclature which your company uses. <br />
+However, it’s good to know the common industry practice:</p>
+
+<ol>
+  <li>The branch which will be running on all production would be main (or master)</li>
+  <li>The main branch in which developers will push finalized code would be develop 
+(sometimes develop can itself be production branch)</li>
+  <li>For any new addition that an employee wants to propose to the codebase, 
+a branch called ‘feature/sj’ will be created (sj is my initials). This feature branch will be
+merged with the develop branch only after some extensive code review and testing</li>
+</ol>
+      <h3 id="maintaining-better-commit-history">
+        
+        
+          <a href="#maintaining-better-commit-history" class="anchor-heading" aria-labelledby="maintaining-better-commit-history"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Maintaining better commit history
+        
+        
+      </h3>
+    
+<p>It is also common practice to tag certain commits of the develop branch.
+<a href="https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag">(see tagging)</a></p>
+
+<p>This tagging allows for easy identification as to what major release correspondeds to that commit</p>
 
         
 
