@@ -66,10 +66,10 @@ Now, let's add another constraint on this equation. Suppose we rotate our 3D poi
 rotate the camera itself by a certain angle. In the world of robotics we call such transforms as a 
 rotation matrix. 
 
-![Reference: Rotation Matrices](https://en.wikipedia.org/wiki/Rotation_matrix)
+[Reference: Rotation Matrices](https://en.wikipedia.org/wiki/Rotation_matrix)
 
 To get a good grasp of rotation matrices, I highly recommend some linear algebra brush-up using 3B1B
-(3 Blue 1 Brown). Specifically ![(watch 8th minute of this video)](https://www.youtube.com/watch?v=kYB8IZa5AuE&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=4&ab_channel=3Blue1Brown)
+(3 Blue 1 Brown). Specifically [(watch 8th minute of this video)](https://www.youtube.com/watch?v=kYB8IZa5AuE&list=PL0-GT3co4r2y2YErbmuJw2L5tW4Ew2O5B&index=4&ab_channel=3Blue1Brown)
 The rotation shown in the above video in the 8th minute **is a rotation matrix in 2D**. 
 
 Now, adding a **3D translation** (just 3 numbers which add to the x,y,z component of a 3D vector) 
@@ -195,7 +195,7 @@ would not make sense to use filterbanks instead of BRIEF. \
 Further, just filterbanks cannot encode patch descriptions, i.e. without any
 form of histograms (like SIFT), the filterbanks themselves cannot be used instead of BRIEF.
 
-![Reference: BRIEF Descriptor](https://medium.com/data-breach/introduction-to-brief-binary-robust-independent-elementary-features-436f4a31a0e6)
+[Reference: BRIEF Descriptor](https://medium.com/data-breach/introduction-to-brief-binary-robust-independent-elementary-features-436f4a31a0e6)
 
 The implementation of keypoint detection, description and matching are shown below:
 
@@ -709,7 +709,7 @@ The results of the stitching are shown below:
 A lot of images are taken from the lecture slides during my computer vision class at CMU. These were
 taught by Prof. Kris Kitani and Prof. Deva Ramanan
 
-These slides are publicly available ![(slides)](http://16720.courses.cs.cmu.edu/lec.html)
+These slides are publicly available [(slides)](http://16720.courses.cs.cmu.edu/lec.html)
 
 ## My Ohiopyle trip
 
