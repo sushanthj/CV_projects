@@ -62,6 +62,9 @@ If you cloned a repo or forked your own branch
 you may need to pull from upstream to update your codebase.
 However, running a simple 'git pull' may throw merge conflicts
 
+Let's begin by assuming our local branch is called 'feature/sj' \
+Our remote branch is called 'develop'
+
 So do the following
 1. Run a 'git fetch' to get the updates on all branches (and if any new branch has been added)
 2. In your personal branch commit all changes by doing: git add, commit and push
@@ -76,6 +79,18 @@ deveop into the current branch viz feature/sj)**
 9. Now our codebase would have been updated to whatever we resolved in meld
 10. Now run 'git commit' without any arguments as it is a 'merge commit'
 11. Now as usual do 'git push origin feature/sj' to push your updated personal branch to github
+
+
+Note. When you open meld, the **middle window is the final merged file** which you will finally
+get as output. Your job will be to choose which lines of code :
+- from develop
+- from feature/sj
+that will be going into your final output. develop may be on the right window and feature/sj may
+be on the left window. You will have two options:
+1. Move the lines from the left into both middle and right windows (the code highlight for that
+   line should vanish)
+2. Move the lines from the right into both middle and left windows (the code highlight for that
+   line should vanish)
 
 ## Points to Note
 
@@ -155,3 +170,21 @@ git stash apply n
 ```
 
 n = stash item number
+
+## Nomenclature of Git Branches
+
+Usually you will need to follow the branch nomenclature which your company uses. \
+However, it's good to know the common industry practice:
+
+1. The branch which will be running on all production would be main (or master)
+2. The main branch in which developers will push finalized code would be develop 
+   (sometimes develop can itself be production branch)
+3. For any new addition that an employee wants to propose to the codebase, 
+   a branch called 'feature/sj' will be created (sj is my initials). This feature branch will be
+   merged with the develop branch only after some extensive code review and testing
+
+### Maintaining better commit history
+It is also common practice to tag certain commits of the develop branch.
+[(see tagging)](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag)
+
+This tagging allows for easy identification as to what major release correspondeds to that commit
