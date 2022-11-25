@@ -274,7 +274,7 @@ Where h is found by taking the SVD of A and choosing the eigen vector (with leas
 which forms the null space of A.
 
 
-### (Bonus) Rejecting outliers during our homography calculation
+### (Bonus) RANSAC: Rejecting outliers during our homography calculation
 
 ![](/images/homography/24.png)
 

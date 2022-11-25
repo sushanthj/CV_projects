@@ -159,7 +159,7 @@
           <li><a href="#keypoint-detection" id="markdown-toc-keypoint-detection">Keypoint Detection</a></li>
           <li><a href="#keypoint-descriptors" id="markdown-toc-keypoint-descriptors">Keypoint Descriptors</a></li>
           <li><a href="#calculating-the-homography-matrix" id="markdown-toc-calculating-the-homography-matrix">Calculating the Homography Matrix</a></li>
-          <li><a href="#bonus-rejecting-outliers-during-our-homography-calculation" id="markdown-toc-bonus-rejecting-outliers-during-our-homography-calculation">(Bonus) Rejecting outliers during our homography calculation</a></li>
+          <li><a href="#bonus-ransac-rejecting-outliers-during-our-homography-calculation" id="markdown-toc-bonus-ransac-rejecting-outliers-during-our-homography-calculation">(Bonus) RANSAC: Rejecting outliers during our homography calculation</a></li>
           <li><a href="#implementation-of-above-steps" id="markdown-toc-implementation-of-above-steps">Implementation of above steps</a></li>
           <li><a href="#ransac-and-construction-of-composite-image" id="markdown-toc-ransac-and-construction-of-composite-image">RANSAC and Construction of Composite Image</a></li>
         </ol>
@@ -539,10 +539,10 @@ form of histograms (like SIFT), the filterbanks themselves cannot be used instea
 
 <p>Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
 which forms the null space of A.</p>
-      <h3 id="bonus-rejecting-outliers-during-our-homography-calculation">
+      <h3 id="bonus-ransac-rejecting-outliers-during-our-homography-calculation">
         
         
-          <a href="#bonus-rejecting-outliers-during-our-homography-calculation" class="anchor-heading" aria-labelledby="bonus-rejecting-outliers-during-our-homography-calculation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> (Bonus) Rejecting outliers during our homography calculation
+          <a href="#bonus-ransac-rejecting-outliers-during-our-homography-calculation" class="anchor-heading" aria-labelledby="bonus-ransac-rejecting-outliers-during-our-homography-calculation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> (Bonus) RANSAC: Rejecting outliers during our homography calculation
         
         
       </h3>
