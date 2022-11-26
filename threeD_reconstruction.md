@@ -2,7 +2,7 @@
 layout: page
 title: 3D_reconstruction
 permalink: /3D_reconstruction/
-nav_order: 5
+nav_order: 7
 ---
 
 <details open markdown="block">
@@ -13,6 +13,17 @@ nav_order: 5
 1. TOC
 {:toc}
 </details>
+
+## Before you Begin
+
+[Reference Book 1](https://drive.google.com/file/d/1jqEB739EfifhSyiCK6vdbPIz7gX9Ywmr/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
+[Reference Book 2](https://drive.google.com/file/d/1Kn6dilDeR_7leIctuVa87-czuqBoxJh-/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
+
+## PDFs
+
+[Assignment Questionnaire](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_4/hw4.pdf){: .btn .fs-3 .mb-4 .mb-md-0 } 
+
+[My Answers](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_4/code/for_sub/sushantj_hw4.pdf){: .btn .fs-3 .mb-4 .mb-md-0 }
 
 # Estimating the Rotation and Translation between two camera views
 

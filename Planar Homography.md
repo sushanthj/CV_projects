@@ -2,7 +2,7 @@
 layout: page
 title: Planar Homography
 permalink: /planar_homography/
-nav_order: 4
+nav_order: 6
 ---
 
 <details open markdown="block">
@@ -23,7 +23,7 @@ nav_order: 4
 
 ## PDFs
 
-[Assignment Writeup](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_3/hw3_f22.pdf){: .btn .fs-3 .mb-4 .mb-md-0 } 
+[Assignment Questionnaire](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_3/hw3_f22.pdf){: .btn .fs-3 .mb-4 .mb-md-0 } 
 
 [My Answers](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_3/sushantj_hw3.pdf){: .btn .fs-3 .mb-4 .mb-md-0 }
 
