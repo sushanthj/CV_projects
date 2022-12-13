@@ -330,10 +330,10 @@
     "relUrl": "/spatial_pyramid_matching/"
   },"55": {
     "doc": "Home",
-    "title": "Computer Vision Projects and Assignments",
-    "content": "Compiled list of projects and assignments during my time at CMU’s Robotics Institute . Main CV Reference . ",
-    "url": "http://localhost:4000/#computer-vision-projects-and-assignments",
-    "relUrl": "/#computer-vision-projects-and-assignments"
+    "title": "Computer Vision Projects",
+    "content": "Compiled list of my projects in computer vision . Main Vision Reference . ",
+    "url": "http://localhost:4000/#computer-vision-projects",
+    "relUrl": "/#computer-vision-projects"
   },"56": {
     "doc": "Home",
     "title": "Other References",
