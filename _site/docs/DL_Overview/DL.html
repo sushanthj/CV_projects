@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+  <link rel="stylesheet" href="/assets/css/just-the-docs-default.css">
+
+  
+
+  
+    <script type="text/javascript" src="/assets/js/vendor/lunr.min.js"></script>
+  
+  <script type="text/javascript" src="/assets/js/just-the-docs.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Deep Learning Starter | CV projects</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Deep Learning Starter" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Computer Vision projects and assignments during my time in CMU" />
+<meta property="og:description" content="Computer Vision projects and assignments during my time in CMU" />
+<link rel="canonical" href="http://localhost:4000/docs/DL_Overview/DL.html" />
+<meta property="og:url" content="http://localhost:4000/docs/DL_Overview/DL.html" />
+<meta property="og:site_name" content="CV projects" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Deep Learning Starter" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Computer Vision projects and assignments during my time in CMU","headline":"Deep Learning Starter","url":"http://localhost:4000/docs/DL_Overview/DL.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="svg-link" viewBox="0 0 24 24">
+      <title>Link</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+    </symbol>
+    <symbol id="svg-search" viewBox="0 0 24 24">
+      <title>Search</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-menu" viewBox="0 0 24 24">
+      <title>Menu</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+      <title>Expand</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </symbol>
+    <symbol id="svg-doc" viewBox="0 0 24 24">
+      <title>Document</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline>
+      </svg>
+    </symbol>
+  </svg>
+
+  <div class="side-bar">
+    <div class="site-header">
+      <a href="http://localhost:4000/" class="site-title lh-tight">
+  CV projects
+
+</a>
+      <a href="#" id="menu-button" class="site-button">
+        <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-menu"></use></svg>
+      </a>
+    </div>
+    <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
+      
+        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/spatial_pyramid_matching/" class="nav-list-link">Spatial Pyramid Matching for Scene Classification</a></li><li class="nav-list-item"><a href="http://localhost:4000/optical_flow/" class="nav-list-link">Optical Flow and Image Alignment</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item"><a href="http://localhost:4000/3D_reconstruction/" class="nav-list-link">3D_reconstruction</a></li><li class="nav-list-item active"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="http://localhost:4000/docs/DL_overview" class="nav-list-link">DL Overview</a><ul class="nav-list "><li class="nav-list-item  active"><a href="http://localhost:4000/docs/DL_Overview/DL.html" class="nav-list-link active">Deep Learning Starter</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/DL_old_arches.html" class="nav-list-link">DL Simple Architechtures</a></li></ul></li><li class="nav-list-item"><a href="http://localhost:4000/pytorch/" class="nav-list-link">Intro to Pytorch</a></li><li class="nav-list-item"><a href="http://localhost:4000/git_concepts" class="nav-list-link">Git Concepts</a></li></ul>
+
+      
+    </nav>
+    <footer class="site-footer">
+      This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
+    </footer>
+  </div>
+  <div class="main" id="top">
+    <div id="main-header" class="main-header">
+      
+        <div class="search">
+          <div class="search-input-wrap">
+            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search CV projects" aria-label="Search CV projects" autocomplete="off">
+            <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
+          </div>
+          <div id="search-results" class="search-results"></div>
+        </div>
+      
+      
+      
+        <nav aria-label="Auxiliary" class="aux-nav">
+          <ul class="aux-nav-list">
+            
+              <li class="aux-nav-list-item">
+                <a href="//github.com/sushanthj" class="site-button"
+                  
+                >
+                  Sushanth's GitHub
+                </a>
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </div>
+    <div id="main-content-wrap" class="main-content-wrap">
+      
+        <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb-nav-list">
+              
+                <li class="breadcrumb-nav-list-item"><a href="http://localhost:4000/docs/DL_overview">DL Overview</a></li>
+              
+              <li class="breadcrumb-nav-list-item"><span>Deep Learning Starter</span></li>
+            </ol>
+          </nav>
+        
+      
+      <div id="main-content" class="main-content" role="main">
+        
+          <details open="">
+  <summary class="text-delta">
+    Table of contents
+  </summary>
+<ol id="markdown-toc">
+  <li><a href="#before-you-begin" id="markdown-toc-before-you-begin">Before you Begin</a></li>
+  <li><a href="#era-before-dl" id="markdown-toc-era-before-dl">Era before DL</a>    <ol>
+      <li><a href="#deformable-parts-model" id="markdown-toc-deformable-parts-model">Deformable Parts Model</a>        <ol>
+          <li><a href="#naieve-way" id="markdown-toc-naieve-way">Naieve Way</a></li>
+          <li><a href="#issues-with-hog" id="markdown-toc-issues-with-hog">Issues with HOG</a></li>
+          <li><a href="#deformable-templates" id="markdown-toc-deformable-templates">Deformable Templates</a></li>
+          <li><a href="#conditional-independence" id="markdown-toc-conditional-independence">Conditional Independence</a></li>
+          <li><a href="#actual-traininginference-steps" id="markdown-toc-actual-traininginference-steps">Actual Training/Inference Steps:</a></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li><a href="#connecting-deformable-parts-model-to-deep-learning" id="markdown-toc-connecting-deformable-parts-model-to-deep-learning">Connecting Deformable Parts Model to Deep Learning</a></li>
+  <li><a href="#getting-into-dl" id="markdown-toc-getting-into-dl">Getting into DL</a>    <ol>
+      <li><a href="#thinking-of-a-feature-extractor-network-as-a-big-patch-descriptor" id="markdown-toc-thinking-of-a-feature-extractor-network-as-a-big-patch-descriptor">Thinking of a feature extractor network as a big patch descriptor</a></li>
+      <li><a href="#simple-math-on-fully-connected-networks" id="markdown-toc-simple-math-on-fully-connected-networks">Simple Math on Fully Connected Networks</a></li>
+    </ol>
+  </li>
+  <li><a href="#convolutional-neural-nets" id="markdown-toc-convolutional-neural-nets">Convolutional Neural Nets</a>    <ol>
+      <li><a href="#difference-between-fcns-and-cnns" id="markdown-toc-difference-between-fcns-and-cnns">Difference between FCNs and CNNs</a>        <ol>
+          <li><a href="#q-now-if-the-weights-are-shared-for-each-receptive-field-wouldnt-that-make-each-receptive-field-learn-the-same-kind-of-features-how-can-we-improve-this" id="markdown-toc-q-now-if-the-weights-are-shared-for-each-receptive-field-wouldnt-that-make-each-receptive-field-learn-the-same-kind-of-features-how-can-we-improve-this">Q. Now, if the weights are shared for each receptive field, wouldn’t that make each receptive field learn the same kind of features? How can we improve this?</a></li>
+        </ol>
+      </li>
+      <li><a href="#convolutional-layers" id="markdown-toc-convolutional-layers">Convolutional Layers</a></li>
+      <li><a href="#shift-invariance" id="markdown-toc-shift-invariance">Shift Invariance</a></li>
+    </ol>
+  </li>
+</ol>
+
+</details>
+      <h2 id="before-you-begin">
+        
+        
+          <a href="#before-you-begin" class="anchor-heading" aria-labelledby="before-you-begin"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Before you Begin
+        
+        
+      </h2>
+    
+
+<p><a href="https://cs231n.github.io/linear-classify/" class="btn fs-3 mb-4 mb-md-0">Ref: CS231N</a>
+<a href="https://www.youtube.com/watch?v=WViuTuAOPlM&amp;list=PLoROMvodv4rNH7qL6-efu_q2_bPuy0adh&amp;index=6&amp;ab_channel=StanfordOnline" class="btn fs-3 mb-4 mb-md-0">Ref: CS229</a>
+<a href="https://www.youtube.com/watch?v=NfnWJUyUJYU&amp;list=PLkt2uSq6rBVctENoVBg1TpCC7OQi31AlC" class="btn fs-3 mb-4 mb-md-0">Ref: CS231N Videos</a></p>
+      <h1 id="era-before-dl">
+        
+        
+          <a href="#era-before-dl" class="anchor-heading" aria-labelledby="era-before-dl"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Era before DL
+        
+        
+      </h1>
+    
+
+<p>An <a href="https://www.youtube.com/watch?v=NIXA3ZTDI3Q">RI Seminar</a> from 2013 of Deva Ramanan shows 
+some of the State-of-the-Art methods in vision for object detection. I really like starting 
+here as Deva had explained this transition from detection through classification of small 
+sub-parts of a human (Deformable Parts Model) —&gt;  to the advent of current Deep Learning</p>
+      <h2 id="deformable-parts-model">
+        
+        
+          <a href="#deformable-parts-model" class="anchor-heading" aria-labelledby="deformable-parts-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deformable Parts Model
+        
+        
+      </h2>
+    
+      <h3 id="naieve-way">
+        
+        
+          <a href="#naieve-way" class="anchor-heading" aria-labelledby="naieve-way"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Naieve Way
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>
+    <p>We have just one template which is found by taking the histogram-of-graidents (HOG)</p>
+  </li>
+  <li>
+    <p>HOG is just a feature descriptor, just like SIFT and FAST are keypoint descriptors, but 
+HOG is on a more global level</p>
+  </li>
+  <li>
+    <p>Use HOG template across image to find possible matches
+<img src="/images/DL/deva_seminar_0.png" alt="" /></p>
+  </li>
+</ul>
+      <h3 id="issues-with-hog">
+        
+        
+          <a href="#issues-with-hog" class="anchor-heading" aria-labelledby="issues-with-hog"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Issues with HOG
+        
+        
+      </h3>
+    
+
+<p>Now if we only used HOG templates for each class, it would have to capture the long tail
+of all possible human poses as shown below:
+<img src="/images/DL/deva_seminar2.png" alt="" />
+<img src="/images/DL/deva_seminar3.png" alt="" /></p>
+      <h3 id="deformable-templates">
+        
+        
+          <a href="#deformable-templates" class="anchor-heading" aria-labelledby="deformable-templates"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deformable Templates
+        
+        
+      </h3>
+    
+<p>Therefore, to mitigate this issue of trying to capture all effects of the long tail, we can
+instead only have templates for each part.</p>
+
+<ul>
+  <li>Define a template for a few parts separately</li>
+  <li>Define certain learnable weights (think of it like springs whose lengths have to be learnt)</li>
+  <li>Train the weights for these springs over a small dataset</li>
+  <li>Develop other possible deformation modes using eigen vectors</li>
+</ul>
+
+<p><img src="/images/DL/deva_seminar_1.png" alt="" /></p>
+      <h3 id="conditional-independence">
+        
+        
+          <a href="#conditional-independence" class="anchor-heading" aria-labelledby="conditional-independence"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Conditional Independence
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>Here, we don’t have to think of it as K parts with L possible locations making it L^K configs</li>
+  <li>Instead, we just construct as a dynamic programming model</li>
+  <li>This will make use of the assumption that given a torso, the relationship of where the leg
+is w.r.t. the torso, i.e. the torso-leg relationship is independent of the torso-head 
+relationship. (This is called a spatial markov property)</li>
+  <li>This conditional independece will help do inference in linear time</li>
+</ul>
+      <h3 id="actual-traininginference-steps">
+        
+        
+          <a href="#actual-traininginference-steps" class="anchor-heading" aria-labelledby="actual-traininginference-steps"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Actual Training/Inference Steps:
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>I.e we’ll convolve each template across the image and get like a heat map for each of these
+templates</li>
+  <li>Now that we have heat-maps, we’ll relate them by the following formula (think of it like
+our objective function):</li>
+  <li>
+    <p><img src="/images/DL/deva_seminar_deformation_scores.png" alt="" />
+This formula says that we calculate local scores <strong>(phi)</strong> of each template
+(how well a head/face/hand) was matched in an image <br />
+as well as the contextual information of how far is a head location from an arm location 
+<strong>(psi)</strong></p>
+
+    <p>The above formula can be thought of in the Dynamic Programming perspective where we have
+a graph with nodes of all possible head locations, all possible torso locations and we just
+need to find the least energy path
+<img src="/images/DL/deva_seminar4.png" alt="" /></p>
+
+    <ul>
+      <li>
+        <p>This process shown in the computation graph is done actually on the images in the
+following manner:
+<img src="/images/DL/deva_seminar5.png" alt="" /></p>
+
+        <p>Here, the steps are:</p>
+        <ol>
+          <li>We find the hotspots for the torso over the whole image (middle heat map above)</li>
+          <li>Now, within a radius we want to find the possible location of the head (we can do
+this by taking the maxpool of a 2x2 location around the torso in a given radius)</li>
+          <li>Therefore to do the above step we just take the heatmap of the head (first heat 
+ map above) and do a maxpool. Then we shift this to match the ideal location of
+ where the head should be w.r.t the torso</li>
+          <li>By doing the above step of maxpool and shift, we have found one least energy path
+in the computational graph. <strong>Therefore we have found for every torso in middle heat
+map, the score of every possible head it could connect to. Then we do the same process
+to compute the score of every possible torso and by chaining every possible best head
+location the legs can connect to</strong></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>We can also run the test images over a few different models (these models would test
+the images for multiple deformation modes (like maybe 1/2 affine deformations, rotations etc))
+<img src="/images/DL/deva_seminar6.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Now, we can model the training of the above architechture as an SVM with hingle loss as:
+<img src="/images/DL/deva_seminar_SVM.png" alt="" /></p>
+  </li>
+  <li>The main advantage in this method is that we won’t have to create too huge a sample set of 
+negative samples (remember we have a huge number of possible locations where each feature 
+like hand or face can occur in the image)
+    <ul>
+      <li>Think of it, there will be a lot of images in the world which in a small window can look
+  can look like a wrist. Therefore, huge negative sample set</li>
+      <li>However, in this case you will only care about a writst that is detected easily but
+  it is also co-located near a face that was detected (we only care about the context here) <br />
+  See table below: \</li>
+    </ul>
+
+    <div class="table-wrapper"><table>
+      <thead>
+        <tr>
+          <th style="text-align: left">Hard negatives without context</th>
+          <th style="text-align: left">Hard negatives in context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left"><img src="/images/DL/deva_seminar7.png" alt="" /></td>
+          <td style="text-align: left"><img src="/images/DL/deva_seminar8.png" alt="" /></td>
+        </tr>
+      </tbody>
+    </table></div>
+  </li>
+</ul>
+      <h1 id="connecting-deformable-parts-model-to-deep-learning">
+        
+        
+          <a href="#connecting-deformable-parts-model-to-deep-learning" class="anchor-heading" aria-labelledby="connecting-deformable-parts-model-to-deep-learning"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Connecting Deformable Parts Model to Deep Learning
+        
+        
+      </h1>
+    
+<p>From what we saw above, to ideally detect a human we had to know both the local part-wise
+detections and the global orientations. If you want to improve further, we could do even
+sub-part detections and have more hierarchy. Therefore, one can see the need for hierarchial 
+information to accurately detect objects. —&gt; this is a nice motivation for hierarchial
+structure of deep networks as:</p>
+
+<ol>
+  <li>The first layer will see large features</li>
+  <li>As we go into deeper layers we will see more sub-part wise features</li>
+  <li>And finally we use all this information to guess where an object might be located in the image</li>
+</ol>
+
+<p><img src="/images/DL/deva_seminar9.png" alt="" /></p>
+
+<p><strong>TODO: This hierarchy of features may not be what’s happening. Explain why!</strong></p>
+      <h1 id="getting-into-dl">
+        
+        
+          <a href="#getting-into-dl" class="anchor-heading" aria-labelledby="getting-into-dl"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Getting into DL
+        
+        
+      </h1>
+    
+
+<p>The first thing Deep Networks do is that they blur the line between extracting features and
+actually doing classification on these features. (This happens throughout the network
+and not only in the last layer of a network as people would commonly say)</p>
+
+<p><img src="/images/DL/DL1.png" alt="" /></p>
+      <h2 id="thinking-of-a-feature-extractor-network-as-a-big-patch-descriptor">
+        
+        
+          <a href="#thinking-of-a-feature-extractor-network-as-a-big-patch-descriptor" class="anchor-heading" aria-labelledby="thinking-of-a-feature-extractor-network-as-a-big-patch-descriptor"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Thinking of a feature extractor network as a big patch descriptor
+        
+        
+      </h2>
+    
+<p>Now, having said that, we could still use a network to extract some features and give an 
+encoding how SIFT gives a 128 number encoding for an image patch (here the encoding
+will be larger because the number of neurons in the final layer is low, and the outputs
+of these neurons will also be low) maybe 500 number long encoding for the whole image</p>
+
+<p><img src="/images/DL/DL2.png" alt="" /></p>
+      <h2 id="simple-math-on-fully-connected-networks">
+        
+        
+          <a href="#simple-math-on-fully-connected-networks" class="anchor-heading" aria-labelledby="simple-math-on-fully-connected-networks"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Simple Math on Fully Connected Networks
+        
+        
+      </h2>
+    
+
+<p><img src="/images/DL/DL3.png" alt="" /></p>
+
+<p><img src="/images/DL/Dl4.png" alt="" /></p>
+      <h1 id="convolutional-neural-nets">
+        
+        
+          <a href="#convolutional-neural-nets" class="anchor-heading" aria-labelledby="convolutional-neural-nets"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Convolutional Neural Nets
+        
+        
+      </h1>
+    
+
+<p><img src="/images/DL/DL5.png" alt="" /></p>
+
+<p>We’re going to claim that CNNs are just a special case of MLPs</p>
+      <h2 id="difference-between-fcns-and-cnns">
+        
+        
+          <a href="#difference-between-fcns-and-cnns" class="anchor-heading" aria-labelledby="difference-between-fcns-and-cnns"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Difference between FCNs and CNNs
+        
+        
+      </h2>
+    
+
+<p><img src="/images/DL/Dl6.png" alt="" /></p>
+
+<p><strong>Ans.</strong> Because each neuron in the hidden layer is connected to every matrix in the input layer,
+The size required would be <em>1M * 1M = 1e12</em> weights. Which is too much!</p>
+
+<p>How do we fix this huge weight params issue?</p>
+
+<ol>
+  <li>
+    <p>Sparsity through local receptive fields: <br />
+Think of it as a feature detector (like edge detectors) which only looks at a 10x10 region <br />
+This will effectively make number of weights required as 1M * 10*10 = 100M
+<img src="/images/DL/DL7.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Weight Sharing: <br />
+If we set the weights of all the above 10x10 receptive fields as the same, then we’ll need
+<strong>just 100 weights</strong></p>
+  </li>
+</ol>
+
+<p><strong>Now, you can just call this an MLP (Multi-Layer Perceptron) with sparsity and weight sharing!</strong></p>
+      <h3 id="q-now-if-the-weights-are-shared-for-each-receptive-field-wouldnt-that-make-each-receptive-field-learn-the-same-kind-of-features-how-can-we-improve-this">
+        
+        
+          <a href="#q-now-if-the-weights-are-shared-for-each-receptive-field-wouldnt-that-make-each-receptive-field-learn-the-same-kind-of-features-how-can-we-improve-this" class="anchor-heading" aria-labelledby="q-now-if-the-weights-are-shared-for-each-receptive-field-wouldnt-that-make-each-receptive-field-learn-the-same-kind-of-features-how-can-we-improve-this"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Q. Now, if the weights are shared for each receptive field, wouldn’t that make each receptive field learn the same kind of features? How can we improve this?
+        
+        
+      </h3>
+    
+
+<p>Ans.</p>
+<ul>
+  <li>
+    <p>Instead of using the one 10x10 receptive field which has 100 weights and looks over the
+whole image, we can instead have 10 different 10x10 receptive fields (each has 100 weights) 
+which look over the image in the same way. i.e. we will have 10 convolutional filters</p>
+  </li>
+  <li>
+    <p>And the total number of weights will still be low (100 * 10 = 1000 weights)</p>
+  </li>
+</ul>
+      <h2 id="convolutional-layers">
+        
+        
+          <a href="#convolutional-layers" class="anchor-heading" aria-labelledby="convolutional-layers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Convolutional Layers
+        
+        
+      </h2>
+    
+
+<p>Now, let’s define how exactly these convolutional filters work!</p>
+
+<p>Firstly, remember that even in PyTorch we define the shape of an image as NCHW</p>
+
+<ul>
+  <li>N = number of images in one batch</li>
+  <li>C = number of channels</li>
+  <li>H,W = height and width of the image</li>
+</ul>
+
+<p><img src="/images/DL/DL8.png" alt="" />
+<img src="/images/DL/DL9.png" alt="" /></p>
+
+<p><em>Note. Usually the filters to start with a small receptive field (that’s why 3x3) and as the
+network grows deeper, even if we continue using 3x3, because of the ‘downsampling’ nature of
+the conv operations, we will end up increasing our receptive field.</em></p>
+
+<p><strong><em>This is also similar story to how the deformable parts model with smaller templates
+ was better than having 1000s of large templates</em></strong></p>
+
+<p>Therefore, it wouldn’t make sense to start off with a really large filter! However it is now
+common practice to have 5x5 filters in the first layer, and then 3x3 filters in all deeper 
+layers. This is just emperical…</p>
+
+<p>Now, if we add a bias term and as we discussed above add multiple filters (like a filter bank),
+we get the following image:</p>
+
+<p><img src="/images/DL/DL10.png" alt="" /></p>
+      <h2 id="shift-invariance">
+        
+        
+          <a href="#shift-invariance" class="anchor-heading" aria-labelledby="shift-invariance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Shift Invariance
+        
+        
+      </h2>
+    
+
+<p><a href="/images/DL/DL11.png"></a></p>
+
+<ul>
+  <li>
+    <p>If we zero pad an image in the first layer, the neuron in layer2 would see that the blue
+triangle is closer to the image boundary. So you may think it starts associating that feature
+to a particular location in the image.</p>
+  </li>
+  <li>
+    <p>However, as we go deeper and deeper into the network, that same blue triangle will be
+more an more towards the center. The rest of the image will be all zeros</p>
+  </li>
+  <li>In this case, the neurons see zeros in most places</li>
+  <li>Therefore it can be said that padding actually does not allow the neurons to continuously
+learn any positional (aka spatial) dependence for the features. <strong>This is what helps generate</strong>
+<strong>shift invariance!</strong></li>
+</ul>
+
+        
+
+        
+
+        
+        
+          <hr>
+          <footer>
+            
+
+            <p class="text-small text-grey-dk-100 mb-0"></p>
+
+            
+              <div class="d-flex mt-2">
+                
+                
+              </div>
+            
+          </footer>
+        
+
+      </div>
+    </div>
+
+    
+      
+
+      <div class="search-overlay"></div>
+    
+  </div>
+</body>
+</html>
+

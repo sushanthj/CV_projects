@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: Git Concepts
 permalink: git_concepts
 nav_order: 14
