@@ -23,7 +23,8 @@ nav_order: 1
 # Era before DL
 
 An [RI Seminar](https://www.youtube.com/watch?v=NIXA3ZTDI3Q) from 2013 of Deva Ramanan shows 
-some of the State-of-the-Art methods in vision for object detection. I really like starting 
+what was then the
+State-of-the-Art methods in vision for object detection. I really like starting 
 here as Deva had explained this transition from detection through classification of small 
 sub-parts of a human (Deformable Parts Model) --->  to the advent of current Deep Learning
 
