@@ -183,3 +183,30 @@ We mostly never have nicely linearly separable data
 ### The solution: Differentiable activations
 
 ![](/images/IDL/MLP23.png)
+
+Now, making this activation differentiable has two benefits:
+1. Let's us know if our changes is having a positive or negative effect on prediction
+2. It allows us to do **backprop!**
+
+![](/images/IDL/MLP24.png)
+
+# Thinking about Derivatives
+
+- Instead of thinking of derivatives as ```dy/dx``` where if we have y and x as vectors, dividing
+  them would not make much sense, instead we define it as ```y' = alpha*x'```, where alpha is
+  now a vector and alpha*x' can be though of as a dot product. Therefore, this alpha
+  will now define the vector which when dot product with x gives the direction
+  of the fastest increase in y.
+  ![](/images/IDL/MLP27.png)
+
+- Adavantage of doing it as ```y' = alpha*x'``` now is that for a multivariate form like above, 
+  we can write the alpha vector as a partial derivate of y with x.
+  ![](/images/IDL/MLP28.png)
+
+- Now, we can clearly see how the gradient gives the direction of fastest increase in
+  in the function. Therefore, if we want to minimize, we go in the direction exactly
+  opposite to the gradient.
+  ![](/images/IDL/MLP25.png)
+  ![](/images/IDL/MLP26.png)
+
+

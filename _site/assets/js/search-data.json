@@ -199,7 +199,7 @@
   },"33": {
     "doc": "MLPs (IDL1)",
     "title": "Why is the perceptron algorithm not good?",
-    "content": "The primary issue is that the simple perceptron is flat and non-differentiable. Data is never fully clean . We mostly never have nicely linearly separable data . The solution: Differentiable activations . ",
+    "content": "The primary issue is that the simple perceptron is flat and non-differentiable. Data is never fully clean . We mostly never have nicely linearly separable data . The solution: Differentiable activations . Now, making this activation differentiable has two benefits: . | Let’s us know if our changes is having a positive or negative effect on prediction | It allows us to do backprop! | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#why-is-the-perceptron-algorithm-not-good",
     "relUrl": "/docs/DL_Overview/IDL1.html#why-is-the-perceptron-algorithm-not-good"
   },"34": {
