@@ -90,7 +90,7 @@
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
       
-        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/spatial_pyramid_matching/" class="nav-list-link">Spatial Pyramid Matching for Scene Classification</a></li><li class="nav-list-item"><a href="http://localhost:4000/optical_flow/" class="nav-list-link">Optical Flow and Image Alignment</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item"><a href="http://localhost:4000/3D_reconstruction/" class="nav-list-link">3D_reconstruction</a></li><li class="nav-list-item active"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="http://localhost:4000/docs/DL_overview" class="nav-list-link">DL Overview</a><ul class="nav-list "><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/DL.html" class="nav-list-link">Deep Learning Starter</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/DL_old_arches.html" class="nav-list-link">DL Simple Architechtures</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL1.html" class="nav-list-link">MLPs (IDL1)</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL2.html" class="nav-list-link">Classifiers (IDL2)</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL3.html" class="nav-list-link">Optimizers and Regularizers (IDL3)</a></li><li class="nav-list-item  active"><a href="http://localhost:4000/docs/DL_Overview/IDL4.html" class="nav-list-link active">Intro to CNNs</a></li></ul></li><li class="nav-list-item"><a href="http://localhost:4000/pytorch/" class="nav-list-link">Intro to Pytorch</a></li><li class="nav-list-item"><a href="http://localhost:4000/git_concepts" class="nav-list-link">Git Concepts</a></li></ul>
+        <ul class="nav-list"><li class="nav-list-item"><a href="http://localhost:4000/" class="nav-list-link">Home</a></li><li class="nav-list-item"><a href="http://localhost:4000/intro/" class="nav-list-link">Intro</a></li><li class="nav-list-item"><a href="http://localhost:4000/numpy/" class="nav-list-link">Numpy</a></li><li class="nav-list-item"><a href="http://localhost:4000/spatial_pyramid_matching/" class="nav-list-link">Spatial Pyramid Matching for Scene Classification</a></li><li class="nav-list-item"><a href="http://localhost:4000/optical_flow/" class="nav-list-link">Optical Flow and Image Alignment</a></li><li class="nav-list-item"><a href="http://localhost:4000/planar_homography/" class="nav-list-link">Planar Homography</a></li><li class="nav-list-item"><a href="http://localhost:4000/3D_reconstruction/" class="nav-list-link">3D_reconstruction</a></li><li class="nav-list-item active"><a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="http://localhost:4000/docs/DL_overview" class="nav-list-link">DL Overview</a><ul class="nav-list "><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/DL.html" class="nav-list-link">Deep Learning Starter</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/DL_old_arches.html" class="nav-list-link">DL Simple Architechtures</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL1.html" class="nav-list-link">MLPs (IDL1)</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL2.html" class="nav-list-link">Classifiers (IDL2)</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/IDL3.html" class="nav-list-link">Optimizers and Regularizers (IDL3)</a></li><li class="nav-list-item  active"><a href="http://localhost:4000/docs/DL_Overview/IDL4.html" class="nav-list-link active">Intro to CNNs</a></li><li class="nav-list-item "><a href="http://localhost:4000/docs/DL_Overview/Resnet.html" class="nav-list-link">RESNET</a></li></ul></li><li class="nav-list-item"><a href="http://localhost:4000/pytorch/" class="nav-list-link">Intro to Pytorch</a></li><li class="nav-list-item"><a href="http://localhost:4000/git_concepts" class="nav-list-link">Git Concepts</a></li></ul>
 
       
     </nav>
@@ -166,7 +166,10 @@
   </li>
   <li><a href="#convolutional-nns" id="markdown-toc-convolutional-nns">Convolutional NNs</a>    <ol>
       <li><a href="#number-of-parameters-in-a-conv-layer" id="markdown-toc-number-of-parameters-in-a-conv-layer">Number of Parameters in a Conv Layer</a></li>
-      <li><a href="#types-of-filters" id="markdown-toc-types-of-filters">Types of Filters</a></li>
+      <li><a href="#types-of-filters" id="markdown-toc-types-of-filters">Types of Filters</a>        <ol>
+          <li><a href="#more-on-1x1-convolution" id="markdown-toc-more-on-1x1-convolution">More on 1x1 Convolution</a></li>
+        </ol>
+      </li>
     </ol>
   </li>
   <li><a href="#importatnt-to-remember" id="markdown-toc-importatnt-to-remember">Importatnt to Remember</a></li>
@@ -384,14 +387,31 @@ channels.</strong></p>
   <li>Typically the first layer people have used large filter sizes of 5x5
 (emperically proven to provide better results in feature extraction)</li>
   <li>Most lower levels have smaller filters of 3x3</li>
-  <li>
-    <p>Now, there also exists a 3x3 filter. What is that?
+  <li>Now, there also exists a 3x3 filter. What is that?
 <img src="/images/IDL4/conv_filter2.png" alt="" />
-It’s just a single perceptron</p>
-
-    <p>EXPAND MORE ON 1x1 CONVOUTIONS!!!!</p>
-  </li>
+It’s just a single perceptron</li>
 </ol>
+      <h3 id="more-on-1x1-convolution">
+        
+        
+          <a href="#more-on-1x1-convolution" class="anchor-heading" aria-labelledby="more-on-1x1-convolution"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> More on 1x1 Convolution
+        
+        
+      </h3>
+    
+
+<ol>
+  <li>Here too we find element-wise products</li>
+  <li>Then as usual we apply a ReLU</li>
+</ol>
+
+<p>You can think of it as a <strong>single neuron</strong> layer which takes a vector input of 32
+and has 32 weights which gets multiplied by the input. These then go through an
+activation like ReLU as well.</p>
+
+<p>It’s a fully connected network (single layer perceptron) which takes 32 vector input and outputs 1 number.</p>
+
+<p>(Add DEVA’s content here too !!!)</p>
       <h1 id="importatnt-to-remember">
         
         

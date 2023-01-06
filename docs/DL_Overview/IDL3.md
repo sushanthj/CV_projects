@@ -81,7 +81,11 @@ in the beginning of training, we don't let sigma and gamma terms to dominate
 - We do this covariate shifts typically at the at location of the affine sum (Wx + b)
 - ![](/images/IDL3/batch_norm1.png)
 - ![](/images/IDL3/batch_norm2.png)
-- The above step will cause all training instances to have mean = 0 and variance = 1
+- The above step (first yellow box) will cause all training instances to have mean = 0 and variance = 1
+- Now, we move the entire data to a separate appropriate location (second yellow box)
+  as defined by gamma and beta.
+- How do we get this gamma and beta?
+  Ans. ![](/images/IDL4/batch_norm_extra.png)
 
 Now, its nice to see data having low variance. However, the real issue arises when we try
 to do backprop.

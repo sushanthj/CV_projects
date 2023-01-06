@@ -136,7 +136,18 @@ channels.**
    ![](/images/IDL4/conv_filter2.png)
    It's just a single perceptron
 
-   EXPAND MORE ON 1x1 CONVOUTIONS!!!!
+### More on 1x1 Convolution
+
+1. Here too we find element-wise products
+2. Then as usual we apply a ReLU
+
+You can think of it as a **single neuron** layer which takes a vector input of 32
+and has 32 weights which gets multiplied by the input. These then go through an
+activation like ReLU as well. 
+
+It's a fully connected network (single layer perceptron) which takes 32 vector input and outputs 1 number.
+
+(Add DEVA's content here too !!!)
 
 # Importatnt to Remember
 

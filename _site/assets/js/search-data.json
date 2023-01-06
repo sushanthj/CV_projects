@@ -223,7 +223,7 @@
   },"37": {
     "doc": "Classifiers (IDL2)",
     "title": "Binary Classifiers and Cross Entropy Loss",
-    "content": "This is usually used for classification. For a binary case, it is given by the following formula: . Notice that the equation uses the term divergence here. This is actually the background term for ‘loss’ in our situation. Divergence tells us how off we are from the correct solution. Note. divergence is not direction dependent, it just tells how far away we are from the desirable output. More formally, loss = average divergence of our output w.r.t the ground truth . Therefore, in a binary setting, if we use softmax as our activation function -&gt; we get the class probablity score as the output. In the binary case we get (y, 1-y) as our output. | let y = output of softmax for each class (we have 2 classes) | let d = ground truth | Now, plugging in (y, 1-y) into the Cross Entropy loss formula above | We see that when y = 0 and when y = 1, since log(0) = -infinity and log(1) = 0 | Therefore, if d=0 and y=1, we get infinity, if d=1 and y=0 we also get infinity | . Now it’s also interesting to observe the derivative of cross entropy loss function. The derivative is shown below: . Now, notice the following cases: . | Case 1: When d=1 and y=1, plugging into the above formula, we get derivative(CE_loss) = -1 | Case 2: When d=0 and y=0, plugging into above forumula we get derivative(CE_loss) = 1 | Note, if you assumed that if output(y) = desired(d) would have zero gradient, you’re wrong! | The above two cases are plotted below | | Case 1 | Case 1 and Case 2 | . | | | . | . However, instead of cross entropy loss, if we were to use a simple L2 error (sum of sqaured diffs (quadratic function)) we would get a bowl shaped instead like: . ",
+    "content": "This is usually used for classification. For a binary case, it is given by the following formula: . Notice that the equation uses the term divergence here. This is actually the background term for ‘loss’ in our situation. Divergence tells us how off we are from the correct solution. Note. divergence is not direction dependent, it just tells how far away we are from the desirable output. More formally, loss = average divergence of our output w.r.t the ground truth . Therefore, in a binary setting, if we use softmax as our activation function -&gt; we get the class probablity score as the output. In the binary case we get (y, 1-y) as our output. | let y = output of softmax for each class (we have 2 classes) | let d = ground truth | Now, plugging in (y, 1-y) into the Cross Entropy loss formula above | We see that when y = 0 and when y = 1, since log(0) = -infinity and log(1) = 0 | Therefore, if d=0 and y=1, we get infinity, if d=1 and y=0 we also get infinity | . Now it’s also interesting to observe the derivative of cross entropy loss function. The derivative is shown below: . Now, notice the following cases: . | Case 1: When d=1 and y=1, plugging into the above formula, we get derivative(CE_loss) = -1 | Case 2: When d=0 and y=0, plugging into above forumula we get derivative(CE_loss) = 1 | Note, if you assumed that if output(y) = desired(d) would have zero gradient, you’re wrong! | The above two cases are plotted below | | Case 1 | Case 1 and Case 2 | . | | | . | . However, instead of cross entropy loss, if we were to use a simple L2 error (sum of sqaured diffs (quadratic function)) we would get a bowl shaped instead like: . An extract from the Xavier Intitialization paper shows this more accurately . From the above picture, one can see that the cross entropy loss surface (black) is much steeper than the quadratic surface (red) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#binary-classifiers-and-cross-entropy-loss",
     "relUrl": "/docs/DL_Overview/IDL2.html#binary-classifiers-and-cross-entropy-loss"
   },"38": {
@@ -373,7 +373,7 @@
   },"62": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Batch Norm Theory",
-    "content": ". | We do this covariate shifts typically at the at location of the affine sum (Wx + b) | | | The above step will cause all training instances to have mean = 0 and variance = 1 | . Now, its nice to see data having low variance. However, the real issue arises when we try to do backprop. ",
+    "content": ". | We do this covariate shifts typically at the at location of the affine sum (Wx + b) | | | The above step (first yellow box) will cause all training instances to have mean = 0 and variance = 1 | Now, we move the entire data to a separate appropriate location (second yellow box) as defined by gamma and beta. | How do we get this gamma and beta? Ans. | . Now, its nice to see data having low variance. However, the real issue arises when we try to do backprop. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#batch-norm-theory",
     "relUrl": "/docs/DL_Overview/IDL3.html#batch-norm-theory"
   },"63": {
@@ -481,7 +481,7 @@
   },"80": {
     "doc": "Intro to CNNs",
     "title": "Types of Filters",
-    "content": ". | Typically the first layer people have used large filter sizes of 5x5 (emperically proven to provide better results in feature extraction) | Most lower levels have smaller filters of 3x3 | Now, there also exists a 3x3 filter. What is that? It’s just a single perceptron . EXPAND MORE ON 1x1 CONVOUTIONS!!!! . | . ",
+    "content": ". | Typically the first layer people have used large filter sizes of 5x5 (emperically proven to provide better results in feature extraction) | Most lower levels have smaller filters of 3x3 | Now, there also exists a 3x3 filter. What is that? It’s just a single perceptron | . More on 1x1 Convolution . | Here too we find element-wise products | Then as usual we apply a ReLU | . You can think of it as a single neuron layer which takes a vector input of 32 and has 32 weights which gets multiplied by the input. These then go through an activation like ReLU as well. It’s a fully connected network (single layer perceptron) which takes 32 vector input and outputs 1 number. (Add DEVA’s content here too !!!) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#types-of-filters",
     "relUrl": "/docs/DL_Overview/IDL4.html#types-of-filters"
   },"81": {
@@ -493,7 +493,7 @@
   },"82": {
     "doc": "Intro to CNNs",
     "title": "Intro to CNNs",
-    "content": "{: .text-delta } . | Before you Begin | Simple method of achieving shift invariance . | Important Backprop Theory | Summary . | Q. In which layer would you expect to see something that looks like a flower? \\ | Q. Why do we need to distribute the scanning and not have one level of neurons scan the entire window at the same time? . | Distributed vs Undistributed scanning for images | Main Intuition | . | . | Nice take on Max Pooling (Why is it needed?) . | Nice consequence of above logic | . | . | Convolutional NNs . | Number of Parameters in a Conv Layer | Types of Filters | . | Importatnt to Remember | . ",
+    "content": "{: .text-delta } . | Before you Begin | Simple method of achieving shift invariance . | Important Backprop Theory | Summary . | Q. In which layer would you expect to see something that looks like a flower? \\ | Q. Why do we need to distribute the scanning and not have one level of neurons scan the entire window at the same time? . | Distributed vs Undistributed scanning for images | Main Intuition | . | . | Nice take on Max Pooling (Why is it needed?) . | Nice consequence of above logic | . | . | Convolutional NNs . | Number of Parameters in a Conv Layer | Types of Filters . | More on 1x1 Convolution | . | . | Importatnt to Remember | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html",
     "relUrl": "/docs/DL_Overview/IDL4.html"
   },"83": {
@@ -755,84 +755,114 @@
     "url": "http://localhost:4000/pytorch/",
     "relUrl": "/pytorch/"
   },"126": {
+    "doc": "RESNET",
+    "title": "Before you Begin",
+    "content": "Ref: 11-785 . Convolutional Neural Nets are really good at extracting features. We will use a RESNET in this case to extract face features and make it a face detector. My understanding on why we use RESNETs: . | It prevents overfitting and limits the non-linearity to the necessary amount by allowing for gradients to skip neurons on the backward pass | It solves the issue of vanishing gradients | . ",
+    "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#before-you-begin",
+    "relUrl": "/docs/DL_Overview/Resnet.html#before-you-begin"
+  },"127": {
+    "doc": "RESNET",
+    "title": "Forward Prop in a RESNET",
+    "content": "A simple network would have following form: . Now, if we add a skip connection, we get the following structure: . Note. The new activation is g(z + a) . ",
+    "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet",
+    "relUrl": "/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet"
+  },"128": {
+    "doc": "RESNET",
+    "title": "Backward Prop in a RESNET",
+    "content": " ",
+    "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet",
+    "relUrl": "/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet"
+  },"129": {
+    "doc": "RESNET",
+    "title": "Why use RESNETS?",
+    "content": " ",
+    "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#why-use-resnets",
+    "relUrl": "/docs/DL_Overview/Resnet.html#why-use-resnets"
+  },"130": {
+    "doc": "RESNET",
+    "title": "RESNET",
+    "content": "{: .text-delta } . | Before you Begin | Forward Prop in a RESNET | Backward Prop in a RESNET | Why use RESNETS? | . ",
+    "url": "http://localhost:4000/docs/DL_Overview/Resnet.html",
+    "relUrl": "/docs/DL_Overview/Resnet.html"
+  },"131": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#before-you-begin",
     "relUrl": "/spatial_pyramid_matching/#before-you-begin"
-  },"127": {
+  },"132": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#pdfs",
     "relUrl": "/spatial_pyramid_matching/#pdfs"
-  },"128": {
+  },"133": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Spatial Pyramid Matching for Scene Classification",
     "content": ". | Before you Begin | PDFs | . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/",
     "relUrl": "/spatial_pyramid_matching/"
-  },"129": {
+  },"134": {
     "doc": "Home",
     "title": "Computer Vision Projects",
     "content": "Compiled list of my projects in computer vision . Main Vision Reference . ",
     "url": "http://localhost:4000/#computer-vision-projects",
     "relUrl": "/#computer-vision-projects"
-  },"130": {
+  },"135": {
     "doc": "Home",
     "title": "Other References",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/#other-references",
     "relUrl": "/#other-references"
-  },"131": {
+  },"136": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "http://localhost:4000/",
     "relUrl": "/"
-  },"132": {
+  },"137": {
     "doc": "3D_reconstruction",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/3D_reconstruction/#before-you-begin",
     "relUrl": "/3D_reconstruction/#before-you-begin"
-  },"133": {
+  },"138": {
     "doc": "3D_reconstruction",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/3D_reconstruction/#pdfs",
     "relUrl": "/3D_reconstruction/#pdfs"
-  },"134": {
+  },"139": {
     "doc": "3D_reconstruction",
     "title": "Estimating the Rotation and Translation between two camera views",
     "content": "Here we are given two images (the two camera views) . ",
     "url": "http://localhost:4000/3D_reconstruction/#estimating-the-rotation-and-translation-between-two-camera-views",
     "relUrl": "/3D_reconstruction/#estimating-the-rotation-and-translation-between-two-camera-views"
-  },"135": {
+  },"140": {
     "doc": "3D_reconstruction",
     "title": "triangulate3D",
     "content": ". | Here we fix one camera (extrinsic matrix = Identity matrix). Now, we know correspondence points in image1 and image2. | Therefore we can find the Fundamental matrix based on these point correspondences | . Now, to estimate the 3D location of these points, we need . | Camera matrices (extrinsic*intrinsic) for both cameras M1 and M2 | Image points (x,y) which correspond to each other | Some theory | . The above theory is summarized as: . After finding the 3D points, we will reproject them back onto the image and compare them with our original correspondence points (which we either manually selected or got from some keypoint detector like ORB or BRIEF) . The formula for reprojection error in this case is: . ",
     "url": "http://localhost:4000/3D_reconstruction/#triangulate3d",
     "relUrl": "/3D_reconstruction/#triangulate3d"
-  },"136": {
+  },"141": {
     "doc": "3D_reconstruction",
     "title": "findM2",
     "content": "Previsously we saw that we need an M2 to triangulate, but we don’t have an M2 yet :/. However, since our first camera is fixed in 3D we can find the camera matrix M2 of our second camera as: . def camera2(E): U,S,V = np.linalg.svd(E) m = S[:2].mean() E = U.dot(np.array([[m,0,0], [0,m,0], [0,0,0]])).dot(V) U,S,V = np.linalg.svd(E) W = np.array([[0,-1,0], [1,0,0], [0,0,1]]) if np.linalg.det(U.dot(W).dot(V))&lt;0: W = -W M2s = np.zeros([3,4,4]) M2s[:,:,0] = np.concatenate([U.dot(W).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,1] = np.concatenate([U.dot(W).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,2] = np.concatenate([U.dot(W.T).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,3] = np.concatenate([U.dot(W.T).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) return M2s . Note: The above function gives three possible values for M2 . Now there are 2 checks we can use to find which is the right camera: . | Determinant(Rotation component of M2) = 1 (so that the rotation belongs to SO(3)) | All Z values should be positive (i.e. the 3D point should be in front of both the cameras right?) | . ",
     "url": "http://localhost:4000/3D_reconstruction/#findm2",
     "relUrl": "/3D_reconstruction/#findm2"
-  },"137": {
+  },"142": {
     "doc": "3D_reconstruction",
     "title": "Combining the above two functions",
     "content": "Now we have point correspondences, M1 and 4 M2’s. Therefore we’ll try to triangulate points based on the correct criteria for camera orientations. Additionally we’ll also try to minimize reprojection error: . # iterate over M1(fixed) and M2(4 possibilites) by passing them to triangulate for i in range(M2.shape[2]): M2_current = M2[:,:,i] # build the C1 and C2: pts_in_3d, err = triangulate((K1 @ M1), pts1, (K2 @ M2_current), pts2) if err &lt; err_min and (np.where(pts_in_3d[:,2] &lt; 0)[0].shape[0] == 0): print(\"satisfies the error criteria\") err_min = err best_M2_i = i best_pts_3d = pts_in_3d if (best_M2_i is not None) and (best_pts_3d is not None): print(\"min err is\", err_min) # return M2, C2, w(3d points), M1, C1 return M2[:,:,best_M2_i], (K2 @ M2[:,:,best_M2_i]), best_pts_3d, M1, (K1 @ M1) # last entry is C1 . Finally we all together have our best_3d_points and the correct M2 matrix . ",
     "url": "http://localhost:4000/3D_reconstruction/#combining-the-above-two-functions",
     "relUrl": "/3D_reconstruction/#combining-the-above-two-functions"
-  },"138": {
+  },"143": {
     "doc": "3D_reconstruction",
     "title": "Bundle Adjustment",
     "content": "We know that the error in the triangulation is basically difference between the projection of a 3D point and the actual point in 2D on the image. Now, we will move around the 3D points slightly and check in which orientation the reprojection error comes to a global minimum. The formula for the above operation is shown below: . The process we will follow now is very code specific. An explanation for only this below code is shown, where we will only be minimizing the rotation and translation (M2 matrix) error. High level procedure . | Use the 2D point correspondences to find the Fundamental Matrix (along with RANSAC to find the inlier points) | Use the inliers to find our best F (fundamental matrix) | Compute an initial guess for M2 by using our old findM2 function | Now, the above function would have given us 3D points (P_init) and an M2_init | Now, we have compiled the following: . | M1 and K1 | M2_init and K2 | F and E (E = (K2.T @ F) @ K1) | . | . Having the above content, we will need to derive our reprojection error. We will do this in the RodriguesResidual function: . RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) . | x basically contains the translation and rotation of camera2. We can therefore get M2 from x | We can find the camera matrices C1 = K1 @ M1, C2 = K2 @ M2 | . | Use the above equation to get p1’ and p2’ | Compare p1’ and p1, p2’ and p2, to get the reprojection error we need in both cameras | . Now we have a function which will give us reprojection error for a given M2 matrix. Now lets see how we’ll use this reporjection error to optimize our M2 . Optimization of M2 . Now that we have a function which will give us reprojection error for any given M2, lets minimize this error by moving around our 3D points slightly such that our reprojection error (for all points cumulative) reduces . We do this using the scipy.optimize.minimize function . # just some repackaging/preprocessing to give x to rodriguesResidual x0 = P_init.flatten() x0 = np.append(x0, r2_0.flatten()) x0 = np.append(x0, t2_0.flatten()) # optimization step x_opt, _ = scipy.optimize.minimze(rodriguesResidual, x0, args=(K1, M1, p1, K2, p2)) . Finally our x_opt i.e x_optimal will have the correct rotation and translation of camera 2 and the corrected 3D points . ",
     "url": "http://localhost:4000/3D_reconstruction/#bundle-adjustment",
     "relUrl": "/3D_reconstruction/#bundle-adjustment"
-  },"139": {
+  },"144": {
     "doc": "3D_reconstruction",
     "title": "3D_reconstruction",
     "content": ". | Before you Begin | PDFs | Estimating the Rotation and Translation between two camera views . | triangulate3D | findM2 | Combining the above two functions | . | Bundle Adjustment . | High level procedure . | RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) | . | Optimization of M2 | . | . ",

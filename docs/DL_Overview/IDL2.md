@@ -60,6 +60,13 @@ However, instead of cross entropy loss, if we were to use a simple L2 error
 
 ![](/images/IDL2/L2_deriv.png)
 
+An extract from the [Xavier Intitialization paper](https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf) shows this more accurately
+
+![](/images/resnet/cr_vs_quad.png)
+
+From the above picture, one can see that the cross entropy loss surface (black)
+is much steeper than the quadratic surface (red)
+
 ## Why is Cross Entropy better than L2?
 
 Ans. The L2 is a quadratic loss function, which is smooth bowl. Now from the above picture, \
