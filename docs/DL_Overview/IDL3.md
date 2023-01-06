@@ -149,4 +149,82 @@ smooth.**
 
 This is basically regularization (where we ensure model is penalized for large weights)
 
-![](/images/ofit4.png)
+![](/images/IDL3/ofit4.png)
+
+Now, this is also easy to backprop as shown below:
+
+![](/images/IDL3/ofit5.png)
+
+## Smoothness through network structure
+
+- As we saw in the MLP section on why depth matters, each layer of an MLP imposes
+constraints, i.e. each layer creates some decision boundary.
+
+- See [why we need depth](https://sush-vision-projects.herokuapp.com/docs/DL_Overview/IDL1.html#why-do-we-need-depth)
+
+- In the picture below, after the first layer, we know that our input is in either
+a pentagon region of a triangle region (**but we don't know where inside it!**)
+
+- ![](/images/IDL3/ofit6.png)
+
+- Therefore, deeper models have a natural tendency to restricting shapes they can model
+  and this gives the natural smoothness required.
+
+### Example for further clarity
+
+![](/images/IDL3/ofit7.png)
+
+In the above example, the earlier layers have really bad fit shapes. As we go deeper
+the smoothness naturally increased.
+
+## Dropout
+
+- During Train time, each neuron is active such that: \
+  (number_of_instances_neuron_is_active/total_number_of_instances) = alpha
+
+  i.e. if the chance of a neuron being active is say 0.7 (then alpha = 0.7)
+
+- ![](/images/IDL3/ofit9.png)
+
+- **By following above steps, The effective network is different for different sets of inputs.
+Additionally, the graidents are also updated differently**
+
+- Like any Bernoulli Distribution, each event has 2 outcomes. Therefore a statistical 
+interpretation would yield the below picture:
+
+- ![](/images/IDL3/ofit10.png)
+
+- I think it also serves as a form of augmentation, where instead of blacking out certain
+parts of the image, we make the object recognizable only at certain receptive fields
+
+- Dropout also has the tendency of removing redundancies in learning. i.e. the network 
+  learns a cat even if it doesn't have a tail, or if it doens't have pointy ears
+
+### Implementing Dropout during Training
+
+The dropout is added onto the activation layer as an additional (like an if condition) constraint. It is shown below
+
+![](/images/IDL3/ofit11.png)
+
+**Now, we will use this alpha value in our test time everywhere**
+
+### Implementing Dropout during Inference
+
+1. We could add alpha (the bernoulli factor) to the activation of every neuron (just like train time)
+2. Or we could mulltiply every weight with alpha (we will effectively be blocking out connections instead of neurons)
+3. **Instead of applying alpha as chance of a neuron being active during train time, use
+   inverse of alpha. Then during test time, we just don't use alpha at all!!**
+
+![](/images/IDL3/ofit13.png)
+
+# Augmentation
+
+1. Mosaicing
+2. Flipping
+3. Rotating
+4. Blurring
+5. Warp (Distort the image)
+
+# Other Tricks
+1. Normalize the input (covariate shifts in next section)
+2. Xavier Initialization

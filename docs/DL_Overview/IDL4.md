@@ -118,4 +118,33 @@ By taking the max of the small window say 4x4, we're effectively not caring as t
 - However, in the speech world, jitter would mess up any phonetics that convey meaning
 - As a result, in Speech recog there isn't much max-pooling
 
+Note. The max pool occurs for each channel (unlike the conv filters which across all channels of the image). **Therefore, the output of a maxpool will retain the number of
+channels.**
 
+# Convolutional NNs
+
+## Number of Parameters in a Conv Layer
+
+![](/images/IDL4/conv_filters.png)
+
+## Types of Filters
+
+1. Typically the first layer people have used large filter sizes of 5x5
+   (emperically proven to provide better results in feature extraction)
+2. Most lower levels have smaller filters of 3x3
+3. Now, there also exists a 3x3 filter. What is that?
+   ![](/images/IDL4/conv_filter2.png)
+   It's just a single perceptron
+
+   EXPAND MORE ON 1x1 CONVOUTIONS!!!!
+
+# Importatnt to Remember
+
+1. Number of Parameters in Conv Layer \
+   ![](/images/IDL4/conv_filter3.png)
+2. While it may good to lose information during max-pooling, since it's primarily
+   to account for jitter and noise and it's okay to loose that information.
+   However, we also saw in the MLP decision boundaries case, that deeper layers
+   with complete information from previous layer, can learn complex shapes.
+   (Just imagine the MLP if it lost some information from the input layer
+   how our final learnt shape would be?)
