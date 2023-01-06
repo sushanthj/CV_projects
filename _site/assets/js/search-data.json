@@ -379,7 +379,7 @@
   },"63": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Backprop through Batch Norm",
-    "content": "Conventional backprop happens by taking a derivative of the divergence function as shown below: . However, after batch norm, it gets tricky since our divergence will now depend on not only the mini-batch (training samples of mini-batch), but will now also depend on the mean and variance of the entire mini-batch (since our mini-batch was scaled and shifted according to the mean and variance) . Derivation . ",
+    "content": "Conventional backprop happens by taking a derivative of the divergence function as shown below: . However, after batch norm, it gets tricky since our divergence will now depend on not only the mini-batch (training samples of mini-batch), but will now also depend on the mean and variance of the entire mini-batch (since our mini-batch was scaled and shifted according to the mean and variance) . Derivation . The derivation is shown below: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#backprop-through-batch-norm",
     "relUrl": "/docs/DL_Overview/IDL3.html#backprop-through-batch-norm"
   },"64": {

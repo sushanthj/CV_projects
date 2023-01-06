@@ -105,6 +105,8 @@ according to the mean and variance)**
 
 ### Derivation
 
+The derivation is shown below:
+
 ![](/images/IDL3/batch1.jpg)
 ![](/images/IDL3/batch2.jpg)
 ![](/images/IDL3/batch3.jpg)
