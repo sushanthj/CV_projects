@@ -105,15 +105,15 @@ according to the mean and variance)**
 
 ### Derivation
 
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_1.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_2.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_3.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_4.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_5.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_6.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_7.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_8.jpg)
-![](/images/IDL3/batchnormbackprop/Interview%20prep_230104_002510_9.jpg)
+![](/images/IDL3/batch1.jpg)
+![](/images/IDL3/batch2.jpg)
+![](/images/IDL3/batch3.jpg)
+![](/images/IDL3/batch4.jpg)
+![](/images/IDL3/batch5.jpg)
+![](/images/IDL3/batch6.jpg)
+![](/images/IDL3/batch7.jpg)
+![](/images/IDL3/batch8.jpg)
+![](/images/IDL3/batch9.jpg)
 
 
 ## Batch Norm in Test Time
