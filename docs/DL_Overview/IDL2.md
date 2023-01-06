@@ -95,6 +95,19 @@ Here we change our target label to (1-(K-1)*e) instead of just being 1
    ![](/images/IDL2/FC_backprop3.png)
    ![](/images/IDL2/FC_backprop4.png)
 
+   Example: Sigmoid Derivative \
+   ![](/images/IDL4/sigmoid_derivative.png)
+
+   Example: Tanh Derivative
+   ![](/images/IDL4/tan_derivative.png)
+
+   Example: Logistic Derivative
+   ![](/images/IDL4/logistic_derivative.png)
+
+   Note. tanh is a scaled and shifted version of sigmoid. This is shown below by
+   just rearranging some terms: \
+   ![](/images/IDL4/tanh_something.png)
+
 3. Computing derivate w.r.t one weight (one weight connects one neuron in layer N-1 to \
    another neuron in layer 2)
    
@@ -103,6 +116,7 @@ Here we change our target label to (1-(K-1)*e) instead of just being 1
 4. Computing the derivative w.r.t y (y = output of activation function) \
    Here, one neuron will have effect on all the neurons in the next layer. This is why we need
    to sum the derivates of z (z = wx + b of next layer) w.r.t y(from previous layer)
+   (This is explained better in the [Scalar vs Vector activations](#scalar-vs-vector-activations))
    
    ![](/images/IDL2/FC_backprop2.png)
 
@@ -121,6 +135,10 @@ Also, the backprop gets bit murky as well
 |     Scalar Activation                  |      Vector Activation               |
 |:---------------------------------------|:-------------------------------------|
 | ![](/images/IDL2/special_case3.png)    | ![](/images/IDL2/special_case4.png)  |
+
+***Note. The important aspect to remember is that for a vector activation, the derivative
+of divergence w.r.t any input (input to activation func) is a sum of partial derivative
+on every neuron of activation function as seen in picture above***
 
 ### Example of a vector activation: softmax activation
 

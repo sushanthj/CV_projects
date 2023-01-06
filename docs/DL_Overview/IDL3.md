@@ -122,3 +122,31 @@ Here also we need some estimate of variance as to where this test image belongs 
 We do so by using a running average over the training batches.
 
 ![](/images/IDL3/batch_norm7.png)
+
+# Overfitting
+
+![](/images/IDL3/ofit1.png)
+
+We essentially need a way to smoothen the above curve such that it fills in the gap nicely.
+
+There are several ways of doing this, but the most common ones are:
+
+## Smoothness through weight manipulation
+
+Think of the sigmoid function \
+![](/images/IDL3/ofit2.png)
+
+Now, if the value of our input (x) increases a lot, the curve changes from a nice
+smooth curve to something a lot more steep:
+
+![](/images/IDL3/ofit3.png)
+(here w = our input (x))
+
+**Therefore simply constraining the weight to be low will ensure the perceptron output is
+smooth.**
+
+## Smoothness through weight constraints (Regularization)
+
+This is basically regularization (where we ensure model is penalized for large weights)
+
+![](/images/ofit4.png)
