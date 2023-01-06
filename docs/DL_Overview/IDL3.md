@@ -107,15 +107,15 @@ according to the mean and variance)**
 
 The derivation is shown below:
 
-![](/images/IDL3/batch1.jpg)
-![](/images/IDL3/batch2.jpg)
-![](/images/IDL3/batch3.jpg)
-![](/images/IDL3/batch4.jpg)
-![](/images/IDL3/batch5.jpg)
-![](/images/IDL3/batch6.jpg)
-![](/images/IDL3/batch7.jpg)
-![](/images/IDL3/batch8.jpg)
-![](/images/IDL3/batch9.jpg)
+![](/images/IDL3/bbatch1.jpg)
+![](/images/IDL3/bbatch2.jpg)
+![](/images/IDL3/bbatch3.jpg)
+![](/images/IDL3/bbatch4.jpg)
+![](/images/IDL3/bbatch5.jpg)
+![](/images/IDL3/bbatch6.jpg)
+![](/images/IDL3/bbatch7.jpg)
+![](/images/IDL3/bbatch8.jpg)
+![](/images/IDL3/bbatch9.jpg)
 
 
 ## Batch Norm in Test Time
