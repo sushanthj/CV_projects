@@ -37,4 +37,3 @@ gem 'rack-contrib'
 gem 'kramdown'
 gem 'puma', ">= 5.6.2"
 gem 'rake'
-gem 'thin'
