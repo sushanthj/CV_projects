@@ -87,6 +87,14 @@ in the beginning of training, we don't let sigma and gamma terms to dominate
 - How do we get this gamma and beta?
   Ans. ![](/images/IDL4/batch_norm_extra.png)
 
+Q. Why is batch_norm applied before the activation function?
+Ans. It's debatable. But if it's used after activation some activations may get
+reveresed maybe?
+
+Note. Understand vocab: Difference between Normalization and Standardization
+
+![](/images/IDL4/norm_v_stand.png)
+
 Now, its nice to see data having low variance. However, the real issue arises when we try
 to do backprop.
 
