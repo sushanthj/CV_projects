@@ -103,3 +103,7 @@ Now that you've understood the intuition behind marginals, here's the math
 
 ![](/images/SLAM/Probability_Review/13.png)
 
+![](/images/SLAM/Probability_Review/14.jpg)
+
+![](/images/SLAM/Probability_Review/15.jpg)
+
