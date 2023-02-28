@@ -2,19 +2,38 @@
 layout: default
 title: Home
 nav_order: 1
-description: "Just the Docs is a responsive Jekyll theme with built-in search that is easily customizable and hosted on GitHub Pages."
+description: "Navigating Robotics"
 permalink: /
 ---
 
-# Computer Vision Projects
+# About Me
 
-Compiled list of my projects in computer vision
-{: .fs-9 }
+![](/images/DP.png)
+
+I'm super interested in Computer Vision. This website was originally meant for me to revise topics
+in vision. However, with SLAM, ML and DL, I've been learning a lot more on Robotics.
+
+Presently, I'm pursuing my Master's in Robotics Systems Development at CMU.
 
 
-[Main Vision Reference](https://szeliski.org/Book/){: .btn .fs-5 .mb-4 .mb-md-0 }
+# Previously
 
-## Other References
+![](/images/ts_homepage.png)
 
-[Reference Book 1](https://drive.google.com/file/d/1jqEB739EfifhSyiCK6vdbPIz7gX9Ywmr/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
-[Reference Book 2](https://drive.google.com/file/d/1Kn6dilDeR_7leIctuVa87-czuqBoxJh-/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
+I worked on see-and-spray systems on the perception team of [TartanSense](https://www.tartansense.com/).
+
+
+_____________________________________________________________________________________________
+
+![]()
+
+
+![](/images/edhitha_homepage.png)
+
+Edhitha was a student team which has continuously taken part at the [AUVSI SUAS](https://suas-competition.org/)
+competition held at Maryland, USA. I was part of the 2016 team where we finished 5th amongst 60 international teams
+and was the team lead in 2017.
+
+
+
+
