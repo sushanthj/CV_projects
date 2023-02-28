@@ -5,6 +5,8 @@ permalink: /optical_flow/
 nav_order: 5
 ---
 
+![](/images/girl_seq.gif) ![](/images/car_seq.gif)
+
 <details open markdown="block">
   <summary>
     Table of contents
@@ -13,6 +15,7 @@ nav_order: 5
 1. TOC
 {:toc}
 </details>
+
 
 ## Before you Begin
 

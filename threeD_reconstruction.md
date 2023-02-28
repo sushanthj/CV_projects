@@ -2,8 +2,10 @@
 layout: page
 title: 3D_reconstruction
 permalink: /3D_reconstruction/
-nav_order: 7
+nav_order: 4
 ---
+
+![](/images/triangluation/35.png)
 
 <details open markdown="block">
   <summary>

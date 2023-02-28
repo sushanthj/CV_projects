@@ -2,8 +2,11 @@
 layout: page
 title: Spatial Pyramid Matching for Scene Classification
 permalink: /spatial_pyramid_matching/
-nav_order: 4
+nav_order: 7
 ---
+
+![](/images/Intro_ML/cva_assignment_1.png)
+
 
 <details open markdown="block">
   <summary>
@@ -13,6 +16,7 @@ nav_order: 4
 1. TOC
 {:toc}
 </details>
+
 
 ## Before you Begin
 

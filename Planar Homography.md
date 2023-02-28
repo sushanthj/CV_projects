@@ -5,6 +5,9 @@ permalink: /planar_homography/
 nav_order: 6
 ---
 
+![](/images/mp4ar_video_AdobeExpress.gif)
+
+
 <details open markdown="block">
   <summary>
     Table of contents
@@ -14,7 +17,6 @@ nav_order: 6
 {:toc}
 </details>
 
-![](/images/mp4ar_video_AdobeExpress.gif)
 
 ## Before you Begin
 
