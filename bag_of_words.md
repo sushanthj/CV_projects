@@ -25,6 +25,6 @@ nav_order: 7
 
 ## PDFs
 
-[Assignment Questionnaire](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_1/hw1.pdf){: .btn .fs-3 .mb-4 .mb-md-0 } 
+[Assignment Questionnaire](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_1/hw1.pdf){: .btn .fs-2 .mb-2 .mb-md-0 } 
 
-[My Answers](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_1/sushantj/sushanthj_hw1.pdf){: .btn .fs-3 .mb-4 .mb-md-0 }
+[My Answers](https://github.com/sushanthj/assignments_F22/blob/main/CV_A/Assignment_1/sushantj/sushanthj_hw1.pdf){: .btn .fs-5 .mb-5 .mb-md-0 }

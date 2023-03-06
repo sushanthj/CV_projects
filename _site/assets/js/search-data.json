@@ -750,358 +750,358 @@
     "relUrl": "/numpy/"
   },"125": {
     "doc": "Optical Flow and Image Alignment",
-    "title": "Before you Begin",
-    "content": "Reference Book 1 Reference Book 2 . ",
-    "url": "http://localhost:4000/optical_flow/#before-you-begin",
-    "relUrl": "/optical_flow/#before-you-begin"
+    "title": "PDF Download",
+    "content": "Assignment Questionnaire . My Answers . ",
+    "url": "http://localhost:4000/optical_flow/#pdf-download",
+    "relUrl": "/optical_flow/#pdf-download"
   },"126": {
     "doc": "Optical Flow and Image Alignment",
-    "title": "PDFs",
-    "content": "Assignment Questionnaire . My Answers . ",
-    "url": "http://localhost:4000/optical_flow/#pdfs",
-    "relUrl": "/optical_flow/#pdfs"
-  },"127": {
-    "doc": "Optical Flow and Image Alignment",
     "title": "Optical Flow and Image Alignment",
-    "content": ". | Before you Begin | PDFs | . ",
+    "content": ". | PDF Download | . ",
     "url": "http://localhost:4000/optical_flow/",
     "relUrl": "/optical_flow/"
-  },"128": {
+  },"127": {
     "doc": "Particle Filters Theory",
     "title": "Before you Begin",
     "content": "Particle Filters are a direct application of Bayes Filters. The Short Version of Bayes Filter is shown below: . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html#before-you-begin",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html#before-you-begin"
-  },"129": {
+  },"128": {
     "doc": "Particle Filters Theory",
     "title": "Particle Filters Theory",
     "content": "{: .text-delta } . | Before you Begin | . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html"
-  },"130": {
+  },"129": {
     "doc": "Planar Homography",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/planar_homography/#before-you-begin",
     "relUrl": "/planar_homography/#before-you-begin"
-  },"131": {
+  },"130": {
     "doc": "Planar Homography",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/planar_homography/#pdfs",
     "relUrl": "/planar_homography/#pdfs"
-  },"132": {
+  },"131": {
     "doc": "Planar Homography",
     "title": "Some Basics on Camera Projection",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#some-basics-on-camera-projection",
     "relUrl": "/planar_homography/#some-basics-on-camera-projection"
-  },"133": {
+  },"132": {
     "doc": "Planar Homography",
     "title": "Projection of 3D to 2D image plane",
     "content": "To understand how a camera views the 3D world, first we look at the projection of 3D points onto an image plane. We use basic high school physics and some similar triangle properties to derive the following formula: . Notice that the minus sign is bit irritating to work with. (Also we don’t see inverted images as the formula suggests. This is becauase our brain does the inversion in real time) . Therefore, let’s start with the below version of the formula by ignoring this inversion effect . Now, the above equation can be written in matrix form, but we’ll form one artifact in this conversion i.e. lambda . It’s clear that we can find this lambda as shown. However, why do we even need this? Ans. We want to represent the coordinates in homogenous coordinates . ",
     "url": "http://localhost:4000/planar_homography/#projection-of-3d-to-2d-image-plane",
     "relUrl": "/planar_homography/#projection-of-3d-to-2d-image-plane"
-  },"134": {
+  },"133": {
     "doc": "Planar Homography",
     "title": "Camera Matrices",
     "content": "Generic Representation . Now, let’s add another constraint on this equation. Suppose we rotate our 3D point in space or we rotate the camera itself by a certain angle. In the world of robotics we call such transforms as a rotation matrix. Reference: Rotation Matrices . To get a good grasp of rotation matrices, I highly recommend some linear algebra brush-up using 3B1B (3 Blue 1 Brown). Specifically (watch 8th minute of this video) The rotation shown in the above video in the 8th minute is a rotation matrix in 2D. Now, adding a 3D translation (just 3 numbers which add to the x,y,z component of a 3D vector) along with a 3D rotation we get the basic projection equation . Where the two matrices are called the camera intrinsics (captures focal lengths) and the camera extrinsics (capturing rotation and translation) . This rotation (r-matrix) can also be visualized as fixing a world coordinate frame onto some plane in the 3D world (think of a it as a flat table top) and then thinking how our camera is rotated w.r.t that frame: . Now, most cameras also distort images due to lens optics or other properties inherent in building the camera itself. These are captured as shown below: . Now, adding these intrinsic and extrinsic factors, we get: . Alternate notation of camera matrices . ",
     "url": "http://localhost:4000/planar_homography/#camera-matrices",
     "relUrl": "/planar_homography/#camera-matrices"
-  },"135": {
+  },"134": {
     "doc": "Planar Homography",
     "title": "The Homography Situation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#the-homography-situation",
     "relUrl": "/planar_homography/#the-homography-situation"
-  },"136": {
+  },"135": {
     "doc": "Planar Homography",
     "title": "Single View",
     "content": "Now, if we focus on only planes (table top and human holding camera situation): We can make certain simplifying assumptions. This is primarily that the 3D point we’re looking at has constant depth in it’s immediate neighbourhood. Using this we simplify our equations to: . This 3x3 m-matrix now represents the mapping of 3D points on a plane to 2D point in an image . ",
     "url": "http://localhost:4000/planar_homography/#single-view",
     "relUrl": "/planar_homography/#single-view"
-  },"137": {
+  },"136": {
     "doc": "Planar Homography",
     "title": "Multiple Views",
     "content": "Now, by simple extension of the above logic we can derive the following: . | We have just 1 plane in the 3D world | We have two cameras looking at this plane | Each camera has it’s own 3x3 m-matrix which maps 3D plane points onto 2D image frame | Therefore if two cameras can see the same 3D point, we can find a mapping between the two cameras | This mapping between the two cameras is given by a new 3x3 matrix called the homography matrix | . ",
     "url": "http://localhost:4000/planar_homography/#multiple-views",
     "relUrl": "/planar_homography/#multiple-views"
-  },"138": {
+  },"137": {
     "doc": "Planar Homography",
     "title": "Limitations of Planar Homography",
     "content": ". | When the scene is very far away from the camera, all objects can be said to have the same depth. This is because the relative depth distances between foreground and background will be negligible in comparison to the average scene depth. Therefore, in such cases all objects in scene can be said to lie on a plane and as proved above, can be captured by two cameras related by a homography matrix. | For nearby scenes where the variation in scene depth is more apparent, a homography mapping works well only under pure rotation. | . ",
     "url": "http://localhost:4000/planar_homography/#limitations-of-planar-homography",
     "relUrl": "/planar_homography/#limitations-of-planar-homography"
-  },"139": {
+  },"138": {
     "doc": "Planar Homography",
     "title": "Implementation of Homography Estimation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#implementation-of-homography-estimation",
     "relUrl": "/planar_homography/#implementation-of-homography-estimation"
-  },"140": {
+  },"139": {
     "doc": "Planar Homography",
     "title": "The Pipeline",
     "content": "The main application of homography transforms is to find how some reference template has been warped due to movement of the camera. This is seem below as: . The applications of this are: . | image stitching (think of two images from two views as a warped version of view 0) | augmented reality (projecting some images onto a fixed/known plane in the real world) | . To perform any of the above cool applications, we first need to compute the homography between any two views. The pipeline for this would be: . | Have one reference view and another view with the camera having moved slightly | Detect some keypoints (interest points like corners/edges) in each image | Describe these keypoints in some way (maybe capture the histogram of pixel intensities in a small patch around the keypoint) | Match the keypoints in one image to another using the keypoint descriptions | Use the spatial information of these matched keypoints (i.e. the x,y coordinates of each of these keypoints) to find the Homography matrix | **Apply the homography matrix as a transformation on one of the images **to warp and match the images | . Let’s go deeper into the each of the above steps: . Keypoint Detection . | There are several methods to find keypoints in an image. Usually these keypoints are corners since other features like edges may warp or curve due to distortion and may be difficult to trace. | The common methods are Harris Corner Detector, polygon fitting, FAST detectors etc. | Here we use the FAST detector | . Keypoint Descriptors . Common descriptors include BRIEF, ORB, SIFT etc. Here we’ve used the BRIEF descriptor . The BRIEF descriptor works by creating a binary feature vector of a patch from random (x,y) point pairs. This randomness in generating point pairs ensures changes in pixel intensities are captuerd in multiple directions thereby being sensitive to a large variety of edges or corners. The BRIEF descriptor also compares these binary strings using hamming distance further reduces compute time. Due to this computational cost of calculating histograms for each filter bank it would not make sense to use filterbanks instead of BRIEF. Further, just filterbanks cannot encode patch descriptions, i.e. without any form of histograms (like SIFT), the filterbanks themselves cannot be used instead of BRIEF. Reference: BRIEF Descriptor . The implementation of keypoint detection, description and matching are shown below: . import numpy as np import cv2 import skimage.color from helper import briefMatch from helper import computeBrief from helper import corner_detection # Q2.1.4 def matchPics(I1, I2, opts): \"\"\" Match features across images Input ----- I1, I2: Source images opts: Command line args Returns ------- matches: List of indices of matched features across I1, I2 [p x 2] locs1, locs2: Pixel coordinates of matches [N x 2] \"\"\" print(\"computing image matches\") ratio = opts.ratio #'ratio for BRIEF feature descriptor' sigma = opts.sigma #'threshold for corner detection using FAST feature detector' # Convert Images to GrayScale I1 = skimage.color.rgb2gray(I1) I2 = skimage.color.rgb2gray(I2) # Detect Features in Both Images # locs1 is just the detected corners of I1 locs1 = corner_detection(I1, sigma) locs2 = corner_detection(I2, sigma) # Obtain descriptors for the computed feature locations # We use the breif descriptor to give the patch descriptions (patch of pixel width = 9) # for the corners(keypoints) which we obtained from corner_description # desc is the binary string (len(string)=256 and 256bits) # which serves as the feature descriptor desc1, locs1 = computeBrief(I1, locs1) desc2, locs2 = computeBrief(I2, locs2) # Match features using the descriptors matches = briefMatch(desc1, desc2, ratio) print(f'Computed {matches.shape[0]} matches successfully') return matches, locs1, locs2 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches . Calculating the Homography Matrix . Let’s say we have two images: image1 and image2 . To Derive the A matrix we undergo the following steps: . Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value) which forms the null space of A. (Bonus) RANSAC: Rejecting outliers during our homography calculation . Implementation of above steps . import numpy as np import cv2 import skimage.io import skimage.color from planarH import * from opts import get_opts from matchPics import matchPics from helper import briefMatch def warpImage(opts): \"\"\" Warp template image based on homography transform Args: opts: user inputs \"\"\" image1 = cv2.imread('../data/cv_cover.jpg') image2 = cv2.imread('../data/cv_desk.png') template_img = cv2.imread('../data/hp_cover.jpg') # make sure harry_potter image is same size as CV book x,y,z = image1.shape template_img = cv2.resize(template_img, (y,x)) matches, locs1, locs2 = matchPics(image1, image2, opts) # invert the columns of locs1 and locs2 locs1[:, [1, 0]] = locs1[:, [0, 1]] locs2[:, [1, 0]] = locs2[:, [0, 1]] matched_points = create_matched_points(matches, locs1, locs2) h, inlier = computeH_ransac(matched_points[:,0:2], matched_points[:,2:], opts) print(\"homography matrix is \\n\", h) # compositeH(h, source, destination) composite_img = compositeH(h, template_img, image2) # Display images cv2.imshow(\"Composite Image :)\", composite_img) cv2.waitKey() if __name__ == \"__main__\": opts = get_opts() warpImage(opts) . RANSAC and Construction of Composite Image . from copy import deepcopy from dataclasses import replace from platform import python_branch import numpy as np import cv2 import matplotlib.pyplot as plt import skimage.color import math import random from scipy import ndimage from scipy.spatial import distance from matchPics import matchPics from helper import plotMatches from opts import get_opts from tqdm import tqdm def computeH(x1, x2): \"\"\" Computes the homography based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the homography matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0], x2[i,1], 1, 0, 0, 0, -x1[i,0]*x2[i,0], -x1[i,0]*x2[i,1], -x1[i,0] ]) row_2 = np.array([ 0, 0, 0, x2[i,0], x2[i,1], 1, -x1[i,1]*x2[i,0], -x1[i,1]*x2[i,1], -x1[i,1] ]) A_build.append(row_1) A_build.append(row_2) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(np.matmul(A.T, A)) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose H2to1 = np.reshape(v.T[:,-1], (3,3)) return H2to1 def computeH_norm(x1, x2): #Q2.2.2 \"\"\" Compute the normalized coordinates and also the homography matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: H2to1: Hmography matrix after denormalization \"\"\" # Q2.2.2 # Compute the centroid of the points centroid_img_1 = np.sum(x1, axis=0)/x1.shape[0] centroid_img_2 = np.sum(x2, axis=0)/x2.shape[0] # print(f'centroid of img1 is {centroid_img_1} \\n centroid of img2 is {centroid_img_2}') # Shift the origin of the points to the centroid # let origin for img1 be centroid_img_1 and similarly for img2 #? Now translate every point such that centroid is at [0,0] moved_x1 = x1 - centroid_img_1 moved_x2 = x2 - centroid_img_2 current_max_dist_img1 = np.max(np.linalg.norm(moved_x1),axis=0) current_max_dist_img2 = np.max(np.linalg.norm(moved_x2),axis=0) # moved and scaled image 1 points scale1 = np.sqrt(2) / (current_max_dist_img1) scale2 = np.sqrt(2) / (current_max_dist_img2) moved_scaled_x1 = moved_x1 * scale1 moved_scaled_x2 = moved_x2 * scale2 # Similarity transform 1 #? We construct the transformation matrix to be 3x3 as it has to be same shape of Homography t1 = np.diag([scale1, scale1, 1]) t1[0:2,2] = -scale1*centroid_img_1 # Similarity transform 2 t2 = np.diag([scale2, scale2, 1]) t2[0:2,2] = -scale2*centroid_img_2 # Compute homography H = computeH(moved_scaled_x1, moved_scaled_x2) # Denormalization H2to1 = np.matmul(np.linalg.inv(t1), np.matmul(H, t2)) return H2to1 def create_matched_points(matches, locs1, locs2): \"\"\" Match the corners in img1 and img2 according to the BRIEF matched points Args: matches (Mx2): Vector containing the index of locs1 and locs2 which matches locs1 (Nx2): Vector containing corner positions for img1 locs2 (Nx2): Vector containing corner positions for img2 Returns: _type_: _description_ \"\"\" matched_pts = [] for i in range(matches.shape[0]): matched_pts.append(np.array([locs1[matches[i,0],0], locs1[matches[i,0],1], locs2[matches[i,1],0], locs2[matches[i,1],1]])) # remove the first dummy value and return matched_points = np.stack(matched_pts, axis=0) return matched_points def computeH_ransac(locs1, locs2, opts): \"\"\" Every iteration we init a Homography matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Homography matrix Args: locs1: location of matched points in image1 locs2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The homography matrix with max number of inliers final_inliers : Final list of inliers considered for homography \"\"\" #Q2.2.3 #Compute the best fitting homography given a list of matching points max_iters = opts.max_iters # the number of iterations to run RANSAC for inlier_tol = opts.inlier_tol # the tolerance value for considering a point to be an inlier # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])),k=4) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_H = computeH_norm(correspondence_points_1, correspondence_points_2) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_H, test_locs1, test_locs2, inlier_tol) if error_state == 1: continue if (inlier_count &gt; final_inlier_count) and (distance_error &lt; final_distance_error): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 10000: # print(\"original point count is\", locs1.shape[0]) # print(\"final inlier count is\", final_inlier_count) # print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = computeH_norm(final_locs_1, final_locs_2) return bestH2to1, final_inliers else: bestH2to1 = computeH_norm(correspondence_points_1, correspondence_points_2) return bestH2to1, 0 def compute_inliers(h, x1, x2, tol): \"\"\" Compute the number of inliers for a given homography matrix Args: h: Homography matrix x1 : matched points in image 1 x2 : matched points in image 2 tol: tolerance value to check for inliers Returns: inliers : indexes of x1 or x2 which are inliers inlier_count : number of total inliers dist_error_sum : Cumulative sum of errors in reprojection error calc flag : flag to indicate if H was invertible or not \"\"\" # take H inv to map points in x1 to x2 try: H = np.linalg.inv(h) except: return [1,1,1], 1, 1, 1 x2_extd = np.append(x2, np.ones((x2.shape[0],1)), axis=1) x1_extd = (np.append(x1, np.ones((x1.shape[0],1)), axis=1)) x2_est = np.zeros((x2_extd.shape), dtype=x2_extd.dtype) for i in range(x1.shape[0]): x2_est[i,:] = H @ x1_extd[i,:] x2_est = x2_est/np.expand_dims(x2_est[:,2], axis=1) dist_error = np.linalg.norm((x2_extd-x2_est),axis=1) # print(\"dist error is\", dist_error) inliers = np.where((dist_error &lt; tol), 1, 0) inlier_count = np.count_nonzero(inliers == 1) return inliers, inlier_count, np.sum(dist_error), 0 def compositeH(H2to1, template, img): \"\"\" Create a composite image after warping the template image on top of the image using the homography Args: H2to1 : Existing(already found) homography matrix template: Harry Potter (template image) img: Base image onto which we overlay Harry Potter image Returns: composite_img: Base image with overlayed Harry Potter cover \"\"\" output_shape = (img.shape[1],img.shape[0]) # destination_img = img # source_img = template h = np.linalg.inv(H2to1) # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography warped_template = cv2.warpPerspective(template, h, output_shape) # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img) return composite_img def panorama_composite(H2to1, template, img): \"\"\" Stitch two images together to form a panorama Args: H2to1: Homography Matrix template: The pano_right image img: The pano_left image Returns: composite_img: Stitched image (panorama) \"\"\" output_shape = (img.shape[1]+240,img.shape[0]+240) # destination_img = img # source_img = template h = H2to1 img_padded = np.zeros((img.shape[0]+240,img.shape[1]+240,3), dtype=img.dtype) img_padded[0:img.shape[0], 0:img.shape[1], :] = img[:,:,:] # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography cv2.imshow(\"template image\", template) cv2.waitKey() cv2.imshow(\"destination image\", img) cv2.waitKey() warped_template = cv2.warpPerspective(template, h, output_shape) cv2.imshow(\"warped template\", warped_template) cv2.waitKey() # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img_padded) return composite_img . ",
     "url": "http://localhost:4000/planar_homography/#the-pipeline",
     "relUrl": "/planar_homography/#the-pipeline"
-  },"141": {
+  },"140": {
     "doc": "Planar Homography",
     "title": "Applying Homography Estimation in the Real World",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#applying-homography-estimation-in-the-real-world",
     "relUrl": "/planar_homography/#applying-homography-estimation-in-the-real-world"
-  },"142": {
+  },"141": {
     "doc": "Planar Homography",
     "title": "Basic cool applications",
     "content": "If we know how a template matches to a warped image, such as: . We can then use this homography matrix to map any plane (here a different book cover) onto our destination image . ",
     "url": "http://localhost:4000/planar_homography/#basic-cool-applications",
     "relUrl": "/planar_homography/#basic-cool-applications"
-  },"143": {
+  },"142": {
     "doc": "Planar Homography",
     "title": "AR Video",
     "content": "Here we use the same book-cover homography mapping but onto a sequence of frames of a video . ",
     "url": "http://localhost:4000/planar_homography/#ar-video",
     "relUrl": "/planar_homography/#ar-video"
-  },"144": {
+  },"143": {
     "doc": "Planar Homography",
     "title": "Panorama Stitching",
     "content": "During my visit to Ohiopyle, I took few pictures of the river. Let’s back to the fact that homography works well for far away scenes, where the large distance from camera to landscape makes the relative distances of objects in the landscape negligible. In such cases even small translations of the camera have a small effect on the landscape itself. However, since the scene at ohiopyle was not too far away, any translation would yield a bad homography matrix and cause shoddy stitching. Therefore I tried to mitigate this by only rotating about my hip (to ensure no translational movement) while taking the two views. The results of the stitching are shown below: . ",
     "url": "http://localhost:4000/planar_homography/#panorama-stitching",
     "relUrl": "/planar_homography/#panorama-stitching"
-  },"145": {
+  },"144": {
     "doc": "Planar Homography",
     "title": "Acknowledgement and References",
     "content": "A lot of images are taken from the lecture slides during my computer vision class at CMU. These were taught by Prof. Kris Kitani and Prof. Deva Ramanan . These slides are publicly available (slides) . ",
     "url": "http://localhost:4000/planar_homography/#acknowledgement-and-references",
     "relUrl": "/planar_homography/#acknowledgement-and-references"
-  },"146": {
+  },"145": {
     "doc": "Planar Homography",
     "title": "My Ohiopyle trip",
     "content": ". ",
     "url": "http://localhost:4000/planar_homography/#my-ohiopyle-trip",
     "relUrl": "/planar_homography/#my-ohiopyle-trip"
-  },"147": {
+  },"146": {
     "doc": "Planar Homography",
     "title": "Helper Functions",
     "content": "The helper function in this framework is shown below: . import numpy as np import cv2 import scipy.io as sio from matplotlib import pyplot as plt import skimage.feature PATCHWIDTH = 9 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches def plotMatches(im1,im2,matches,locs1,locs2): fig, ax = plt.subplots(nrows=1, ncols=1) im1 = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY) im2 = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY) plt.axis('off') skimage.feature.plot_matches(ax,im1,im2,locs1,locs2,matches,matches_color='r',only_matches=True) plt.show() return def makeTestPattern(patchWidth, nbits): np.random.seed(0) compareX = patchWidth*patchWidth * np.random.random((nbits,1)) compareX = np.floor(compareX).astype(int) np.random.seed(1) compareY = patchWidth*patchWidth * np.random.random((nbits,1)) compareY = np.floor(compareY).astype(int) return (compareX, compareY) def computePixel(img, idx1, idx2, width, center): halfWidth = width // 2 col1 = idx1 % width - halfWidth row1 = idx1 // width - halfWidth col2 = idx2 % width - halfWidth row2 = idx2 // width - halfWidth return 1 if img[int(center[0]+row1)][int(center[1]+col1)] &lt; img[int(center[0]+row2)][int(center[1]+col2)] else 0 def computeBrief(img, locs): patchWidth = 9 nbits = 256 compareX, compareY = makeTestPattern(patchWidth,nbits) m, n = img.shape halfWidth = patchWidth//2 locs = np.array(list(filter(lambda x: halfWidth &lt;= x[0] &lt; m-halfWidth and halfWidth &lt;= x[1] &lt; n-halfWidth, locs))) desc = np.array([list(map(lambda x: computePixel(img, x[0], x[1], patchWidth, c), zip(compareX, compareY))) for c in locs]) return desc, locs def corner_detection(img, sigma): # fast method result_img = skimage.feature.corner_fast(img, n=PATCHWIDTH, threshold=sigma) locs = skimage.feature.corner_peaks(result_img, min_distance=1) return locs def loadVid(path): # Create a VideoCapture object and read from input file # If the input is the camera, pass 0 instead of the video file name cap = cv2.VideoCapture(path) # Append frames to list frames = [] # Check if camera opened successfully if cap.isOpened()== False: print(\"Error opening video stream or file\") # Read until video is completed while(cap.isOpened()): # Capture frame-by-frame ret, frame = cap.read() if ret: #Store the resulting frame frames.append(frame) else: break # When everything done, release the video capture object cap.release() frames = np.stack(frames) return frames . ",
     "url": "http://localhost:4000/planar_homography/#helper-functions",
     "relUrl": "/planar_homography/#helper-functions"
-  },"148": {
+  },"147": {
     "doc": "Planar Homography",
     "title": "Planar Homography",
     "content": ". | Before you Begin | PDFs | Some Basics on Camera Projection . | Projection of 3D to 2D image plane | Camera Matrices . | Generic Representation | Alternate notation of camera matrices | . | . | The Homography Situation . | Single View | Multiple Views | Limitations of Planar Homography | . | Implementation of Homography Estimation . | The Pipeline . | Keypoint Detection | Keypoint Descriptors | Calculating the Homography Matrix | (Bonus) RANSAC: Rejecting outliers during our homography calculation | Implementation of above steps | RANSAC and Construction of Composite Image | . | . | Applying Homography Estimation in the Real World . | Basic cool applications | AR Video | Panorama Stitching | . | Acknowledgement and References . | My Ohiopyle trip | . | Helper Functions | . ",
     "url": "http://localhost:4000/planar_homography/",
     "relUrl": "/planar_homography/"
-  },"149": {
+  },"148": {
     "doc": "Recap on Probability",
     "title": "Before you Begin",
     "content": "Ref Book. Probabalistic Robotics . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#before-you-begin",
     "relUrl": "/docs/SLAM/Probability_review.html#before-you-begin"
-  },"150": {
+  },"149": {
     "doc": "Recap on Probability",
     "title": "Discrete and Continuous Variables",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-and-continuous-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-and-continuous-variables"
-  },"151": {
+  },"150": {
     "doc": "Recap on Probability",
     "title": "Discrete Variables and Notations",
     "content": "Here the value X in P(X) can take on any value X=x_i, just that x_i are discrete points . However, keep in my that we formally call the below function Probability Mass Function . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-variables-and-notations",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-variables-and-notations"
-  },"152": {
+  },"151": {
     "doc": "Recap on Probability",
     "title": "Continuous Random Variables",
     "content": "Here the value of X in p(X) can take on a continuous variable X=x, where x is a smooth function . Now, here we use lower_case p to denote the p(x) since in the continuous probability world, we cannot speak in terms of absolute probability, but in terms of a density function: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#continuous-random-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#continuous-random-variables"
-  },"153": {
+  },"152": {
     "doc": "Recap on Probability",
     "title": "Get Absolute Probability from PDF",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf"
-  },"154": {
+  },"153": {
     "doc": "Recap on Probability",
     "title": "Understanding p(x) PDF",
     "content": "As seen above, only the integration (area under curve) gives us the absolute probability. Therefore, this p(x) must be a curve of sorts, something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#understanding-px-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#understanding-px-pdf"
-  },"155": {
+  },"154": {
     "doc": "Recap on Probability",
     "title": "Can the value of p(x) &gt; 1?",
     "content": "Yes. This is because p(x) is a PDF not absolute probability. Consider the example of a proximity sensor whose readings only range from 0m - 0.5m. The PDF for such a sensor would look like the below graph . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#can-the-value-of-px--1",
     "relUrl": "/docs/SLAM/Probability_review.html#can-the-value-of-px--1"
-  },"156": {
+  },"155": {
     "doc": "Recap on Probability",
     "title": "Joint and Contional Probability",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-and-contional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-and-contional-probability"
-  },"157": {
+  },"156": {
     "doc": "Recap on Probability",
     "title": "Joint Probability",
     "content": "Note. The calculation of absolute probability will change depending upon the nature of the variables: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-probability"
-  },"158": {
+  },"157": {
     "doc": "Recap on Probability",
     "title": "Conditional Probability",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#conditional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#conditional-probability"
-  },"159": {
+  },"158": {
     "doc": "Recap on Probability",
     "title": "Marginals and Conditionals",
     "content": "To start, lets get an intuition on what a marginal or conditional may look like: . | Let’s consider a multivariate probability distribution (i.e there are say 2 random variables) | Let us consider these two variables to have their own distributions | Let these two distributions be exam grades and study time | Imagine exam_grades are distributed along y-axis, and study_time along x-axis (sorry for asking you to imagine this much :/) | Let the z-axis be a joint probability of both x and y | Now, combining everything we should have a 3D plot | . If we view this plot from the top view, we should see something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#marginals-and-conditionals",
     "relUrl": "/docs/SLAM/Probability_review.html#marginals-and-conditionals"
-  },"160": {
+  },"159": {
     "doc": "Recap on Probability",
     "title": "Crux of the Matter:",
     "content": ". | Think of conditionals as taking a slice of this cloud and evaluating distribution of exam grades given a specific study time | Think of marginals as squishing the cloud (say squishing all study-time data onto the exam-grades axis) and then studying the distribution | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#crux-of-the-matter",
     "relUrl": "/docs/SLAM/Probability_review.html#crux-of-the-matter"
-  },"161": {
+  },"160": {
     "doc": "Recap on Probability",
     "title": "Small Leap",
     "content": "Now that you’ve understood the intuition behind marginals, here’s the math . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#small-leap",
     "relUrl": "/docs/SLAM/Probability_review.html#small-leap"
-  },"162": {
+  },"161": {
     "doc": "Recap on Probability",
     "title": "Bayes Theorem",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#bayes-theorem",
     "relUrl": "/docs/SLAM/Probability_review.html#bayes-theorem"
-  },"163": {
+  },"162": {
     "doc": "Recap on Probability",
     "title": "Recap on Probability",
     "content": "{: .text-delta } . | Before you Begin | Discrete and Continuous Variables . | Discrete Variables and Notations | Continuous Random Variables | Get Absolute Probability from PDF | Understanding p(x) PDF | Can the value of p(x) &gt; 1? | . | Joint and Contional Probability . | Joint Probability | Conditional Probability | . | Marginals and Conditionals . | Crux of the Matter: | Small Leap | . | Bayes Theorem | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html",
     "relUrl": "/docs/SLAM/Probability_review.html"
-  },"164": {
+  },"163": {
     "doc": "Intro to Pytorch",
     "title": "Before you Begin",
     "content": "My Pytorch Website . ",
     "url": "http://localhost:4000/pytorch/#before-you-begin",
     "relUrl": "/pytorch/#before-you-begin"
-  },"165": {
+  },"164": {
     "doc": "Intro to Pytorch",
     "title": "Intro to Pytorch",
     "content": ". | Before you Begin | . ",
     "url": "http://localhost:4000/pytorch/",
     "relUrl": "/pytorch/"
-  },"166": {
+  },"165": {
     "doc": "RESNET",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . Convolutional Neural Nets are really good at extracting features. We will use a RESNET in this case to extract face features and make it a face detector. My understanding on why we use RESNETs: . | It prevents overfitting and limits the non-linearity to the necessary amount by allowing for gradients to skip neurons on the backward pass | It solves the issue of vanishing gradients | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/Resnet.html#before-you-begin"
-  },"167": {
+  },"166": {
     "doc": "RESNET",
     "title": "Forward Prop in a RESNET",
     "content": "A simple network would have following form: . Now, if we add a skip connection, we get the following structure: . Note. The new activation is g(z + a) . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet"
-  },"168": {
+  },"167": {
     "doc": "RESNET",
     "title": "Backward Prop in a RESNET",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet"
-  },"169": {
+  },"168": {
     "doc": "RESNET",
     "title": "Why use RESNETS?",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#why-use-resnets",
     "relUrl": "/docs/DL_Overview/Resnet.html#why-use-resnets"
-  },"170": {
+  },"169": {
     "doc": "RESNET",
     "title": "RESNET",
     "content": "{: .text-delta } . | Before you Begin | Forward Prop in a RESNET | Backward Prop in a RESNET | Why use RESNETS? | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html",
     "relUrl": "/docs/DL_Overview/Resnet.html"
-  },"171": {
+  },"170": {
     "doc": "SLAM",
     "title": "Simultaneous Localisation and Mapping",
     "content": "Understanding and Implementing SLAM for Robotics . ",
     "url": "http://localhost:4000/docs/SLAM#simultaneous-localisation-and-mapping",
     "relUrl": "/docs/SLAM#simultaneous-localisation-and-mapping"
-  },"172": {
+  },"171": {
     "doc": "SLAM",
     "title": "SLAM",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM",
     "relUrl": "/docs/SLAM"
-  },"173": {
+  },"172": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#before-you-begin",
     "relUrl": "/spatial_pyramid_matching/#before-you-begin"
-  },"174": {
+  },"173": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#pdfs",
     "relUrl": "/spatial_pyramid_matching/#pdfs"
-  },"175": {
+  },"174": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Spatial Pyramid Matching for Scene Classification",
     "content": ". | Before you Begin | PDFs | . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/",
     "relUrl": "/spatial_pyramid_matching/"
-  },"176": {
+  },"175": {
     "doc": "Camera Models",
     "title": "Introduction",
     "content": " ",
     "url": "http://localhost:4000/camera_model/#introduction",
     "relUrl": "/camera_model/#introduction"
-  },"177": {
+  },"176": {
     "doc": "Camera Models",
     "title": "Basics",
     "content": ". In the above image, the division by Z happens implicitly due to homogenous coordinate notation . ",
     "url": "http://localhost:4000/camera_model/#basics",
     "relUrl": "/camera_model/#basics"
-  },"178": {
+  },"177": {
     "doc": "Camera Models",
     "title": "Account for other issues in image frame",
     "content": "We will introduce 3 coordinate systems below: . | Camera Coordinate Frame | Image Coordinate Frame (where homogenous notation is used as there is no z-axis information) | World Coordinate Information | . Sometimes the camera coordinate frame and the image coordinate frame is misaligned as shown below: . ________________________________________________________________________________________________________________ . ",
     "url": "http://localhost:4000/camera_model/#account-for-other-issues-in-image-frame",
     "relUrl": "/camera_model/#account-for-other-issues-in-image-frame"
-  },"179": {
+  },"178": {
     "doc": "Camera Models",
     "title": "Intrinsic and Extrinsic Decomposition",
     "content": ". Lesson Learnt: . If we follow the how a 3D point gets left multiplied by extrinsic and then by intrinsic the coordinate frame intuition we derive is: . (3D Point -&gt; Extrinsic -&gt; Intrinsic) = (World Frame -&gt; Camera Frame -&gt; Image Frame) . t = Translation (last column of extrinsic matrix) R = Rotation (first 3x3 part of extrinsic matrix) . ",
     "url": "http://localhost:4000/camera_model/#intrinsic-and-extrinsic-decomposition",
     "relUrl": "/camera_model/#intrinsic-and-extrinsic-decomposition"
-  },"180": {
+  },"179": {
     "doc": "Camera Models",
     "title": "Final Version of Camera Model (I prefer this)",
     "content": ". ",
     "url": "http://localhost:4000/camera_model/#final-version-of-camera-model-i-prefer-this",
     "relUrl": "/camera_model/#final-version-of-camera-model-i-prefer-this"
-  },"181": {
+  },"180": {
     "doc": "Camera Models",
     "title": "Camera Models",
     "content": ". | Introduction . | Basics | Account for other issues in image frame | Intrinsic and Extrinsic Decomposition . | Lesson Learnt: | . | Final Version of Camera Model (I prefer this) | . | . ",
     "url": "http://localhost:4000/camera_model/",
     "relUrl": "/camera_model/"
-  },"182": {
+  },"181": {
     "doc": "Home",
     "title": "About Me",
-    "content": ". I’m super interested in Computer Vision. This website was originally meant for me to revise topics in vision. However, with SLAM, ML and DL, I’ve been learning a lot more on Robotics. Presently, I’m pursuing my Master’s in Robotics Systems Development at CMU. ",
+    "content": ". I’m Sushanth Jayanth, presently pursuing my Master’s in Robotics Systems Development (MRSD) at CMU. I’m super interested in Computer Vision. This website was originally meant for me to revise topics in vision. However, with SLAM, ML and DL, I’ve been learning a lot more on Robotics. Resume . ",
     "url": "http://localhost:4000/#about-me",
     "relUrl": "/#about-me"
+  },"182": {
+    "doc": "Home",
+    "title": "Current Work",
+    "content": "I’m currently doing part-time research at Kantor Lab at CMU’s Field Robotics Center, working on Robotics for Agriculture. I work on a robotic grapevine pruning project involving 3D skeletonization of grapevine pointclouds for pruning weight estimation. ",
+    "url": "http://localhost:4000/#current-work",
+    "relUrl": "/#current-work"
   },"183": {
     "doc": "Home",
-    "title": "Previously",
+    "title": "Previous Work",
     "content": ". I worked on see-and-spray systems on the perception team of TartanSense. . Edhitha was a student team which has continuously taken part at the AUVSI SUAS competition held at Maryland, USA. I was part of the 2016 team where we finished 5th amongst 60 international teams and was the team lead in 2017. ",
-    "url": "http://localhost:4000/#previously",
-    "relUrl": "/#previously"
+    "url": "http://localhost:4000/#previous-work",
+    "relUrl": "/#previous-work"
   },"184": {
     "doc": "Home",
     "title": "Home",
