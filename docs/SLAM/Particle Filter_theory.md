@@ -24,3 +24,16 @@ is shown below:
 ![](/images/SLAM/Particle_Filters/baye4.jpg)
 ![](/images/SLAM/Particle_Filters/baye5.jpg)
 ![](/images/SLAM/Particle_Filters/baye6.jpg)
+
+# High Level Overview
+
+We will be doing the following steps:
+
+1. Initialize particles randomly across the whole map
+2. resample at every step (selecting only the particles
+  whose predicted laserscan matches actual laserscan) (low variance sampler)
+3. Slowly decay the number of particles being randomly reinitialized
+4. Use the mean of the particles's estimated pose to get true pose
+
+[Detailed write-up](https://github.com/sushanthj/SLAM-and-Robot-Autonomy/blob/main/SLAM/Particle%20Filters/sushnatj_hw_1.pdf)
+{: .btn .fs-5 .mb-4 .mb-md-0}
