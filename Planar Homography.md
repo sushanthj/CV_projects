@@ -2,7 +2,7 @@
 layout: page
 title: Planar Homography
 permalink: /planar_homography/
-nav_order: 6
+nav_order: 3
 ---
 
 ![](/images/mp4ar_video_AdobeExpress.gif)

@@ -34,4 +34,7 @@ by my peers occasionally.
 
 # SLAM in 2D
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/8nJ2d9pLIJ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+I implemented a version of AMCL particle filters tuned with more particles and larger resampling
+radius to allow for accurate localization even in sparse maps.
+
+![](/images/MRSD_proj/for_webpage-1.gif)

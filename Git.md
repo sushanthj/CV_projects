@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: default
 title: Git Concepts
 permalink: git_concepts
@@ -12,7 +12,7 @@ nav_order: 14
   {: .text-delta }
 1. TOC
 {:toc}
-</details>
+</details> -->
 
 # Before you Begin
 {: .fs-9 }
