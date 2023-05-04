@@ -34,7 +34,7 @@ by my peers occasionally.
 
 # SLAM in 2D
 
-I implemented a version of AMCL particle filters tuned with more particles and larger resampling
+I used a version of AMCL particle filters tuned with more particles and larger resampling
 radius to allow for accurate localization even in sparse maps.
 
 ![](/images/MRSD_proj/for_webpage-1.gif)
