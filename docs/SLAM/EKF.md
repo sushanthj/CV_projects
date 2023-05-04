@@ -26,3 +26,12 @@ Here, marginalization is just a way of integrating probability density functions
 a certainty in pose estimates of past poses. This works fine if the pose estimates were good
 to begin with. This also cannot handle anything like loop closures.
 
+[Detailed write-up](https://github.com/sushanthj/SLAM-and-Robot-Autonomy/blob/main/SLAM/EKF/SLAM_Assignment_2.pdf)
+{: .btn .fs-5 .mb-4 .mb-md-0}
+
+# Introduction
+
+Here we'll use landmarks already known to us from the dataset (landmark poses) in 2D space.
+Hence our localization would also be in 2D
+
+Since we localize in 2D our robot state space would also need to be in 2D.

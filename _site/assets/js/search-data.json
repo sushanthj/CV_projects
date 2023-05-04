@@ -199,1078 +199,1090 @@
   },"33": {
     "doc": "EKF",
     "title": "Extended Kalman Filter",
-    "content": "We’ll be using EKF to solve Non-linear online SLAM. Note. Full SLAM = no marginalization (i.e. we optimize over all robot states). Online SLAM is what we do in EKF where we only care about the previous robot state and marginalize out all the old states. Here, marginalization is just a way of integrating probability density functions to get a certainty in pose estimates of past poses. This works fine if the pose estimates were good to begin with. This also cannot handle anything like loop closures. ",
+    "content": "We’ll be using EKF to solve Non-linear online SLAM. Note. Full SLAM = no marginalization (i.e. we optimize over all robot states). Online SLAM is what we do in EKF where we only care about the previous robot state and marginalize out all the old states. Here, marginalization is just a way of integrating probability density functions to get a certainty in pose estimates of past poses. This works fine if the pose estimates were good to begin with. This also cannot handle anything like loop closures. Detailed write-up . ",
     "url": "http://localhost:4000/docs/SLAM/EKF.html#extended-kalman-filter",
     "relUrl": "/docs/SLAM/EKF.html#extended-kalman-filter"
   },"34": {
     "doc": "EKF",
+    "title": "Introduction",
+    "content": "Here we’ll use landmarks already known to us from the dataset (landmark poses) in 2D space. Hence our localization would also be in 2D . Since we localize in 2D our robot state space would also need to be in 2D. ",
+    "url": "http://localhost:4000/docs/SLAM/EKF.html#introduction",
+    "relUrl": "/docs/SLAM/EKF.html#introduction"
+  },"35": {
+    "doc": "EKF",
     "title": "EKF",
-    "content": "{: .text-delta } . | Extended Kalman Filter | . ",
+    "content": "{: .text-delta } . | Extended Kalman Filter | Introduction | . ",
     "url": "http://localhost:4000/docs/SLAM/EKF.html",
     "relUrl": "/docs/SLAM/EKF.html"
-  },"35": {
+  },"36": {
     "doc": "Expectation and Covariance",
     "title": "Expectation",
     "content": "It is a basically a weighted average (which is for discrete variables) for a continuous distribution . | If a random variable can have discrete outcomes, the probability of each outcome is weighted and an average is taken | In the continuous distribution sense, this becomes an integral each event of a random variable (x) and it’s probability (p(x)) | . The above image shows some examples of how alpha(constant) and x(random varible) are computed However, there are a few basic properties to understand for all the Kalman Filters and Particle Filters we will study: . | E[alpha + x] = alpha + E[x] | E[x,y] (called Joint Expectation) | (called Conditional Expectation) | E[x + y] = E[x] + E[y] (derived below) | | . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#expectation",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#expectation"
-  },"36": {
+  },"37": {
     "doc": "Expectation and Covariance",
     "title": "Correlation and Uncorrelation",
     "content": "Uncorrelation and Joint Expectation . Above we mentioned Joint Expectation as E([x,y]. Now the only way we know x and y are uncorrelated here is if E[x,y] = = E[x]*E[y] (as x and y are clearly independent random variables) . However, the inverse is not valid (i.e. if we only know they are uncorrelated, we cannot state independece like above equation) . Example to show that uncorrelation does not mean independence . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#correlation-and-uncorrelation",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#correlation-and-uncorrelation"
-  },"37": {
+  },"38": {
     "doc": "Expectation and Covariance",
     "title": "Connecting Variance to Expectation (I think it’s important!)",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#connecting-variance-to-expectation-i-think-its-important",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#connecting-variance-to-expectation-i-think-its-important"
-  },"38": {
+  },"39": {
     "doc": "Expectation and Covariance",
     "title": "Covariances and Thinking Vectors",
     "content": "If we have a simple vector equation of the form: . Then for an equation of the form: y = Ax + b , we can find the covariance in terms of vector x as: . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#covariances-and-thinking-vectors",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#covariances-and-thinking-vectors"
-  },"39": {
+  },"40": {
     "doc": "Expectation and Covariance",
     "title": "Projecting Multivariate covariance",
     "content": "If z = f(x,y), then the covariance of z can be expressed as: . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#projecting-multivariate-covariance",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#projecting-multivariate-covariance"
-  },"40": {
+  },"41": {
     "doc": "Expectation and Covariance",
     "title": "Important Learning",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#important-learning",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#important-learning"
-  },"41": {
+  },"42": {
     "doc": "Expectation and Covariance",
     "title": "Properties of Covariance Matrix",
     "content": ". Properties of PSD . Note: In the second property below, he means if A is positive semi definite and B is positive definite only then the sum will be positive definite. (At least one of them should be PSD and other PD) . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#properties-of-covariance-matrix",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#properties-of-covariance-matrix"
-  },"42": {
+  },"43": {
     "doc": "Expectation and Covariance",
     "title": "Correltation Coefficient",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html#correltation-coefficient",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html#correltation-coefficient"
-  },"43": {
+  },"44": {
     "doc": "Expectation and Covariance",
     "title": "Expectation and Covariance",
     "content": "{: .text-delta } . | Expectation . | Correlation and Uncorrelation . | Uncorrelation and Joint Expectation | Example to show that uncorrelation does not mean independence | . | . | Connecting Variance to Expectation (I think it’s important!) | Covariances and Thinking Vectors . | Projecting Multivariate covariance | Important Learning | Properties of Covariance Matrix . | Properties of PSD | . | . | Correltation Coefficient | . Once we understand how probability density functions (PDFs) work, we can extend this to understand expectation . ",
     "url": "http://localhost:4000/docs/SLAM/Expectation_and_cov.html",
     "relUrl": "/docs/SLAM/Expectation_and_cov.html"
-  },"44": {
+  },"45": {
     "doc": "MLPs (IDL1)",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/IDL1.html#before-you-begin"
-  },"45": {
+  },"46": {
     "doc": "MLPs (IDL1)",
     "title": "Multi-Layer Perceptrons Basics",
     "content": "These are machines that can model any function in the world! For now, let’s start with simple functions like boolean gates and build our way up. The basic working is shown below: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#multi-layer-perceptrons-basics",
     "relUrl": "/docs/DL_Overview/IDL1.html#multi-layer-perceptrons-basics"
-  },"46": {
+  },"47": {
     "doc": "MLPs (IDL1)",
     "title": "Perceptron as a boolean gate",
     "content": ". | Each perceptron seen above is a an addition gate | The sum is computed, and the threshold value is given by the number inside the circle | Therefore, the number dictates what type of gate it functions as | . Recap types of gates: . Andrej Reference . | Add gate | Max gate | Multiply gate | . XOR Gate . These gates are activated only if the inputs are (1,0) or (0,1). These are bit tricky and need to be modelled with a network of perceptrons: . Therefore, it can be seen that combining MLPs in such a manner, one can say that MLPs are universal boolean functions . We can also claim that any boolean function can be modelled with just 1 hidden layer . Reason: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#perceptron-as-a-boolean-gate",
     "relUrl": "/docs/DL_Overview/IDL1.html#perceptron-as-a-boolean-gate"
-  },"47": {
+  },"48": {
     "doc": "MLPs (IDL1)",
     "title": "Why do we need depth?",
     "content": "Let’s take a slightly difficult case (say an XOR) . However, if we model the same with XORs depthwise, we get: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#why-do-we-need-depth",
     "relUrl": "/docs/DL_Overview/IDL1.html#why-do-we-need-depth"
-  },"48": {
+  },"49": {
     "doc": "MLPs (IDL1)",
     "title": "Perceptrons as Linear Classifiers",
     "content": "If we have 2 boolean inputs, we can have 4 combinations: . | (0,0) | (0,1) | (1,0) | (1,1) | . Now, using an OR gate, NOT Y gate, XOR gate we can model some basic classifiers: . Note. clearly the XOR needs to boundaries (we call these decision boundaries) Therefore, we say that the XOR cannot be modelled with just one perceptron . Complex Decision Boundaries . If we create multiple decision boundaries, we can do the following: . | Find output of each decision boundary (i.e. does my point lie to the left or right of decision boundary) | The above step happens in the hidden layer | Then we can cumulate these decision boundary inputs | From below fig. notice that only if sum == 5, the final neuron fires | . This way, we can model complex geometries, even complex ones like: . Another case for depth . Now, consider the above double pentagon figure. What if we were to do it using just one layer? . We would have to approximate it using cylindrical regions (basically polygons with large number of sides, say 1000 sides) . We can then use this cylinder decision boundary (multiples of them) to sort of make up our double pentagon as shown below: . But as seen above, the major drawback is that the first layer will have an infinite number of neurons! . Now, comparing our depthwise vs spanwise solutions: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#perceptrons-as-linear-classifiers",
     "relUrl": "/docs/DL_Overview/IDL1.html#perceptrons-as-linear-classifiers"
-  },"49": {
+  },"50": {
     "doc": "MLPs (IDL1)",
     "title": "Sufficiency of Architecture",
     "content": ". | A network arch is sufficient (i.e. sufficiently braod and sufficiently deep) it can represent any function. | Conversely if a network is not sufficient, it can miss out on information, and this lack of information can be propagated deeper causing major loss of information . In the above image, if the red lines our the first layer, the information passed to the second layer is that we are in those tiny diamond regions. However, we have no idea where we are in those diamonds. (This is loss of info to the next layer!) . To mitigate this loss, instead of doing hard thresholding, we can use softer decision boundaries as shown below: . | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#sufficiency-of-architecture",
     "relUrl": "/docs/DL_Overview/IDL1.html#sufficiency-of-architecture"
-  },"50": {
+  },"51": {
     "doc": "MLPs (IDL1)",
     "title": "Further on MLPs",
     "content": "Include bias as an input for simplifying downstream computations . | Bias as a separate term | Bias included in input | . | | | . This also helps in simplifying the (z = Wx + b) equation from being affine to a linear form of (z = Wx) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#further-on-mlps",
     "relUrl": "/docs/DL_Overview/IDL1.html#further-on-mlps"
-  },"51": {
+  },"52": {
     "doc": "MLPs (IDL1)",
     "title": "Proceeding from simple boolean functions",
     "content": ". | We cannot handcraft our network like how we did for the double pentagon | Therefore, we need a learnable method | Also, most real functions are very complex and don’t have nice visualizations like the double pentagon | Therefore, we also need a way of learning such complex functions with only few samples and not relying on continuous data | We do this by a sampling approach, where we calculate the error for every sample in our training data | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#proceeding-from-simple-boolean-functions",
     "relUrl": "/docs/DL_Overview/IDL1.html#proceeding-from-simple-boolean-functions"
-  },"52": {
+  },"53": {
     "doc": "MLPs (IDL1)",
     "title": "The Perceptron algorithm",
     "content": ". ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#the-perceptron-algorithm",
     "relUrl": "/docs/DL_Overview/IDL1.html#the-perceptron-algorithm"
-  },"53": {
+  },"54": {
     "doc": "MLPs (IDL1)",
     "title": "Why is the perceptron algorithm not good?",
     "content": "The primary issue is that the simple perceptron is flat and non-differentiable. Data is never fully clean . We mostly never have nicely linearly separable data . The solution: Differentiable activations . Now, making this activation differentiable has two benefits: . | Let’s us know if our changes is having a positive or negative effect on prediction | It allows us to do backprop! | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#why-is-the-perceptron-algorithm-not-good",
     "relUrl": "/docs/DL_Overview/IDL1.html#why-is-the-perceptron-algorithm-not-good"
-  },"54": {
+  },"55": {
     "doc": "MLPs (IDL1)",
     "title": "Thinking about Derivatives",
     "content": ". | Instead of thinking of derivatives as dy/dx where if we have y and x as vectors, dividing them would not make much sense, instead we define it as y' = alpha*x', where alpha is now a vector and alpha*x’ can be though of as a dot product. Therefore, this alpha will now define the vector which when dot product with x gives the direction of the fastest increase in y. | Adavantage of doing it as y' = alpha*x' now is that for a multivariate form like above, we can write the alpha vector as a partial derivate of y with x. | Now, we can clearly see how the gradient gives the direction of fastest increase in in the function. Therefore, if we want to minimize, we go in the direction exactly opposite to the gradient. | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html#thinking-about-derivatives",
     "relUrl": "/docs/DL_Overview/IDL1.html#thinking-about-derivatives"
-  },"55": {
+  },"56": {
     "doc": "MLPs (IDL1)",
     "title": "MLPs (IDL1)",
     "content": "{: .text-delta } . | Before you Begin | Multi-Layer Perceptrons Basics . | Perceptron as a boolean gate . | Recap types of gates: | XOR Gate | . | Why do we need depth? | Perceptrons as Linear Classifiers . | Complex Decision Boundaries | Another case for depth | . | Sufficiency of Architecture | . | Further on MLPs . | Include bias as an input for simplifying downstream computations | Proceeding from simple boolean functions | The Perceptron algorithm | Why is the perceptron algorithm not good? . | The primary issue is that the simple perceptron is flat and non-differentiable. | Data is never fully clean | The solution: Differentiable activations | . | . | Thinking about Derivatives | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL1.html",
     "relUrl": "/docs/DL_Overview/IDL1.html"
-  },"56": {
+  },"57": {
     "doc": "Classifiers (IDL2)",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/IDL2.html#before-you-begin"
-  },"57": {
+  },"58": {
     "doc": "Classifiers (IDL2)",
     "title": "Binary Classifiers and Cross Entropy Loss",
     "content": "This is usually used for classification. For a binary case, it is given by the following formula: . Notice that the equation uses the term divergence here. This is actually the background term for ‘loss’ in our situation. Divergence tells us how off we are from the correct solution. Note. divergence is not direction dependent, it just tells how far away we are from the desirable output. More formally, loss = average divergence of our output w.r.t the ground truth . Therefore, in a binary setting, if we use softmax as our activation function -&gt; we get the class probablity score as the output. In the binary case we get (y, 1-y) as our output. | let y = output of softmax for each class (we have 2 classes) | let d = ground truth | Now, plugging in (y, 1-y) into the Cross Entropy loss formula above | We see that when y = 0 and when y = 1, since log(0) = -infinity and log(1) = 0 | Therefore, if d=0 and y=1, we get infinity, if d=1 and y=0 we also get infinity | . Now it’s also interesting to observe the derivative of cross entropy loss function. The derivative is shown below: . Now, notice the following cases: . | Case 1: When d=1 and y=1, plugging into the above formula, we get derivative(CE_loss) = -1 | Case 2: When d=0 and y=0, plugging into above forumula we get derivative(CE_loss) = 1 | Note, if you assumed that if output(y) = desired(d) would have zero gradient, you’re wrong! | The above two cases are plotted below | | Case 1 | Case 1 and Case 2 | . | | | . | . However, instead of cross entropy loss, if we were to use a simple L2 error (sum of sqaured diffs (quadratic function)) we would get a bowl shaped instead like: . An extract from the Xavier Intitialization paper shows this more accurately . From the above picture, one can see that the cross entropy loss surface (black) is much steeper than the quadratic surface (red) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#binary-classifiers-and-cross-entropy-loss",
     "relUrl": "/docs/DL_Overview/IDL2.html#binary-classifiers-and-cross-entropy-loss"
-  },"58": {
+  },"59": {
     "doc": "Classifiers (IDL2)",
     "title": "Why is Cross Entropy better than L2?",
     "content": "Ans. The L2 is a quadratic loss function, which is smooth bowl. Now from the above picture, you can see that doing gradient descent on L2 would take so much longer than using it on the steeper curve of the cross entropy loss! . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#why-is-cross-entropy-better-than-l2",
     "relUrl": "/docs/DL_Overview/IDL2.html#why-is-cross-entropy-better-than-l2"
-  },"59": {
+  },"60": {
     "doc": "Classifiers (IDL2)",
     "title": "Multi-Class Cross Entropy",
     "content": ". Here we only have y_i (i.e. one class which we’re looking for in our loss function) Therefore, the derivative will look different as seen above . The problem with the above definition of CE (cross entropy) is that derivative of loss for all other classes is zero. Which isn’t desirable for fast convergence. Therefore, we slightly modify the labels ‘d’ as shown below: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#multi-class-cross-entropy",
     "relUrl": "/docs/DL_Overview/IDL2.html#multi-class-cross-entropy"
-  },"60": {
+  },"61": {
     "doc": "Classifiers (IDL2)",
     "title": "Label Smoothening",
     "content": "Here we change our target label to (1-(K-1)*e) instead of just being 1 . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#label-smoothening",
     "relUrl": "/docs/DL_Overview/IDL2.html#label-smoothening"
-  },"61": {
+  },"62": {
     "doc": "Classifiers (IDL2)",
     "title": "Simple 2 layer network (beautiful diagram!)",
     "content": ". ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#simple-2-layer-network-beautiful-diagram",
     "relUrl": "/docs/DL_Overview/IDL2.html#simple-2-layer-network-beautiful-diagram"
-  },"62": {
+  },"63": {
     "doc": "Classifiers (IDL2)",
     "title": "Backprop",
     "content": ". | Derivative w.r.t to the loss was already computer in previous section. | Now, derivative w.r.t the activation function is shown below . Example: Sigmoid Derivative . Example: Tanh Derivative . Example: Logistic Derivative . Note. tanh is a scaled and shifted version of sigmoid. This is shown below by just rearranging some terms: . | Computing derivate w.r.t one weight (one weight connects one neuron in layer N-1 to another neuron in layer 2) . | Computing the derivative w.r.t y (y = output of activation function) Here, one neuron will have effect on all the neurons in the next layer. This is why we need to sum the derivates of z (z = wx + b of next layer) w.r.t y(from previous layer) (This is explained better in the Scalar vs Vector activations) . | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#backprop",
     "relUrl": "/docs/DL_Overview/IDL2.html#backprop"
-  },"63": {
+  },"64": {
     "doc": "Classifiers (IDL2)",
     "title": "Special Cases",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#special-cases",
     "relUrl": "/docs/DL_Overview/IDL2.html#special-cases"
-  },"64": {
+  },"65": {
     "doc": "Classifiers (IDL2)",
     "title": "Scalar vs Vector activations",
     "content": "We assumed activation to be neuron specific. However, this may not be the case! . Also, the backprop gets bit murky as well . | Scalar Activation | Vector Activation | . | | | . Note. The important aspect to remember is that for a vector activation, the derivative of divergence w.r.t any input (input to activation func) is a sum of partial derivative on every neuron of activation function as seen in picture above . Example of a vector activation: softmax activation . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#scalar-vs-vector-activations",
     "relUrl": "/docs/DL_Overview/IDL2.html#scalar-vs-vector-activations"
-  },"65": {
+  },"66": {
     "doc": "Classifiers (IDL2)",
     "title": "Sub-gradients",
     "content": "For RELU’s, the origin is not smooth and the gradient cannot be computed. Instead we use a sub-gradient which is shown as multiple lines in the figure below. However, we just use the sub-gradient line which is parallel to the x-axis and define the gradient as = 1 at origin . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#sub-gradients",
     "relUrl": "/docs/DL_Overview/IDL2.html#sub-gradients"
-  },"66": {
+  },"67": {
     "doc": "Classifiers (IDL2)",
     "title": "Training Process",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#training-process",
     "relUrl": "/docs/DL_Overview/IDL2.html#training-process"
-  },"67": {
+  },"68": {
     "doc": "Classifiers (IDL2)",
     "title": "Vector Formulation",
     "content": "Forward Pass . In the below picture, the first row of weights vector represents all of the weights going to the first neuron. Backward Pass . Now, if z = output of affine function (wx + b) and f(z) = output of activation Having vectorized activations will cause the below backprop through y = f(z) . The Jacobian will therefore be the multivariant form of gradient, giving us the direction in which incresing delta(z) will cause the max increase in delta(y) . Rule of thumb: the derivative of [y(scalar) = f(z(matrix))] = matrix.T shape Extension: the derivative of scalar(row_vector) = column vector . Special Cases . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#vector-formulation",
     "relUrl": "/docs/DL_Overview/IDL2.html#vector-formulation"
-  },"68": {
+  },"69": {
     "doc": "Classifiers (IDL2)",
     "title": "Backward pass summary",
     "content": ". | For the first gradient, we calculate the fastest increase in Y which gets the fastest increase in loss, where loss is given as . The derivative therefore becomes . Where Y = column vector, therefore derivative of Y w.r.t Divergence(loss) = delta(Y)*Div shown in picture above. This grad(y) is a row vector! . | Now we compute derivative through affine variable z = wx+b, then we do . | Now, derivative w.r.t previous Y (Y(n-1)) will be . | Remember, as we go back we just post multiply by: . | A jacobian if it’s an activation layer (vector activation) | A weight matrix for an affine layer (scalar activation) | . | Now, two more things tbd are derivatives on weights and biases! | Since bias should be the same size as our vector activation (z) therefore the defivative w.r.t the bias is . | Similarly, the derivative of the weights is given by which will have the same shape as the weight matrix . | Remember, all the shapes of the derivatives should match the shapes of the weights or the bias itself . | | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#backward-pass-summary",
     "relUrl": "/docs/DL_Overview/IDL2.html#backward-pass-summary"
-  },"69": {
+  },"70": {
     "doc": "Classifiers (IDL2)",
     "title": "Loss Surface",
     "content": ". | The common hypothesis is that in large networks there are lot more saddle points than global minima. | A saddle point is defined as one where moving in one direction increases loss and moving in other direction decreases. I.e. depending on which direciton you’re looking at you can be at a minima or maxima. Also the slope at saddle points is zero (therefore, you’ll get stuck with gradient descent) | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#loss-surface",
     "relUrl": "/docs/DL_Overview/IDL2.html#loss-surface"
-  },"70": {
+  },"71": {
     "doc": "Classifiers (IDL2)",
     "title": "Issues with Convergence",
     "content": ". ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#issues-with-convergence",
     "relUrl": "/docs/DL_Overview/IDL2.html#issues-with-convergence"
-  },"71": {
+  },"72": {
     "doc": "Classifiers (IDL2)",
     "title": "Convergence for a Convex Problem",
     "content": "Consider a simple quadratic case . Note. Optimizing w.r.t the second order is called Newton’s method . Multivariate Convex . Now, the A matrix will introduce different slopes in different axes since it’s multivariate. To mitigate this we do . Now, you see that the A matrix has been removed (think of it as having become identity) . Then as we saw in our derivation above, the optimal step size will then become inverse(A) = inverse(I) = 1. Therefore, the optimal step size is now the same in all dimensions . The math for the above steps . Points to note . | In the simple scalar quadratic space the optimal step size was one value | In the multivariate space, we need to scale and then find the optimal step | However, after scaling we can still achieve single step move to global minima even in multivariate space, we just need to find the inverse of a matrix | . General Case of Convex Functions (function has higher order, i.e. not a quadratic) . | Even in such cases we can find Taylor expansions and just truncate upto second order | In such cases it’ll just be an approximation, but let’s live with that | | Here we see that the second derivative is replaced by a Hessian | Therefore in this case, the optimum step size would be the inverse(Hessian) | The normalized and optimal update step in gradient descent form is shown below | . Issues with the above process . Solutions . . In the momentum method, the first term in RHS is the scaled term of previous weight update being addes to the current update step. | Big red vector = previous update step | Blue vector = 2nd term of RHS above | Small red vector = scaled version of big red vector | black vector = final update (LHS term) | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#convergence-for-a-convex-problem",
     "relUrl": "/docs/DL_Overview/IDL2.html#convergence-for-a-convex-problem"
-  },"72": {
+  },"73": {
     "doc": "Classifiers (IDL2)",
     "title": "SGD vs Batch GD",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#sgd-vs-batch-gd",
     "relUrl": "/docs/DL_Overview/IDL2.html#sgd-vs-batch-gd"
-  },"73": {
+  },"74": {
     "doc": "Classifiers (IDL2)",
     "title": "SGD",
     "content": "In SGD we update after every training instance. The caveat for convergence is that the increments should be small and not too large. The increments should also shrink so that we don’t keep shifting around the decision boundary too much due to to just one training instance. If we define epsilon to be the margin by which we need to be within to have ‘converged’, then using the above optimal learning rate of (1/k) where k = no. of layers, we see that after one iteration we should be within (1/k)*desired_range. Therefore if we only need to be epsilon*desired range, we can reach it in O(1/epsilon) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#sgd",
     "relUrl": "/docs/DL_Overview/IDL2.html#sgd"
-  },"74": {
+  },"75": {
     "doc": "Classifiers (IDL2)",
     "title": "Batch GD",
     "content": ". ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#batch-gd",
     "relUrl": "/docs/DL_Overview/IDL2.html#batch-gd"
-  },"75": {
+  },"76": {
     "doc": "Classifiers (IDL2)",
     "title": "Problems with SGG",
     "content": ". | If our job was to minimize the shaded area in the below picture (shaded area = divergence) then, we would want to push the red line up or down (blue = ground truth) | If we look at the curve at it’s current location, we would want to move the red curve down drastically. | In the below picture, we would want to push up our red curve drastically | Therefore, the problem becomes that the estimated loss and subsequent update has too high a variance! | However, despite all this SGD is fast since it works only on 1 sample at a time | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#problems-with-sgg",
     "relUrl": "/docs/DL_Overview/IDL2.html#problems-with-sgg"
-  },"76": {
+  },"77": {
     "doc": "Classifiers (IDL2)",
     "title": "Middle Ground Solution: Mini Batches",
     "content": "Here we compute the average loss over a mini-batch and use this averaged loss for update . But how does the variance of mini-batch compare to that of full-batch gradient descent? . | Variance of mini-batch GD where b = batch size is: . | Variace of full-batch GD will be (1/N) instead of (1/b) . | Now, if we have 1000 training samples, it can be seen that 1/100 is small enough that it won’t make that much of a difference if it’s 1/100 or 1/1000. This is why mini-batching works, i.e. even with 100 samples we capture almost the same variance as we would if we took all training samples into consideration . | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html#middle-ground-solution-mini-batches",
     "relUrl": "/docs/DL_Overview/IDL2.html#middle-ground-solution-mini-batches"
-  },"77": {
+  },"78": {
     "doc": "Classifiers (IDL2)",
     "title": "Classifiers (IDL2)",
     "content": "{: .text-delta } . | Before you Begin | Binary Classifiers and Cross Entropy Loss . | Why is Cross Entropy better than L2? | . | Multi-Class Cross Entropy . | Label Smoothening | . | Simple 2 layer network (beautiful diagram!) . | Backprop | . | Special Cases . | Scalar vs Vector activations . | Example of a vector activation: softmax activation | . | Sub-gradients | . | Training Process . | Vector Formulation . | Forward Pass | Backward Pass . | Special Cases | . | . | Backward pass summary | Loss Surface | . | Issues with Convergence . | Convergence for a Convex Problem . | Multivariate Convex . | The math for the above steps | . | General Case of Convex Functions (function has higher order, i.e. not a quadratic) . | Issues with the above process | Solutions | . | . | . | SGD vs Batch GD . | SGD | Batch GD | Problems with SGG | Middle Ground Solution: Mini Batches | . | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL2.html",
     "relUrl": "/docs/DL_Overview/IDL2.html"
-  },"78": {
+  },"79": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/IDL3.html#before-you-begin"
-  },"79": {
+  },"80": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Improving over momentum update",
     "content": "Previously we saw how the derivatives change in subsequent steps (as we did in simple momentum) and take a step considering the weighted average of the current and prior step (actual implementation was a running average) . Now, we’ll consider the way in which these derivatives change (this is called second moment) which takes care of the variance in graident shifts. The second moment can be implemented as shown below. As seen in our prior image, since we had high variation along y and low variation along x, we will do: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#improving-over-momentum-update",
     "relUrl": "/docs/DL_Overview/IDL3.html#improving-over-momentum-update"
-  },"80": {
+  },"81": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Commonly Used methods which use Second Moment",
     "content": "RMS Prop . Here, let’s do a running average like simple momentum, but do it on the second derivative of the gradient. The gamma value is just a weighting factor between prior step’s gradient (k-1) and (1-gamma) is the weight applied to the current step’s gradient: . Now, the way we will include this is our update will be to normalize the learning rate using this second second moement: . Just for comparison, this is how the update step for simple momentum only scaled the preious step’s weight magnitude and did not touch learning rate. ADAM (RMSprop with momentum) . The reason first and second moments are scaled by the weighting factor is to ensure that in the beginning of training, we don’t let sigma and gamma terms to dominate (it’ll slow us down) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#commonly-used-methods-which-use-second-moment",
     "relUrl": "/docs/DL_Overview/IDL3.html#commonly-used-methods-which-use-second-moment"
-  },"81": {
+  },"82": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Batch Normalization",
     "content": "Problem with covarite shifts . Solution to covariate shifts . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#batch-normalization",
     "relUrl": "/docs/DL_Overview/IDL3.html#batch-normalization"
-  },"82": {
+  },"83": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Batch Norm Theory",
     "content": ". | We do this covariate shifts typically at the at location of the affine sum (Wx + b) | | | The above step (first yellow box) will cause all training instances to have mean = 0 and variance = 1 | Now, we move the entire data to a separate appropriate location (second yellow box) as defined by gamma and beta. | How do we get this gamma and beta? Ans. | . Q. Why is batch_norm applied before the activation function? Ans. It’s debatable. But if it’s used after activation some activations may get reveresed maybe? . Note. Understand vocab: Difference between Normalization and Standardization . Now, its nice to see data having low variance. However, the real issue arises when we try to do backprop. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#batch-norm-theory",
     "relUrl": "/docs/DL_Overview/IDL3.html#batch-norm-theory"
-  },"83": {
+  },"84": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Backprop through Batch Norm",
     "content": "Conventional backprop happens by taking a derivative of the divergence function as shown below: . However, after batch norm, it gets tricky since our divergence will now depend on not only the mini-batch (training samples of mini-batch), but will now also depend on the mean and variance of the entire mini-batch (since our mini-batch was scaled and shifted according to the mean and variance) . Derivation . The derivation is shown below: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#backprop-through-batch-norm",
     "relUrl": "/docs/DL_Overview/IDL3.html#backprop-through-batch-norm"
-  },"84": {
+  },"85": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Batch Norm in Test Time",
     "content": "Here also we need some estimate of variance as to where this test image belongs to. We do so by using a running average over the training batches. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#batch-norm-in-test-time",
     "relUrl": "/docs/DL_Overview/IDL3.html#batch-norm-in-test-time"
-  },"85": {
+  },"86": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Overfitting",
     "content": ". We essentially need a way to smoothen the above curve such that it fills in the gap nicely. There are several ways of doing this, but the most common ones are: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#overfitting",
     "relUrl": "/docs/DL_Overview/IDL3.html#overfitting"
-  },"86": {
+  },"87": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Smoothness through weight manipulation",
     "content": "Think of the sigmoid function . Now, if the value of our input (x) increases a lot, the curve changes from a nice smooth curve to something a lot more steep: . (here w = our input (x)) . Therefore simply constraining the weight to be low will ensure the perceptron output is smooth. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#smoothness-through-weight-manipulation",
     "relUrl": "/docs/DL_Overview/IDL3.html#smoothness-through-weight-manipulation"
-  },"87": {
+  },"88": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Smoothness through weight constraints (Regularization)",
     "content": "This is basically regularization (where we ensure model is penalized for large weights) . Now, this is also easy to backprop as shown below: . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#smoothness-through-weight-constraints-regularization",
     "relUrl": "/docs/DL_Overview/IDL3.html#smoothness-through-weight-constraints-regularization"
-  },"88": {
+  },"89": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Smoothness through network structure",
     "content": ". | As we saw in the MLP section on why depth matters, each layer of an MLP imposes constraints, i.e. each layer creates some decision boundary. | See why we need depth . | In the picture below, after the first layer, we know that our input is in either a pentagon region of a triangle region (but we don’t know where inside it!) . | . | Therefore, deeper models have a natural tendency to restricting shapes they can model and this gives the natural smoothness required. | . Example for further clarity . In the above example, the earlier layers have really bad fit shapes. As we go deeper the smoothness naturally increased. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#smoothness-through-network-structure",
     "relUrl": "/docs/DL_Overview/IDL3.html#smoothness-through-network-structure"
-  },"89": {
+  },"90": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Dropout",
     "content": ". | During Train time, each neuron is active such that: (number_of_instances_neuron_is_active/total_number_of_instances) = alpha . i.e. if the chance of a neuron being active is say 0.7 (then alpha = 0.7) . | . | By following above steps, The effective network is different for different sets of inputs. Additionally, the graidents are also updated differently . | Like any Bernoulli Distribution, each event has 2 outcomes. Therefore a statistical interpretation would yield the below picture: . | . | I think it also serves as a form of augmentation, where instead of blacking out certain parts of the image, we make the object recognizable only at certain receptive fields . | Dropout also has the tendency of removing redundancies in learning. i.e. the network learns a cat even if it doesn’t have a tail, or if it doens’t have pointy ears . | . Implementing Dropout during Training . The dropout is added onto the activation layer as an additional (like an if condition) constraint. It is shown below . Now, we will use this alpha value in our test time everywhere . Implementing Dropout during Inference . | We could add alpha (the bernoulli factor) to the activation of every neuron (just like train time) | Or we could mulltiply every weight with alpha (we will effectively be blocking out connections instead of neurons) | Instead of applying alpha as chance of a neuron being active during train time, use inverse of alpha. Then during test time, we just don’t use alpha at all!! | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#dropout",
     "relUrl": "/docs/DL_Overview/IDL3.html#dropout"
-  },"90": {
+  },"91": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Augmentation",
     "content": ". | Mosaicing | Flipping | Rotating | Blurring | Warp (Distort the image) | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#augmentation",
     "relUrl": "/docs/DL_Overview/IDL3.html#augmentation"
-  },"91": {
+  },"92": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Other Tricks",
     "content": ". | Normalize the input (covariate shifts in next section) | Xavier Initialization | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html#other-tricks",
     "relUrl": "/docs/DL_Overview/IDL3.html#other-tricks"
-  },"92": {
+  },"93": {
     "doc": "Optimizers and Regularizers (IDL3)",
     "title": "Optimizers and Regularizers (IDL3)",
     "content": "{: .text-delta } . | Before you Begin | Improving over momentum update . | Commonly Used methods which use Second Moment . | RMS Prop | ADAM (RMSprop with momentum) | . | . | Batch Normalization . | Problem with covarite shifts | Solution to covariate shifts | Batch Norm Theory | Backprop through Batch Norm . | Derivation | . | Batch Norm in Test Time | . | Overfitting . | Smoothness through weight manipulation | Smoothness through weight constraints (Regularization) | Smoothness through network structure . | Example for further clarity | . | Dropout . | Implementing Dropout during Training | Implementing Dropout during Inference | . | . | Augmentation | Other Tricks | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL3.html",
     "relUrl": "/docs/DL_Overview/IDL3.html"
-  },"93": {
+  },"94": {
     "doc": "Intro to CNNs",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/IDL4.html#before-you-begin"
-  },"94": {
+  },"95": {
     "doc": "Intro to CNNs",
     "title": "Simple method of achieving shift invariance",
     "content": "Assume we have a simple MLP which was trained to identify a flower. Now, if we run the MLP blindly on the image, we will NOT have shift invariance. A simple solution would be to scan the image at different positions and take the region which gave the max output of an activation (say largest softmax class score). ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#simple-method-of-achieving-shift-invariance",
     "relUrl": "/docs/DL_Overview/IDL4.html#simple-method-of-achieving-shift-invariance"
-  },"95": {
+  },"96": {
     "doc": "Intro to CNNs",
     "title": "Important Backprop Theory",
     "content": ". | Now, to train this, the initial 3 layers are seen to have the same weights (shared weights) | Therefore treat it like a vector function where each and every window affects the final classification head. Now, if we want to backprop through such a function which depends on each and every window, we need to sum over the activations. | Similaraly, the update step will also be such that the updated weights effect each and every one of the input weights equally as shown below: | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#important-backprop-theory",
     "relUrl": "/docs/DL_Overview/IDL4.html#important-backprop-theory"
-  },"96": {
+  },"97": {
     "doc": "Intro to CNNs",
     "title": "Summary",
     "content": ". Q. In which layer would you expect to see something that looks like a flower? \\ . Ans. Deeper Layers . Q. Why do we need to distribute the scanning and not have one level of neurons scan the entire window at the same time? . Ans. It reduces the number of learnable parameters . However, to get a better understanding I strongly suggest going through the slides and video links attached below to get a better understanding. | In the references below, understand what the K,N,D,L terms represent | If we consider a frequency spectrum of a voice recording, then considering some timestep we get an input vector of size ‘LxD’ where L = length of recording used and D = height here . | Now, let’s consider a case like this, where input vector of size L (here size 8) are feeding into layer1 which has N1 neurons (4 neurons in below picture) | We’ll use this in a more generic scanning case as shwon below . | From the above picture we calculate that each input vector has 8 timesteps (L) | Each vector has a dimensionality D (think height of the frequency plot image) | Therefore, number of weights connecting the input layer of size LD with 1st layer of size N1 leads to the first term LDN1 | The next term is simply dependent on number of neurons in layer1 and layer2 = N1*N2 | . | . Now that we’ve seen the number of parameters in non-distributed scanning, let’s compare it to an example of non-distributed scanning as shown below: . Clearly, the distributed scanning has more shared computations which gives it fewer parameters. We also have many identical weights as shown below: . | In the above image, only the ones circled in greeen have unique parameters (weights) and the remaining are shared (thereby saving computation) | We also have a notion where saved computation has more gains over having more weights | . Now, if we think of the same logic in Image terms, it’s just changing the dimensions of the vectors (say K changes to a 2D patch which gets flattened to K^2) . Distributed vs Undistributed scanning for images . Note. Sometimes there’s a (K + 1) term. That’s just for the bias I’m assuming. Finally, by doing distributed scanning we see the quantifiable effect as shown below: . Main Intuition . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#summary",
     "relUrl": "/docs/DL_Overview/IDL4.html#summary"
-  },"97": {
+  },"98": {
     "doc": "Intro to CNNs",
     "title": "Nice take on Max Pooling (Why is it needed?)",
     "content": "When we scan the image, if we find that one pixel which should belong to a petal has been shifted, we somehow have to account for it. A nice solution is to not be too local focused as to where the activation occured, but to just take the max of a small window. By taking the max of the small window say 4x4, we’re effectively not caring as to where the activation in that window occured, as long as it is within 4x4 . Nice consequence of above logic . | A little jitter in images can be expected due to irregularity of objects in the real world. | However, in the speech world, jitter would mess up any phonetics that convey meaning | As a result, in Speech recog there isn’t much max-pooling | . Note. The max pool occurs for each channel (unlike the conv filters which across all channels of the image). Therefore, the output of a maxpool will retain the number of channels. ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#nice-take-on-max-pooling-why-is-it-needed",
     "relUrl": "/docs/DL_Overview/IDL4.html#nice-take-on-max-pooling-why-is-it-needed"
-  },"98": {
+  },"99": {
     "doc": "Intro to CNNs",
     "title": "Convolutional NNs",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#convolutional-nns",
     "relUrl": "/docs/DL_Overview/IDL4.html#convolutional-nns"
-  },"99": {
+  },"100": {
     "doc": "Intro to CNNs",
     "title": "Number of Parameters in a Conv Layer",
     "content": ". ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#number-of-parameters-in-a-conv-layer",
     "relUrl": "/docs/DL_Overview/IDL4.html#number-of-parameters-in-a-conv-layer"
-  },"100": {
+  },"101": {
     "doc": "Intro to CNNs",
     "title": "Types of Filters",
     "content": ". | Typically the first layer people have used large filter sizes of 5x5 (emperically proven to provide better results in feature extraction) | Most lower levels have smaller filters of 3x3 | Now, there also exists a 3x3 filter. What is that? It’s just a single perceptron | . More on 1x1 Convolution . | Here too we find element-wise products | Then as usual we apply a ReLU | . You can think of it as a single neuron layer which takes a vector input of 32 and has 32 weights which gets multiplied by the input. These then go through an activation like ReLU as well. It’s a fully connected network (single layer perceptron) which takes 32 vector input and outputs 1 number. (Add DEVA’s content here too !!!) . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#types-of-filters",
     "relUrl": "/docs/DL_Overview/IDL4.html#types-of-filters"
-  },"101": {
+  },"102": {
     "doc": "Intro to CNNs",
     "title": "Importatnt to Remember",
     "content": ". | Number of Parameters in Conv Layer | While it may good to lose information during max-pooling, since it’s primarily to account for jitter and noise and it’s okay to loose that information. However, we also saw in the MLP decision boundaries case, that deeper layers with complete information from previous layer, can learn complex shapes. (Just imagine the MLP if it lost some information from the input layer how our final learnt shape would be?) | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html#importatnt-to-remember",
     "relUrl": "/docs/DL_Overview/IDL4.html#importatnt-to-remember"
-  },"102": {
+  },"103": {
     "doc": "Intro to CNNs",
     "title": "Intro to CNNs",
     "content": "{: .text-delta } . | Before you Begin | Simple method of achieving shift invariance . | Important Backprop Theory | Summary . | Q. In which layer would you expect to see something that looks like a flower? \\ | Q. Why do we need to distribute the scanning and not have one level of neurons scan the entire window at the same time? . | Distributed vs Undistributed scanning for images | Main Intuition | . | . | Nice take on Max Pooling (Why is it needed?) . | Nice consequence of above logic | . | . | Convolutional NNs . | Number of Parameters in a Conv Layer | Types of Filters . | More on 1x1 Convolution | . | . | Importatnt to Remember | . ",
     "url": "http://localhost:4000/docs/DL_Overview/IDL4.html",
     "relUrl": "/docs/DL_Overview/IDL4.html"
-  },"103": {
+  },"104": {
     "doc": "Intro to ML",
     "title": "Introduction to ML",
     "content": "Credits: 16-601 CMU . ",
     "url": "http://localhost:4000/docs/Intro%20to%20ML#introduction-to-ml",
     "relUrl": "/docs/Intro to ML#introduction-to-ml"
-  },"104": {
+  },"105": {
     "doc": "Intro to ML",
     "title": "Intro to ML",
     "content": " ",
     "url": "http://localhost:4000/docs/Intro%20to%20ML",
     "relUrl": "/docs/Intro to ML"
-  },"105": {
+  },"106": {
     "doc": "Building this Page",
     "title": "Computer Vision References",
     "content": "Main Vision Reference . Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/intro/#computer-vision-references",
     "relUrl": "/intro/#computer-vision-references"
-  },"106": {
+  },"107": {
     "doc": "Building this Page",
     "title": "Bulding the Webpage",
     "content": "For Jekyll reference see just_the_docs . The following pages are built in order to understand Computer Vision and Machine Learning . To deploy on heroku follow the steps in the link below (and use the gem files, rake files and proc files in this repo for reference) . The following files will need to be copied from this repo: . | config.ru | Rakefile | Procfile | static.json | config.yaml (modify this file as per requirement) | Gemfile | . And only if necessary: . | Gemfile.lock | remove _sites from .gitignore | . Run bundle once to intialize Run bundle exec jekyll serve Go to the specified webpage by the above command . After copying these files (or their necessary contents), install heroku cli and do heroku login: . curl https://cli-assets.heroku.com/install.sh | sh heroku login . Then directly start with heroku create as per the below link and the other steps necessary (git push heroku master) . Deploy jekyll on heroku . Finally, go to heroku page -&gt; settings -&gt; change the name of the app and find the url . ",
     "url": "http://localhost:4000/intro/#bulding-the-webpage",
     "relUrl": "/intro/#bulding-the-webpage"
-  },"107": {
+  },"108": {
     "doc": "Building this Page",
     "title": "To better your experience of writing in code",
     "content": "Download the following extensions in vscode: . | Markdown All in one | code runner (see youtube video on how to setup vscode for C++) | . ",
     "url": "http://localhost:4000/intro/#to-better-your-experience-of-writing-in-code",
     "relUrl": "/intro/#to-better-your-experience-of-writing-in-code"
-  },"108": {
+  },"109": {
     "doc": "Building this Page",
     "title": "Shortcuts in general pour toi",
     "content": ". | Once Markdown all in one is installed, you can do ctrl+shift+v to see preview of markdown immediately | To run any C++ file it’s just ctrl+shift+n | If you want to bold any specific text in markdown just select the text by holding down ctrl+shift and using arrow keys to select the required text. Then once text is selected just do ctrl+b to bolden and ctrl+i to italicize . | click on tab after using - for normal bullet pointing to get sub-points | . | To get numbered list continuously, in-between two headings 1. and 2. all content should be indented with 4 spaces in the markdown script . | To shift between windows in ubuntu, just do windows_key+shift+right/left_arrow | To minimize or unmaximize any window in hold down alt and press space, then choose to minimize | To then maximize or move window to right half/left half of screen, windows_key+shift+right/left_arrow | . ",
     "url": "http://localhost:4000/intro/#shortcuts-in-general-pour-toi",
     "relUrl": "/intro/#shortcuts-in-general-pour-toi"
-  },"109": {
+  },"110": {
     "doc": "Building this Page",
     "title": "Building this Page",
     "content": " ",
     "url": "http://localhost:4000/intro/",
     "relUrl": "/intro/"
-  },"110": {
+  },"111": {
     "doc": "Linear Regression",
     "title": "Common Misunderstanding",
     "content": " ",
     "url": "http://localhost:4000/docs/Intro%20to%20ML/Linear_Regression.html#common-misunderstanding",
     "relUrl": "/docs/Intro%20to%20ML/Linear_Regression.html#common-misunderstanding"
-  },"111": {
+  },"112": {
     "doc": "Linear Regression",
     "title": "Linear Regression",
     "content": "{: .text-delta } . | Common Misunderstanding | . ",
     "url": "http://localhost:4000/docs/Intro%20to%20ML/Linear_Regression.html",
     "relUrl": "/docs/Intro%20to%20ML/Linear_Regression.html"
-  },"112": {
+  },"113": {
     "doc": "MRSD Capstone Project",
     "title": "Introduction",
     "content": "I’m currently pursuing my Master’s in Robotic Systems Development at Carnegie Mellon University. Our program is unique in that we emulate the systems engineering process which usually runs in a robotics company. This process runs parallel to our capstone project where we build a robot, secure funding and work within a budget, adhere to a timeline, and deliver on key performance requirements. I’ve been documenting my progress on the project work on a separate website which is accessed by my peers occasionally. MRSD Project Website . ",
     "url": "http://localhost:4000/mrsd_proj/#introduction",
     "relUrl": "/mrsd_proj/#introduction"
-  },"113": {
+  },"114": {
     "doc": "MRSD Capstone Project",
     "title": "SLAM in 2D",
-    "content": "I implemented a version of AMCL particle filters tuned with more particles and larger resampling radius to allow for accurate localization even in sparse maps. ",
+    "content": "I used a version of AMCL particle filters tuned with more particles and larger resampling radius to allow for accurate localization even in sparse maps. ",
     "url": "http://localhost:4000/mrsd_proj/#slam-in-2d",
     "relUrl": "/mrsd_proj/#slam-in-2d"
-  },"114": {
+  },"115": {
     "doc": "MRSD Capstone Project",
     "title": "MRSD Capstone Project",
     "content": ". | Introduction | SLAM in 2D | . ",
     "url": "http://localhost:4000/mrsd_proj/",
     "relUrl": "/mrsd_proj/"
-  },"115": {
+  },"116": {
+    "doc": "Non-Linear SLAM",
+    "title": "Non-Linear SLAM",
+    "content": "{: .text-delta } Detailed write-up . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html"
+  },"117": {
     "doc": "Numpy",
     "title": "Before you Begin",
     "content": "Official Documentation . Numpy and Scipy are two resources to compute a variety of functions on matrices. Scipy is built on top of numpy and has a larger codebase of modules which we can utilize . ",
     "url": "http://localhost:4000/numpy/#before-you-begin",
     "relUrl": "/numpy/#before-you-begin"
-  },"116": {
+  },"118": {
     "doc": "Numpy",
     "title": "Images and Arrays",
     "content": " ",
     "url": "http://localhost:4000/numpy/#images-and-arrays",
     "relUrl": "/numpy/#images-and-arrays"
-  },"117": {
+  },"119": {
     "doc": "Numpy",
     "title": "Image Operations",
     "content": "Importing Images . In the below code we input an image and convert it into an array. Shape of an array is just it’s size . im = array(Image.open('empire.jpg')) print im.shape, im.dtype . The output would look lik this: . (800, 569, 3) uint8 (RGB image) . Converting image to Greyscale . This uses an extra library called Python Pillow . from PIL import Image, ImageOps im = array(Image.open('empire.jpg').convert('L'),'f') print im.shape, im.dtype . Plotting an image . img = np.array(Image.open('House2.jpg')) plt.figure(figsize=(8,8)) plt.imshow(img) plt.show . ",
     "url": "http://localhost:4000/numpy/#image-operations",
     "relUrl": "/numpy/#image-operations"
-  },"118": {
+  },"120": {
     "doc": "Numpy",
     "title": "Array Functions and Operations",
     "content": " ",
     "url": "http://localhost:4000/numpy/#array-functions-and-operations",
     "relUrl": "/numpy/#array-functions-and-operations"
-  },"119": {
+  },"121": {
     "doc": "Numpy",
     "title": "Array Nomenclature",
     "content": ". It’s important to realise that we only care about shapes of a matrix and our computation revolves around the shape tuple (1,2,3) irrespective of which is row or column. Develop a generalized version of matrix definitions!! . An image can have shape as (640,540,3). Here we need to think in the way that there are 640 rows and 540 columns and 3 RGB channels. Therefore, rows, columns, pages don’t matter much. Just think in terms of shapes. sum() function in 1D . import numpy as np arr = [20, 2, .2, 10, 4] print(\"\\nSum of arr : \", np.sum(arr)) print(\"Sum of arr(uint8) : \", np.sum(arr, dtype = np.uint8)) print(\"Sum of arr(float32) : \", np.sum(arr, dtype = np.float32)) . Output: . Sum of arr : 36.2 Sum of arr(uint8) : 36 Sum of arr(float32) : 36.2 . In 1D it just computes the sum of all elements in the array. It can also do type conversion on the go. We can extend this same logic to 2D, there too it calculates the sum of all matrix elements . sum() in 2D along axes . Axis along which we want to calculate the sum value. Otherwise, it will consider arr to be flattened(works on all the axis). axis = 0 means it calculates sum of all elements in ith column and (i=1)th column.. axis = 1 means it calculates sum of all elements in (j)th column and (j+1)th column.. arr = [[14, 17, 12, 33, 44], [15, 6, 27, 8, 19], [23, 2, 54, 1, 4,]] print(\"\\nSum of arr : \", np.sum(arr)) print(\"Sum of arr(axis = 0) : \", np.sum(arr, axis = 0)) print(\"Sum of arr(axis = 1) : \", np.sum(arr, axis = 1)) . Output would be: . Sum of arr : 279 Sum of arr(axis = 0) : [52 25 93 42 67] Sum of arr(axis = 1) : [120 75 84] . But notice how the vector of axis = 1 has been transposed to show as a row vector . We change that behaviour by adding a second argument to the sum() function: . print(\"\\nSum of arr (keepdimension is True): \\n\", np.sum(arr, axis = 1, keepdims = True)) . Output . Sum of arr (keepdimension is True): [[120] [ 75] [ 84]] . Looping over an Image and Grayscale . We can loop over individual elements in a matrix after knowing the shape of the matrix . The shape of the image is given as a tuple eg. (640, 540, 3) . | the last item of that tuple is the RGB spectrum (3 dimensions per pixel) | the first two items in the tuple is the actual size of the image | . for i in range(img.shape[1]): print() . In the above code we are looping over the rows. Therefore we are looping 640 times. Method 1 : Consider this method of converting image into greyscale: . import numpy as np import matplotlib.pyplot as plt from PIL import Image, ImageOps img = np.array(Image.open('B1.jpg')) print(img.shape) for i in range(img.shape[0]): for j in range(img.shape[1]): grey_value = 0 for k in range(img.shape[2]): grey_value += img[i,j,k] img[i,j,0] = int(grey_value/3) img2 = img[:,:,1] plt.figure(figsize=(8,8)) plt.imshow(img2) plt.show() . Also note how we removed the third (extra) dimensions using: . img2 = img[:,:,1] . This method uses averaging to find grayscale. However a slightly modified version is usually preferred: . Method 2: Accounting for Luminance Perception . import numpy as np import matplotlib.pyplot as plt from PIL import Image, ImageOps weight = [0.2989, 0.5870, 0.1140] img = np.array(Image.open('B1.jpg')) print(img.shape) for i in range(img.shape[0]): for j in range(img.shape[1]): grey_value = 0 for k in range(len(weight)): grey_value += (img[i,j,k]*weight[k]) img[i,j,0] = int(grey_value) img2 = img[:,:,1] plt.figure(figsize=(8,8)) plt.imshow(img2, cmap=plt.get_cmap(\"gray\")) plt.show() . Method 3: Simpler code using numpy.mean . from PIL import Image import numpy as np import matplotlib.pyplot as plt color_img = np.array(Image.open('B1.jpg')) / 255 img = np.mean(color_img, axis=2) plt.figure(figsize=(8,8)) plt.imshow(img, cmap=plt.get_cmap(\"gray\")) plt.show() . ",
     "url": "http://localhost:4000/numpy/#array-nomenclature",
     "relUrl": "/numpy/#array-nomenclature"
-  },"120": {
+  },"122": {
     "doc": "Numpy",
     "title": "Built-in Numpy functions",
     "content": " ",
     "url": "http://localhost:4000/numpy/#built-in-numpy-functions",
     "relUrl": "/numpy/#built-in-numpy-functions"
-  },"121": {
+  },"123": {
     "doc": "Numpy",
     "title": "Difference between dot, matmul, and *",
     "content": ". ",
     "url": "http://localhost:4000/numpy/#difference-between-dot-matmul-and-",
     "relUrl": "/numpy/#difference-between-dot-matmul-and-"
-  },"122": {
+  },"124": {
     "doc": "Numpy",
     "title": "Plotting a pixel-wise histogram",
     "content": "img = np.array(Image.open('emma_stone.jpg')) img_flat = img.flatten() plt.hist(img_flat, bins=200, range=[0, 256]) plt.title(\"Number of pixels in each intensity value\") plt.xlabel(\"Intensity\") plt.ylabel(\"Number of pixels\") plt.show() . ",
     "url": "http://localhost:4000/numpy/#plotting-a-pixel-wise-histogram",
     "relUrl": "/numpy/#plotting-a-pixel-wise-histogram"
-  },"123": {
+  },"125": {
     "doc": "Numpy",
     "title": "Reshaping Arrays",
     "content": "x = np.arange(4).reshape((2,2)) x &gt;&gt;array([[0, 1], [2, 3]]) . ",
     "url": "http://localhost:4000/numpy/#reshaping-arrays",
     "relUrl": "/numpy/#reshaping-arrays"
-  },"124": {
+  },"126": {
     "doc": "Numpy",
     "title": "Transpose of a matrix",
     "content": "Simple transpose is done using the matrix.transpose() or matrix.T method (both are same). One of them is showed below: . # (refer matrix x in above example) np.transpose(x) array([[0, 2], [1, 3]]) . However the transpose function takes more arguments and this is important for 3D matrices. Note that if a 3D matrix say ‘A’ has shape (1,2,3), the result of transpose without specifying any extra argument will be (3,2,1) . x = np.ones((1, 2, 3)) np.transpose(x, (1, 0, 2)).shape &gt;&gt;(2, 1, 3) . Note. While declaring array as in np.ones(1,2,3). This can be interpreted in two ways: . | If we are printing the array in terminal we will read it as: there are 1 pages, 2 rows and 3 columns | If it’s an image, the shape will be 1 row, 2 coulmns and 3 will be for 3 RGB channels | . It’s important to realise that we only care about shapes of a matrix and our computation revolves around the shape tuple (1,2,3) irrespective of which is row or column. Develop a generalized version of matrix definitions!! . However, we will access each row/column starting from 0 as x[0,0,0] or x[1,1,1]. The second argument stands for the axes parameter. Axes are numbered as 0,1,2 . i.e. default configuration of axes is (0,1,2) for a 3D array and (0,1) for a 2D array . Therefore if we specify &lt;np.transpose(x,(1,0,2))&gt; we’re saying that we want the first two shapes interchanged. Remember that first two shapes are pages and rows. Hence, those two will interchange. ",
     "url": "http://localhost:4000/numpy/#transpose-of-a-matrix",
     "relUrl": "/numpy/#transpose-of-a-matrix"
-  },"125": {
+  },"127": {
     "doc": "Numpy",
     "title": "Padding of Matrices",
     "content": "Padding is used to ensure overall image size does not reduce while run filters/convulutions on it . import numpy as np x = np.ones(3) y = np.pad(x, pad_width=1) y # Expected result # array([0., 1., 1., 1., 0.]) . ",
     "url": "http://localhost:4000/numpy/#padding-of-matrices",
     "relUrl": "/numpy/#padding-of-matrices"
-  },"126": {
+  },"128": {
     "doc": "Numpy",
     "title": "newaxis method",
     "content": "ref: newaxis . This method can be used to convert a row vector to a column vector and at the same time add another dimension as shown below: . a = np.array([0,1,2]) print(a.shape) . Output: (3,) . Now lets do the newaxis modification: . c = (a[:, np.newaxis]) print(c) print(c.shape) . Output: . [[0] [1] [2]] (3, 1) . Therefore we can see that the vector has been rotated and another dimension has been added to the shape tuple . ",
     "url": "http://localhost:4000/numpy/#newaxis-method",
     "relUrl": "/numpy/#newaxis-method"
-  },"127": {
+  },"129": {
     "doc": "Numpy",
     "title": "einsum",
     "content": "Refer to this document: einsum . ",
     "url": "http://localhost:4000/numpy/#einsum",
     "relUrl": "/numpy/#einsum"
-  },"128": {
+  },"130": {
     "doc": "Numpy",
     "title": "Stacking rows using vstack",
     "content": "We can use this function to stack rows onto an exiting numpy array. in_arr1 = geek.array([ 1, 2, 3] ) in_arr2 = geek.array([ 4, 5, 6] ) # Stacking the two arrays vertically out_arr = geek.vstack((in_arr1, in_arr2)) print (out_arr) . Practically we can use this in a specific case. If we don’t know the number of rows we will be adding to a numpy array: . | We will define the array as a 0 row array | We then add rows as we progress using the vstack function | . word_array = np.array([]).reshape(0, maxlength) for message in messages: word_count = np.zeros((1, word_num)) for word in word_list: if word == \"yes\": word_count[0, word_dictionary[word]] += 1 word_array = np.vstack([word_array, word_count]) return word_array . ",
     "url": "http://localhost:4000/numpy/#stacking-rows-using-vstack",
     "relUrl": "/numpy/#stacking-rows-using-vstack"
-  },"129": {
+  },"131": {
     "doc": "Numpy",
     "title": "Saving a numpy matrix in a text file",
     "content": "np.savetxt('./output/p06_sample_train_matrix', train_matrix[:100,:]) . ",
     "url": "http://localhost:4000/numpy/#saving-a-numpy-matrix-in-a-text-file",
     "relUrl": "/numpy/#saving-a-numpy-matrix-in-a-text-file"
-  },"130": {
+  },"132": {
     "doc": "Numpy",
     "title": "Numpy",
     "content": ". | Before you Begin | Images and Arrays . | Image Operations . | Importing Images | Converting image to Greyscale | Plotting an image | . | Array Functions and Operations | Array Nomenclature . | sum() function in 1D | sum() in 2D along axes | Looping over an Image and Grayscale . | Method 1 : Consider this method of converting image into greyscale: | Method 2: Accounting for Luminance Perception | Method 3: Simpler code using numpy.mean | . | . | . | Built-in Numpy functions . | Difference between dot, matmul, and * | Plotting a pixel-wise histogram | Reshaping Arrays | Transpose of a matrix | Padding of Matrices | newaxis method | einsum | Stacking rows using vstack | Saving a numpy matrix in a text file | . | . ",
     "url": "http://localhost:4000/numpy/",
     "relUrl": "/numpy/"
-  },"131": {
+  },"133": {
     "doc": "Optical Flow and Image Alignment",
     "title": "PDF Download",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/optical_flow/#pdf-download",
     "relUrl": "/optical_flow/#pdf-download"
-  },"132": {
+  },"134": {
     "doc": "Optical Flow and Image Alignment",
     "title": "Optical Flow and Image Alignment",
     "content": ". | PDF Download | . ",
     "url": "http://localhost:4000/optical_flow/",
     "relUrl": "/optical_flow/"
-  },"133": {
+  },"135": {
     "doc": "Particle Filters Theory",
     "title": "Before you Begin",
     "content": "Particle Filters are a direct application of Bayes Filters. The Short Version of Bayes Filter is shown below: . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html#before-you-begin",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html#before-you-begin"
-  },"134": {
+  },"136": {
     "doc": "Particle Filters Theory",
     "title": "High Level Overview",
     "content": "We will be doing the following steps: . | Initialize particles randomly across the whole map | resample at every step (selecting only the particles whose predicted laserscan matches actual laserscan) (low variance sampler) | Slowly decay the number of particles being randomly reinitialized | Use the mean of the particles’s estimated pose to get true pose | . Detailed write-up . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html#high-level-overview",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html#high-level-overview"
-  },"135": {
+  },"137": {
     "doc": "Particle Filters Theory",
     "title": "Particle Filters Theory",
     "content": "{: .text-delta } . | Before you Begin | High Level Overview | . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html"
-  },"136": {
+  },"138": {
     "doc": "Planar Homography",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/planar_homography/#before-you-begin",
     "relUrl": "/planar_homography/#before-you-begin"
-  },"137": {
+  },"139": {
     "doc": "Planar Homography",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/planar_homography/#pdfs",
     "relUrl": "/planar_homography/#pdfs"
-  },"138": {
+  },"140": {
     "doc": "Planar Homography",
     "title": "Some Basics on Camera Projection",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#some-basics-on-camera-projection",
     "relUrl": "/planar_homography/#some-basics-on-camera-projection"
-  },"139": {
+  },"141": {
     "doc": "Planar Homography",
     "title": "Projection of 3D to 2D image plane",
     "content": "To understand how a camera views the 3D world, first we look at the projection of 3D points onto an image plane. We use basic high school physics and some similar triangle properties to derive the following formula: . Notice that the minus sign is bit irritating to work with. (Also we don’t see inverted images as the formula suggests. This is becauase our brain does the inversion in real time) . Therefore, let’s start with the below version of the formula by ignoring this inversion effect . Now, the above equation can be written in matrix form, but we’ll form one artifact in this conversion i.e. lambda . It’s clear that we can find this lambda as shown. However, why do we even need this? Ans. We want to represent the coordinates in homogenous coordinates . ",
     "url": "http://localhost:4000/planar_homography/#projection-of-3d-to-2d-image-plane",
     "relUrl": "/planar_homography/#projection-of-3d-to-2d-image-plane"
-  },"140": {
+  },"142": {
     "doc": "Planar Homography",
     "title": "Camera Matrices",
     "content": "Generic Representation . Now, let’s add another constraint on this equation. Suppose we rotate our 3D point in space or we rotate the camera itself by a certain angle. In the world of robotics we call such transforms as a rotation matrix. Reference: Rotation Matrices . To get a good grasp of rotation matrices, I highly recommend some linear algebra brush-up using 3B1B (3 Blue 1 Brown). Specifically (watch 8th minute of this video) The rotation shown in the above video in the 8th minute is a rotation matrix in 2D. Now, adding a 3D translation (just 3 numbers which add to the x,y,z component of a 3D vector) along with a 3D rotation we get the basic projection equation . Where the two matrices are called the camera intrinsics (captures focal lengths) and the camera extrinsics (capturing rotation and translation) . This rotation (r-matrix) can also be visualized as fixing a world coordinate frame onto some plane in the 3D world (think of a it as a flat table top) and then thinking how our camera is rotated w.r.t that frame: . Now, most cameras also distort images due to lens optics or other properties inherent in building the camera itself. These are captured as shown below: . Now, adding these intrinsic and extrinsic factors, we get: . Alternate notation of camera matrices . ",
     "url": "http://localhost:4000/planar_homography/#camera-matrices",
     "relUrl": "/planar_homography/#camera-matrices"
-  },"141": {
+  },"143": {
     "doc": "Planar Homography",
     "title": "The Homography Situation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#the-homography-situation",
     "relUrl": "/planar_homography/#the-homography-situation"
-  },"142": {
+  },"144": {
     "doc": "Planar Homography",
     "title": "Single View",
     "content": "Now, if we focus on only planes (table top and human holding camera situation): We can make certain simplifying assumptions. This is primarily that the 3D point we’re looking at has constant depth in it’s immediate neighbourhood. Using this we simplify our equations to: . This 3x3 m-matrix now represents the mapping of 3D points on a plane to 2D point in an image . ",
     "url": "http://localhost:4000/planar_homography/#single-view",
     "relUrl": "/planar_homography/#single-view"
-  },"143": {
+  },"145": {
     "doc": "Planar Homography",
     "title": "Multiple Views",
     "content": "Now, by simple extension of the above logic we can derive the following: . | We have just 1 plane in the 3D world | We have two cameras looking at this plane | Each camera has it’s own 3x3 m-matrix which maps 3D plane points onto 2D image frame | Therefore if two cameras can see the same 3D point, we can find a mapping between the two cameras | This mapping between the two cameras is given by a new 3x3 matrix called the homography matrix | . ",
     "url": "http://localhost:4000/planar_homography/#multiple-views",
     "relUrl": "/planar_homography/#multiple-views"
-  },"144": {
+  },"146": {
     "doc": "Planar Homography",
     "title": "Limitations of Planar Homography",
     "content": ". | When the scene is very far away from the camera, all objects can be said to have the same depth. This is because the relative depth distances between foreground and background will be negligible in comparison to the average scene depth. Therefore, in such cases all objects in scene can be said to lie on a plane and as proved above, can be captured by two cameras related by a homography matrix. | For nearby scenes where the variation in scene depth is more apparent, a homography mapping works well only under pure rotation. | . ",
     "url": "http://localhost:4000/planar_homography/#limitations-of-planar-homography",
     "relUrl": "/planar_homography/#limitations-of-planar-homography"
-  },"145": {
+  },"147": {
     "doc": "Planar Homography",
     "title": "Implementation of Homography Estimation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#implementation-of-homography-estimation",
     "relUrl": "/planar_homography/#implementation-of-homography-estimation"
-  },"146": {
+  },"148": {
     "doc": "Planar Homography",
     "title": "The Pipeline",
     "content": "The main application of homography transforms is to find how some reference template has been warped due to movement of the camera. This is seem below as: . The applications of this are: . | image stitching (think of two images from two views as a warped version of view 0) | augmented reality (projecting some images onto a fixed/known plane in the real world) | . To perform any of the above cool applications, we first need to compute the homography between any two views. The pipeline for this would be: . | Have one reference view and another view with the camera having moved slightly | Detect some keypoints (interest points like corners/edges) in each image | Describe these keypoints in some way (maybe capture the histogram of pixel intensities in a small patch around the keypoint) | Match the keypoints in one image to another using the keypoint descriptions | Use the spatial information of these matched keypoints (i.e. the x,y coordinates of each of these keypoints) to find the Homography matrix | **Apply the homography matrix as a transformation on one of the images **to warp and match the images | . Let’s go deeper into the each of the above steps: . Keypoint Detection . | There are several methods to find keypoints in an image. Usually these keypoints are corners since other features like edges may warp or curve due to distortion and may be difficult to trace. | The common methods are Harris Corner Detector, polygon fitting, FAST detectors etc. | Here we use the FAST detector | . Keypoint Descriptors . Common descriptors include BRIEF, ORB, SIFT etc. Here we’ve used the BRIEF descriptor . The BRIEF descriptor works by creating a binary feature vector of a patch from random (x,y) point pairs. This randomness in generating point pairs ensures changes in pixel intensities are captuerd in multiple directions thereby being sensitive to a large variety of edges or corners. The BRIEF descriptor also compares these binary strings using hamming distance further reduces compute time. Due to this computational cost of calculating histograms for each filter bank it would not make sense to use filterbanks instead of BRIEF. Further, just filterbanks cannot encode patch descriptions, i.e. without any form of histograms (like SIFT), the filterbanks themselves cannot be used instead of BRIEF. Reference: BRIEF Descriptor . The implementation of keypoint detection, description and matching are shown below: . import numpy as np import cv2 import skimage.color from helper import briefMatch from helper import computeBrief from helper import corner_detection # Q2.1.4 def matchPics(I1, I2, opts): \"\"\" Match features across images Input ----- I1, I2: Source images opts: Command line args Returns ------- matches: List of indices of matched features across I1, I2 [p x 2] locs1, locs2: Pixel coordinates of matches [N x 2] \"\"\" print(\"computing image matches\") ratio = opts.ratio #'ratio for BRIEF feature descriptor' sigma = opts.sigma #'threshold for corner detection using FAST feature detector' # Convert Images to GrayScale I1 = skimage.color.rgb2gray(I1) I2 = skimage.color.rgb2gray(I2) # Detect Features in Both Images # locs1 is just the detected corners of I1 locs1 = corner_detection(I1, sigma) locs2 = corner_detection(I2, sigma) # Obtain descriptors for the computed feature locations # We use the breif descriptor to give the patch descriptions (patch of pixel width = 9) # for the corners(keypoints) which we obtained from corner_description # desc is the binary string (len(string)=256 and 256bits) # which serves as the feature descriptor desc1, locs1 = computeBrief(I1, locs1) desc2, locs2 = computeBrief(I2, locs2) # Match features using the descriptors matches = briefMatch(desc1, desc2, ratio) print(f'Computed {matches.shape[0]} matches successfully') return matches, locs1, locs2 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches . Calculating the Homography Matrix . Let’s say we have two images: image1 and image2 . To Derive the A matrix we undergo the following steps: . Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value) which forms the null space of A. (Bonus) RANSAC: Rejecting outliers during our homography calculation . Implementation of above steps . import numpy as np import cv2 import skimage.io import skimage.color from planarH import * from opts import get_opts from matchPics import matchPics from helper import briefMatch def warpImage(opts): \"\"\" Warp template image based on homography transform Args: opts: user inputs \"\"\" image1 = cv2.imread('../data/cv_cover.jpg') image2 = cv2.imread('../data/cv_desk.png') template_img = cv2.imread('../data/hp_cover.jpg') # make sure harry_potter image is same size as CV book x,y,z = image1.shape template_img = cv2.resize(template_img, (y,x)) matches, locs1, locs2 = matchPics(image1, image2, opts) # invert the columns of locs1 and locs2 locs1[:, [1, 0]] = locs1[:, [0, 1]] locs2[:, [1, 0]] = locs2[:, [0, 1]] matched_points = create_matched_points(matches, locs1, locs2) h, inlier = computeH_ransac(matched_points[:,0:2], matched_points[:,2:], opts) print(\"homography matrix is \\n\", h) # compositeH(h, source, destination) composite_img = compositeH(h, template_img, image2) # Display images cv2.imshow(\"Composite Image :)\", composite_img) cv2.waitKey() if __name__ == \"__main__\": opts = get_opts() warpImage(opts) . RANSAC and Construction of Composite Image . from copy import deepcopy from dataclasses import replace from platform import python_branch import numpy as np import cv2 import matplotlib.pyplot as plt import skimage.color import math import random from scipy import ndimage from scipy.spatial import distance from matchPics import matchPics from helper import plotMatches from opts import get_opts from tqdm import tqdm def computeH(x1, x2): \"\"\" Computes the homography based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the homography matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0], x2[i,1], 1, 0, 0, 0, -x1[i,0]*x2[i,0], -x1[i,0]*x2[i,1], -x1[i,0] ]) row_2 = np.array([ 0, 0, 0, x2[i,0], x2[i,1], 1, -x1[i,1]*x2[i,0], -x1[i,1]*x2[i,1], -x1[i,1] ]) A_build.append(row_1) A_build.append(row_2) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(np.matmul(A.T, A)) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose H2to1 = np.reshape(v.T[:,-1], (3,3)) return H2to1 def computeH_norm(x1, x2): #Q2.2.2 \"\"\" Compute the normalized coordinates and also the homography matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: H2to1: Hmography matrix after denormalization \"\"\" # Q2.2.2 # Compute the centroid of the points centroid_img_1 = np.sum(x1, axis=0)/x1.shape[0] centroid_img_2 = np.sum(x2, axis=0)/x2.shape[0] # print(f'centroid of img1 is {centroid_img_1} \\n centroid of img2 is {centroid_img_2}') # Shift the origin of the points to the centroid # let origin for img1 be centroid_img_1 and similarly for img2 #? Now translate every point such that centroid is at [0,0] moved_x1 = x1 - centroid_img_1 moved_x2 = x2 - centroid_img_2 current_max_dist_img1 = np.max(np.linalg.norm(moved_x1),axis=0) current_max_dist_img2 = np.max(np.linalg.norm(moved_x2),axis=0) # moved and scaled image 1 points scale1 = np.sqrt(2) / (current_max_dist_img1) scale2 = np.sqrt(2) / (current_max_dist_img2) moved_scaled_x1 = moved_x1 * scale1 moved_scaled_x2 = moved_x2 * scale2 # Similarity transform 1 #? We construct the transformation matrix to be 3x3 as it has to be same shape of Homography t1 = np.diag([scale1, scale1, 1]) t1[0:2,2] = -scale1*centroid_img_1 # Similarity transform 2 t2 = np.diag([scale2, scale2, 1]) t2[0:2,2] = -scale2*centroid_img_2 # Compute homography H = computeH(moved_scaled_x1, moved_scaled_x2) # Denormalization H2to1 = np.matmul(np.linalg.inv(t1), np.matmul(H, t2)) return H2to1 def create_matched_points(matches, locs1, locs2): \"\"\" Match the corners in img1 and img2 according to the BRIEF matched points Args: matches (Mx2): Vector containing the index of locs1 and locs2 which matches locs1 (Nx2): Vector containing corner positions for img1 locs2 (Nx2): Vector containing corner positions for img2 Returns: _type_: _description_ \"\"\" matched_pts = [] for i in range(matches.shape[0]): matched_pts.append(np.array([locs1[matches[i,0],0], locs1[matches[i,0],1], locs2[matches[i,1],0], locs2[matches[i,1],1]])) # remove the first dummy value and return matched_points = np.stack(matched_pts, axis=0) return matched_points def computeH_ransac(locs1, locs2, opts): \"\"\" Every iteration we init a Homography matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Homography matrix Args: locs1: location of matched points in image1 locs2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The homography matrix with max number of inliers final_inliers : Final list of inliers considered for homography \"\"\" #Q2.2.3 #Compute the best fitting homography given a list of matching points max_iters = opts.max_iters # the number of iterations to run RANSAC for inlier_tol = opts.inlier_tol # the tolerance value for considering a point to be an inlier # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])),k=4) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_H = computeH_norm(correspondence_points_1, correspondence_points_2) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_H, test_locs1, test_locs2, inlier_tol) if error_state == 1: continue if (inlier_count &gt; final_inlier_count) and (distance_error &lt; final_distance_error): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 10000: # print(\"original point count is\", locs1.shape[0]) # print(\"final inlier count is\", final_inlier_count) # print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = computeH_norm(final_locs_1, final_locs_2) return bestH2to1, final_inliers else: bestH2to1 = computeH_norm(correspondence_points_1, correspondence_points_2) return bestH2to1, 0 def compute_inliers(h, x1, x2, tol): \"\"\" Compute the number of inliers for a given homography matrix Args: h: Homography matrix x1 : matched points in image 1 x2 : matched points in image 2 tol: tolerance value to check for inliers Returns: inliers : indexes of x1 or x2 which are inliers inlier_count : number of total inliers dist_error_sum : Cumulative sum of errors in reprojection error calc flag : flag to indicate if H was invertible or not \"\"\" # take H inv to map points in x1 to x2 try: H = np.linalg.inv(h) except: return [1,1,1], 1, 1, 1 x2_extd = np.append(x2, np.ones((x2.shape[0],1)), axis=1) x1_extd = (np.append(x1, np.ones((x1.shape[0],1)), axis=1)) x2_est = np.zeros((x2_extd.shape), dtype=x2_extd.dtype) for i in range(x1.shape[0]): x2_est[i,:] = H @ x1_extd[i,:] x2_est = x2_est/np.expand_dims(x2_est[:,2], axis=1) dist_error = np.linalg.norm((x2_extd-x2_est),axis=1) # print(\"dist error is\", dist_error) inliers = np.where((dist_error &lt; tol), 1, 0) inlier_count = np.count_nonzero(inliers == 1) return inliers, inlier_count, np.sum(dist_error), 0 def compositeH(H2to1, template, img): \"\"\" Create a composite image after warping the template image on top of the image using the homography Args: H2to1 : Existing(already found) homography matrix template: Harry Potter (template image) img: Base image onto which we overlay Harry Potter image Returns: composite_img: Base image with overlayed Harry Potter cover \"\"\" output_shape = (img.shape[1],img.shape[0]) # destination_img = img # source_img = template h = np.linalg.inv(H2to1) # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography warped_template = cv2.warpPerspective(template, h, output_shape) # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img) return composite_img def panorama_composite(H2to1, template, img): \"\"\" Stitch two images together to form a panorama Args: H2to1: Homography Matrix template: The pano_right image img: The pano_left image Returns: composite_img: Stitched image (panorama) \"\"\" output_shape = (img.shape[1]+240,img.shape[0]+240) # destination_img = img # source_img = template h = H2to1 img_padded = np.zeros((img.shape[0]+240,img.shape[1]+240,3), dtype=img.dtype) img_padded[0:img.shape[0], 0:img.shape[1], :] = img[:,:,:] # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography cv2.imshow(\"template image\", template) cv2.waitKey() cv2.imshow(\"destination image\", img) cv2.waitKey() warped_template = cv2.warpPerspective(template, h, output_shape) cv2.imshow(\"warped template\", warped_template) cv2.waitKey() # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img_padded) return composite_img . ",
     "url": "http://localhost:4000/planar_homography/#the-pipeline",
     "relUrl": "/planar_homography/#the-pipeline"
-  },"147": {
+  },"149": {
     "doc": "Planar Homography",
     "title": "Applying Homography Estimation in the Real World",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#applying-homography-estimation-in-the-real-world",
     "relUrl": "/planar_homography/#applying-homography-estimation-in-the-real-world"
-  },"148": {
+  },"150": {
     "doc": "Planar Homography",
     "title": "Basic cool applications",
     "content": "If we know how a template matches to a warped image, such as: . We can then use this homography matrix to map any plane (here a different book cover) onto our destination image . ",
     "url": "http://localhost:4000/planar_homography/#basic-cool-applications",
     "relUrl": "/planar_homography/#basic-cool-applications"
-  },"149": {
+  },"151": {
     "doc": "Planar Homography",
     "title": "AR Video",
     "content": "Here we use the same book-cover homography mapping but onto a sequence of frames of a video . ",
     "url": "http://localhost:4000/planar_homography/#ar-video",
     "relUrl": "/planar_homography/#ar-video"
-  },"150": {
+  },"152": {
     "doc": "Planar Homography",
     "title": "Panorama Stitching",
     "content": "During my visit to Ohiopyle, I took few pictures of the river. Let’s back to the fact that homography works well for far away scenes, where the large distance from camera to landscape makes the relative distances of objects in the landscape negligible. In such cases even small translations of the camera have a small effect on the landscape itself. However, since the scene at ohiopyle was not too far away, any translation would yield a bad homography matrix and cause shoddy stitching. Therefore I tried to mitigate this by only rotating about my hip (to ensure no translational movement) while taking the two views. The results of the stitching are shown below: . ",
     "url": "http://localhost:4000/planar_homography/#panorama-stitching",
     "relUrl": "/planar_homography/#panorama-stitching"
-  },"151": {
+  },"153": {
     "doc": "Planar Homography",
     "title": "Acknowledgement and References",
     "content": "A lot of images are taken from the lecture slides during my computer vision class at CMU. These were taught by Prof. Kris Kitani and Prof. Deva Ramanan . These slides are publicly available (slides) . ",
     "url": "http://localhost:4000/planar_homography/#acknowledgement-and-references",
     "relUrl": "/planar_homography/#acknowledgement-and-references"
-  },"152": {
+  },"154": {
     "doc": "Planar Homography",
     "title": "My Ohiopyle trip",
     "content": ". ",
     "url": "http://localhost:4000/planar_homography/#my-ohiopyle-trip",
     "relUrl": "/planar_homography/#my-ohiopyle-trip"
-  },"153": {
+  },"155": {
     "doc": "Planar Homography",
     "title": "Helper Functions",
     "content": "The helper function in this framework is shown below: . import numpy as np import cv2 import scipy.io as sio from matplotlib import pyplot as plt import skimage.feature PATCHWIDTH = 9 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches def plotMatches(im1,im2,matches,locs1,locs2): fig, ax = plt.subplots(nrows=1, ncols=1) im1 = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY) im2 = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY) plt.axis('off') skimage.feature.plot_matches(ax,im1,im2,locs1,locs2,matches,matches_color='r',only_matches=True) plt.show() return def makeTestPattern(patchWidth, nbits): np.random.seed(0) compareX = patchWidth*patchWidth * np.random.random((nbits,1)) compareX = np.floor(compareX).astype(int) np.random.seed(1) compareY = patchWidth*patchWidth * np.random.random((nbits,1)) compareY = np.floor(compareY).astype(int) return (compareX, compareY) def computePixel(img, idx1, idx2, width, center): halfWidth = width // 2 col1 = idx1 % width - halfWidth row1 = idx1 // width - halfWidth col2 = idx2 % width - halfWidth row2 = idx2 // width - halfWidth return 1 if img[int(center[0]+row1)][int(center[1]+col1)] &lt; img[int(center[0]+row2)][int(center[1]+col2)] else 0 def computeBrief(img, locs): patchWidth = 9 nbits = 256 compareX, compareY = makeTestPattern(patchWidth,nbits) m, n = img.shape halfWidth = patchWidth//2 locs = np.array(list(filter(lambda x: halfWidth &lt;= x[0] &lt; m-halfWidth and halfWidth &lt;= x[1] &lt; n-halfWidth, locs))) desc = np.array([list(map(lambda x: computePixel(img, x[0], x[1], patchWidth, c), zip(compareX, compareY))) for c in locs]) return desc, locs def corner_detection(img, sigma): # fast method result_img = skimage.feature.corner_fast(img, n=PATCHWIDTH, threshold=sigma) locs = skimage.feature.corner_peaks(result_img, min_distance=1) return locs def loadVid(path): # Create a VideoCapture object and read from input file # If the input is the camera, pass 0 instead of the video file name cap = cv2.VideoCapture(path) # Append frames to list frames = [] # Check if camera opened successfully if cap.isOpened()== False: print(\"Error opening video stream or file\") # Read until video is completed while(cap.isOpened()): # Capture frame-by-frame ret, frame = cap.read() if ret: #Store the resulting frame frames.append(frame) else: break # When everything done, release the video capture object cap.release() frames = np.stack(frames) return frames . ",
     "url": "http://localhost:4000/planar_homography/#helper-functions",
     "relUrl": "/planar_homography/#helper-functions"
-  },"154": {
+  },"156": {
     "doc": "Planar Homography",
     "title": "Planar Homography",
     "content": ". | Before you Begin | PDFs | Some Basics on Camera Projection . | Projection of 3D to 2D image plane | Camera Matrices . | Generic Representation | Alternate notation of camera matrices | . | . | The Homography Situation . | Single View | Multiple Views | Limitations of Planar Homography | . | Implementation of Homography Estimation . | The Pipeline . | Keypoint Detection | Keypoint Descriptors | Calculating the Homography Matrix | (Bonus) RANSAC: Rejecting outliers during our homography calculation | Implementation of above steps | RANSAC and Construction of Composite Image | . | . | Applying Homography Estimation in the Real World . | Basic cool applications | AR Video | Panorama Stitching | . | Acknowledgement and References . | My Ohiopyle trip | . | Helper Functions | . ",
     "url": "http://localhost:4000/planar_homography/",
     "relUrl": "/planar_homography/"
-  },"155": {
+  },"157": {
     "doc": "Recap on Probability",
     "title": "Before you Begin",
     "content": "Ref Book. Probabalistic Robotics . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#before-you-begin",
     "relUrl": "/docs/SLAM/Probability_review.html#before-you-begin"
-  },"156": {
+  },"158": {
     "doc": "Recap on Probability",
     "title": "Discrete and Continuous Variables",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-and-continuous-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-and-continuous-variables"
-  },"157": {
+  },"159": {
     "doc": "Recap on Probability",
     "title": "Discrete Variables and Notations",
     "content": "Here the value X in P(X) can take on any value X=x_i, just that x_i are discrete points . However, keep in my that we formally call the below function Probability Mass Function . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-variables-and-notations",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-variables-and-notations"
-  },"158": {
+  },"160": {
     "doc": "Recap on Probability",
     "title": "Continuous Random Variables",
     "content": "Here the value of X in p(X) can take on a continuous variable X=x, where x is a smooth function . Now, here we use lower_case p to denote the p(x) since in the continuous probability world, we cannot speak in terms of absolute probability, but in terms of a density function: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#continuous-random-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#continuous-random-variables"
-  },"159": {
+  },"161": {
     "doc": "Recap on Probability",
     "title": "Get Absolute Probability from PDF",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf"
-  },"160": {
+  },"162": {
     "doc": "Recap on Probability",
     "title": "Understanding p(x) PDF",
     "content": "As seen above, only the integration (area under curve) gives us the absolute probability. Therefore, this p(x) must be a curve of sorts, something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#understanding-px-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#understanding-px-pdf"
-  },"161": {
+  },"163": {
     "doc": "Recap on Probability",
     "title": "Can the value of p(x) &gt; 1?",
     "content": "Yes. This is because p(x) is a PDF not absolute probability. Consider the example of a proximity sensor whose readings only range from 0m - 0.5m. The PDF for such a sensor would look like the below graph . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#can-the-value-of-px--1",
     "relUrl": "/docs/SLAM/Probability_review.html#can-the-value-of-px--1"
-  },"162": {
+  },"164": {
     "doc": "Recap on Probability",
     "title": "Joint and Contional Probability",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-and-contional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-and-contional-probability"
-  },"163": {
+  },"165": {
     "doc": "Recap on Probability",
     "title": "Joint Probability",
     "content": "Note. The calculation of absolute probability will change depending upon the nature of the variables: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-probability"
-  },"164": {
+  },"166": {
     "doc": "Recap on Probability",
     "title": "Conditional Probability",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#conditional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#conditional-probability"
-  },"165": {
+  },"167": {
     "doc": "Recap on Probability",
     "title": "Marginals and Conditionals",
     "content": "To start, lets get an intuition on what a marginal or conditional may look like: . | Let’s consider a multivariate probability distribution (i.e there are say 2 random variables) | Let us consider these two variables to have their own distributions | Let these two distributions be exam grades and study time | Imagine exam_grades are distributed along y-axis, and study_time along x-axis (sorry for asking you to imagine this much :/) | Let the z-axis be a joint probability of both x and y | Now, combining everything we should have a 3D plot | . If we view this plot from the top view, we should see something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#marginals-and-conditionals",
     "relUrl": "/docs/SLAM/Probability_review.html#marginals-and-conditionals"
-  },"166": {
+  },"168": {
     "doc": "Recap on Probability",
     "title": "Crux of the Matter:",
     "content": ". | Think of conditionals as taking a slice of this cloud and evaluating distribution of exam grades given a specific study time | Think of marginals as squishing the cloud (say squishing all study-time data onto the exam-grades axis) and then studying the distribution | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#crux-of-the-matter",
     "relUrl": "/docs/SLAM/Probability_review.html#crux-of-the-matter"
-  },"167": {
+  },"169": {
     "doc": "Recap on Probability",
     "title": "Small Leap",
     "content": "Now that you’ve understood the intuition behind marginals, here’s the math . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#small-leap",
     "relUrl": "/docs/SLAM/Probability_review.html#small-leap"
-  },"168": {
+  },"170": {
     "doc": "Recap on Probability",
     "title": "Bayes Theorem",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#bayes-theorem",
     "relUrl": "/docs/SLAM/Probability_review.html#bayes-theorem"
-  },"169": {
+  },"171": {
     "doc": "Recap on Probability",
     "title": "Recap on Probability",
     "content": "{: .text-delta } . | Before you Begin | Discrete and Continuous Variables . | Discrete Variables and Notations | Continuous Random Variables | Get Absolute Probability from PDF | Understanding p(x) PDF | Can the value of p(x) &gt; 1? | . | Joint and Contional Probability . | Joint Probability | Conditional Probability | . | Marginals and Conditionals . | Crux of the Matter: | Small Leap | . | Bayes Theorem | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html",
     "relUrl": "/docs/SLAM/Probability_review.html"
-  },"170": {
+  },"172": {
     "doc": "Intro to Pytorch",
     "title": "Before you Begin",
     "content": "My Pytorch Website . ",
     "url": "http://localhost:4000/pytorch/#before-you-begin",
     "relUrl": "/pytorch/#before-you-begin"
-  },"171": {
+  },"173": {
     "doc": "Intro to Pytorch",
     "title": "Intro to Pytorch",
     "content": ". | Before you Begin | . ",
     "url": "http://localhost:4000/pytorch/",
     "relUrl": "/pytorch/"
-  },"172": {
+  },"174": {
     "doc": "RESNET",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . Convolutional Neural Nets are really good at extracting features. We will use a RESNET in this case to extract face features and make it a face detector. My understanding on why we use RESNETs: . | It prevents overfitting and limits the non-linearity to the necessary amount by allowing for gradients to skip neurons on the backward pass | It solves the issue of vanishing gradients | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/Resnet.html#before-you-begin"
-  },"173": {
+  },"175": {
     "doc": "RESNET",
     "title": "Forward Prop in a RESNET",
     "content": "A simple network would have following form: . Now, if we add a skip connection, we get the following structure: . Note. The new activation is g(z + a) . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet"
-  },"174": {
+  },"176": {
     "doc": "RESNET",
     "title": "Backward Prop in a RESNET",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet"
-  },"175": {
+  },"177": {
     "doc": "RESNET",
     "title": "Why use RESNETS?",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#why-use-resnets",
     "relUrl": "/docs/DL_Overview/Resnet.html#why-use-resnets"
-  },"176": {
+  },"178": {
     "doc": "RESNET",
     "title": "RESNET",
     "content": "{: .text-delta } . | Before you Begin | Forward Prop in a RESNET | Backward Prop in a RESNET | Why use RESNETS? | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html",
     "relUrl": "/docs/DL_Overview/Resnet.html"
-  },"177": {
+  },"179": {
     "doc": "SLAM",
     "title": "Simultaneous Localisation and Mapping",
     "content": "Understanding and Implementing SLAM for Robotics . ",
     "url": "http://localhost:4000/docs/SLAM#simultaneous-localisation-and-mapping",
     "relUrl": "/docs/SLAM#simultaneous-localisation-and-mapping"
-  },"178": {
+  },"180": {
     "doc": "SLAM",
     "title": "SLAM",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM",
     "relUrl": "/docs/SLAM"
-  },"179": {
+  },"181": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#before-you-begin",
     "relUrl": "/spatial_pyramid_matching/#before-you-begin"
-  },"180": {
+  },"182": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#pdfs",
     "relUrl": "/spatial_pyramid_matching/#pdfs"
-  },"181": {
+  },"183": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Spatial Pyramid Matching for Scene Classification",
     "content": ". | Before you Begin | PDFs | . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/",
     "relUrl": "/spatial_pyramid_matching/"
-  },"182": {
+  },"184": {
     "doc": "Camera Models",
     "title": "Introduction",
     "content": " ",
     "url": "http://localhost:4000/camera_model/#introduction",
     "relUrl": "/camera_model/#introduction"
-  },"183": {
+  },"185": {
     "doc": "Camera Models",
     "title": "Basics",
     "content": ". In the above image, the division by Z happens implicitly due to homogenous coordinate notation . ",
     "url": "http://localhost:4000/camera_model/#basics",
     "relUrl": "/camera_model/#basics"
-  },"184": {
+  },"186": {
     "doc": "Camera Models",
     "title": "Account for other issues in image frame",
     "content": "We will introduce 3 coordinate systems below: . | Camera Coordinate Frame | Image Coordinate Frame (where homogenous notation is used as there is no z-axis information) | World Coordinate Information | . Sometimes the camera coordinate frame and the image coordinate frame is misaligned as shown below: . ________________________________________________________________________________________________________________ . ",
     "url": "http://localhost:4000/camera_model/#account-for-other-issues-in-image-frame",
     "relUrl": "/camera_model/#account-for-other-issues-in-image-frame"
-  },"185": {
+  },"187": {
     "doc": "Camera Models",
     "title": "Intrinsic and Extrinsic Decomposition",
     "content": ". Lesson Learnt: . If we follow the how a 3D point gets left multiplied by extrinsic and then by intrinsic the coordinate frame intuition we derive is: . (3D Point -&gt; Extrinsic -&gt; Intrinsic) = (World Frame -&gt; Camera Frame -&gt; Image Frame) . t = Translation (last column of extrinsic matrix) R = Rotation (first 3x3 part of extrinsic matrix) . ",
     "url": "http://localhost:4000/camera_model/#intrinsic-and-extrinsic-decomposition",
     "relUrl": "/camera_model/#intrinsic-and-extrinsic-decomposition"
-  },"186": {
+  },"188": {
     "doc": "Camera Models",
     "title": "Final Version of Camera Model (I prefer this)",
     "content": ". ",
     "url": "http://localhost:4000/camera_model/#final-version-of-camera-model-i-prefer-this",
     "relUrl": "/camera_model/#final-version-of-camera-model-i-prefer-this"
-  },"187": {
+  },"189": {
     "doc": "Camera Models",
     "title": "Camera Models",
     "content": ". | Introduction . | Basics | Account for other issues in image frame | Intrinsic and Extrinsic Decomposition . | Lesson Learnt: | . | Final Version of Camera Model (I prefer this) | . | . ",
     "url": "http://localhost:4000/camera_model/",
     "relUrl": "/camera_model/"
-  },"188": {
+  },"190": {
     "doc": "Home",
     "title": "About Me",
     "content": ". I’m Sushanth Jayanth, presently pursuing my Master’s in Robotics Systems Development (MRSD) at CMU. I’m super interested in Computer Vision. This website was originally meant for me to revise topics in vision. However, with SLAM, ML and DL, I’ve been learning a lot more on Robotics. Resume . ",
     "url": "http://localhost:4000/#about-me",
     "relUrl": "/#about-me"
-  },"189": {
+  },"191": {
     "doc": "Home",
     "title": "Current Work",
     "content": "I’m currently doing part-time research at Kantor Lab at CMU’s Field Robotics Center, working on Robotics for Agriculture. I work on a robotic grapevine pruning project involving 3D skeletonization of grapevine pointclouds for pruning weight estimation. ",
     "url": "http://localhost:4000/#current-work",
     "relUrl": "/#current-work"
-  },"190": {
+  },"192": {
     "doc": "Home",
     "title": "Previous Work",
     "content": ". I worked on see-and-spray systems on the perception team of TartanSense. . Edhitha was a student team which has continuously taken part at the AUVSI SUAS competition held at Maryland, USA. I was part of the 2016 team where we finished 5th amongst 60 international teams and was the team lead in 2017. ",
     "url": "http://localhost:4000/#previous-work",
     "relUrl": "/#previous-work"
-  },"191": {
+  },"193": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "http://localhost:4000/",
     "relUrl": "/"
-  },"192": {
+  },"194": {
     "doc": "3D_reconstruction",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/3D_reconstruction/#before-you-begin",
     "relUrl": "/3D_reconstruction/#before-you-begin"
-  },"193": {
+  },"195": {
     "doc": "3D_reconstruction",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/3D_reconstruction/#pdfs",
     "relUrl": "/3D_reconstruction/#pdfs"
-  },"194": {
+  },"196": {
     "doc": "3D_reconstruction",
     "title": "Uses of Mutli-View Geometry",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#uses-of-mutli-view-geometry",
     "relUrl": "/3D_reconstruction/#uses-of-mutli-view-geometry"
-  },"195": {
+  },"197": {
     "doc": "3D_reconstruction",
     "title": "Background: Structure from Motion (SFM)",
     "content": "The basis for classical 3D vision is viewing an object from multiple views to give 3D understanding. In humans, we don’t have to move to perceive 3D because our eyes(cameras) are already seperated by a fixed distance. This is the same as having one camera move by a fixed distance. Hence, we see “stereo depth vision” . ",
     "url": "http://localhost:4000/3D_reconstruction/#background-structure-from-motion-sfm",
     "relUrl": "/3D_reconstruction/#background-structure-from-motion-sfm"
-  },"196": {
+  },"198": {
     "doc": "3D_reconstruction",
     "title": "Theory: Solving for camera parameters in the presence of scale ambiguity",
     "content": "Remember we had the following equation: . The lambda above is account for a scale factor which is ambiguous. This equation can also be written as: . ",
     "url": "http://localhost:4000/3D_reconstruction/#theory-solving-for-camera-parameters-in-the-presence-of-scale-ambiguity",
     "relUrl": "/3D_reconstruction/#theory-solving-for-camera-parameters-in-the-presence-of-scale-ambiguity"
-  },"197": {
+  },"199": {
     "doc": "3D_reconstruction",
     "title": "Solving for Camera Params: Direct Linear Transform",
     "content": "Now, the above equation is a similarity equation. To solve the equation we make use of a neat trick called Direct Linear Transform . PX should give the same ray (vector) as x, hence their cross product would be zero . ",
     "url": "http://localhost:4000/3D_reconstruction/#solving-for-camera-params-direct-linear-transform",
     "relUrl": "/3D_reconstruction/#solving-for-camera-params-direct-linear-transform"
-  },"198": {
+  },"200": {
     "doc": "3D_reconstruction",
     "title": "Actual Derivation",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#actual-derivation",
     "relUrl": "/3D_reconstruction/#actual-derivation"
-  },"199": {
+  },"201": {
     "doc": "3D_reconstruction",
     "title": "Theory: Epipolar Geometry",
     "content": ". | Simply put, epipolar geometry maps a point in one view, to a line in another view | Epipolar Geometry is purely determined by camera intrinsics and camera extrinsics | . ",
     "url": "http://localhost:4000/3D_reconstruction/#theory-epipolar-geometry",
     "relUrl": "/3D_reconstruction/#theory-epipolar-geometry"
-  },"200": {
+  },"202": {
     "doc": "3D_reconstruction",
     "title": "Essential Matrix: Maps a point -&gt; to a line",
     "content": ". Derivation of Essential Matrix: Longuet Higgins . | Recall the skew-symmetric form of a matrix can encode cross products . | . | We can use this to show how three vectors can define the volume of a parallelpiped: . | . | Now, given a calibrated camera (i.e. known intrinsics) we can capture a 3D point in two views . | . | . Longuet Higgins Derivation . The above derivation tells us in simplicity: . | The volume of the parallelpiped (as seen previously is defined by a.(b x c)) is zero | This means that three vectors are in one plane | Which makes sense since the epipolar plane is what connects the 2 camera centers and the 3D point | | . Difference Between Essential Matrix and Homography Matrix . How does this Essential Matrix map a point to a line (where is the math?) . ",
     "url": "http://localhost:4000/3D_reconstruction/#essential-matrix-maps-a-point---to-a-line",
     "relUrl": "/3D_reconstruction/#essential-matrix-maps-a-point---to-a-line"
-  },"201": {
+  },"203": {
     "doc": "3D_reconstruction",
     "title": "Fundamental Matrix",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#fundamental-matrix",
     "relUrl": "/3D_reconstruction/#fundamental-matrix"
-  },"202": {
+  },"204": {
     "doc": "3D_reconstruction",
     "title": "Structure From Motion Step 1: Estimating Fundamental Matrix:",
     "content": ". . We are given two images of the same object from two different views: . ''' Q2.1: Eight Point Algorithm Input: pts1, Nx2 Matrix pts2, Nx2 Matrix M, a scalar parameter computed as max (imwidth, imheight) Output: F, the fundamental matrix HINTS: (1) Normalize the input pts1 and pts2 using the matrix T. (2) Setup the eight point algorithm's equation. (3) Solve for the least square solution using SVD. (4) Use the function `_singularize` (provided) to enforce the singularity condition. (5) Use the function `refineF` (provided) to refine the computed fundamental matrix. (Remember to usethe normalized points instead of the original points) (6) Unscale the fundamental matrix ''' def eightpoint(pts1, pts2, M): \"\"\" Compute the normalized coordinates and also the fundamental matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: F2to1: Fundamental matrix after denormalization \"\"\" # Compute the centroid of the points x1, x2 = pts1, pts2 # Doing the M normaliazation moved_scaled_x1 = x1/M moved_scaled_x2 = x2/M t = np.diag([1/M, 1/M, 1]) # Compute Fundamental Matrix F = computeF(moved_scaled_x1, moved_scaled_x2) # Refine and then enforce singularity constraint F = _singularize(F) F = refineF(F, moved_scaled_x1, moved_scaled_x2) # Denormalization F2to1 = np.matmul(t.T, (F @ t)) F2to1 = F2to1/F2to1[2,2] return F2to1 def computeF(x1, x2): \"\"\" Computes the fundamental based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the fundamental matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0]*x1[i,0], x2[i,0]*x1[i,1], x2[i,0], x2[i,1]*x1[i,0], x2[i,1]*x1[i,1], x2[i,1], x1[i,0], x1[i,1], 1]) A_build.append(row_1) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose F2to1 = np.reshape(v.T[:,-1], (3,3)) return F2to1 def check_and_create_directory(dir_path, create): \"\"\" Checks for existing directories and creates if unavailable [input] * dir_path : path to be checked * create : tag to specify only checking path or also creating path \"\"\" if create == 1: if not os.path.exists(dir_path): os.makedirs(dir_path) else: if not os.path.exists(dir_path): warnings.warn(f'following path could not be found: {dir_path}') if __name__ == \"__main__\": correspondence = np.load('data/some_corresp.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] pts1, pts2 = correspondence['pts1'], correspondence['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') F = eightpoint(pts1, pts2, M=np.max([*im1.shape, *im2.shape])) print(\"the fundamental matrix found was \\n\", F) # Q2.1 out_dir = \"/home/sush/CMU/Assignment_Sem_1/CV_A/Assignment_4/code/outputs\" check_and_create_directory(out_dir, create=1) np.savez_compressed( os.path.join(out_dir, 'q2_1.npz'), F, np.max([*im1.shape, *im2.shape]) ) displayEpipolarF(im1, im2, F) . Output: . ",
     "url": "http://localhost:4000/3D_reconstruction/#structure-from-motion-step-1-estimating-fundamental-matrix",
     "relUrl": "/3D_reconstruction/#structure-from-motion-step-1-estimating-fundamental-matrix"
-  },"203": {
+  },"205": {
     "doc": "3D_reconstruction",
     "title": "Estimate Essential Matrix from Fundamental Matrix (given K1 and K2)",
     "content": "''' Q3.1: Compute the essential matrix E. Input: F, fundamental matrix K1, internal camera calibration matrix of camera 1 K2, internal camera calibration matrix of camera 2 Output: E, the essential matrix ''' def essentialMatrix(F, K1, K2): E = (K2.T @ F) @ K1 E = E/E[2,2] print(\"rank of E is\", np.linalg.matrix_rank(E)) return E if __name__ == \"__main__\": correspondence = np.load('data/some_corresp.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] pts1, pts2 = correspondence['pts1'], correspondence['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') # ----- TODO ----- # YOUR CODE HERE F = eightpoint(pts1, pts2, M=np.max([*im1.shape, *im2.shape])) E = essentialMatrix(F, K1, K2) print(\"E is \\n\", E) . ",
     "url": "http://localhost:4000/3D_reconstruction/#estimate-essential-matrix-from-fundamental-matrix-given-k1-and-k2",
     "relUrl": "/3D_reconstruction/#estimate-essential-matrix-from-fundamental-matrix-given-k1-and-k2"
-  },"204": {
+  },"206": {
     "doc": "3D_reconstruction",
     "title": "Triangulation",
     "content": " ",
     "url": "http://localhost:4000/3D_reconstruction/#triangulation",
     "relUrl": "/3D_reconstruction/#triangulation"
-  },"205": {
+  },"207": {
     "doc": "3D_reconstruction",
     "title": "triangulate3D",
     "content": ". | Here we fix one camera (extrinsic matrix = Identity matrix). Now, we know correspondence points in image1 and image2. | Using that we found the Fundamental Matrix | . Now, to estimate the 3D location of these points, we need . | Camera matrices (extrinsic*intrinsic) for both cameras M1 and M2 | Image points (x,y) which correspond to each other | Direct Linear Transform | . DLT was mentioned above, but small recap: . After finding the 3D points, we will reproject them back onto the image and compare them with our original correspondence points (which we either manually selected or got from some keypoint detector like ORB or BRIEF) . The formula for reprojection error in this case is: . def triangulate(C1, pts1, C2, pts2): \"\"\" Find the 3D coords of the keypoints We are given camera matrices and 2D correspondences. We can therefore find the 3D points (refer L17 (Camera Models) of CV slides) Note. We can't just use x = PX to compute the 3D point X because of scale ambiguity i.e the ambiguity can be rep. as x = alpha*Px (we cannot find alpha) Therefore we need to do DLT just like the case of homography (see L14 (2D transforms) CVB slide 61) Args: C1 : the 3x4 camera matrix of camera 1 pts1 : img coords of keypoints in camera 1 (Nx2) C2 : the 3x4 camera matrix of camera 2 pts2 : img coords of keypoints in camera 2 (Nx2) Returns: P : the estimated 3D point for the given pair of keypoint correspondences err : the reprojection error \"\"\" P = np.zeros(shape=(1,3)) err = 0 for i in range(len(pts1)): # get the camera 1 matrix p1_1 = C1[0,:] p2_1 = C1[1,:] p3_1 = C1[2,:] # get the camera 2 matrix p1_2 = C2[0,:] p2_2 = C2[1,:] p3_2 = C2[2,:] x, y = pts1[i,0], pts1[i,1] x2, y2 = pts2[i,0], pts2[i,1] # calculate the A matrix for this point correspondence A = np.array([y*p3_1 - p2_1 , p1_1 - x*p3_1 , y2*p3_2 - p2_2 , p1_2 - x2*p3_2]) u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose X = v.T[:,-1] # print(\"X is\", X) X = X.T X = np.expand_dims(X,axis=0) # print(\"X after transpose and expand is\", X) # convert X to homogenous coords X = X/X[0,3] # print(\"X after normalizing is\", X) P = np.concatenate((P, X[:,0:3]), axis=0) X = X.T # find the error for this projection # 3x1 = 3x4 . 3x1 pt_1 = ((C1 @ X)/(C1 @ X)[2,0])[0:2,0] pt_2 = ((C2 @ X)/(C2 @ X)[2,0])[0:2,0] # calculate the reporjection error err += np.linalg.norm(pt_1 - pts1[i,:])**2 + np.linalg.norm(pt_2 - pts2[i,:])**2 print(\"error in this iteration is\", err) P = P[1:,:] return P, err . Summary . | Given two camera matrices and keypoint correspondences for two views, we triangulated the point (found 3D point) | We found the reprojection error for this estimated 3D point | . ",
     "url": "http://localhost:4000/3D_reconstruction/#triangulate3d",
     "relUrl": "/3D_reconstruction/#triangulate3d"
-  },"206": {
+  },"208": {
     "doc": "3D_reconstruction",
     "title": "Using Triangulate to Find Second Camera Matrix after fixing First Camera Matrix = Identity",
     "content": "Previsously we saw that we need an M2 to triangulate, but we don’t have an M2 yet :/. However, since our first camera is fixed (identity) we can find the camera matrix M2 of our second camera as: . def camera2(E): U,S,V = np.linalg.svd(E) m = S[:2].mean() E = U.dot(np.array([[m,0,0], [0,m,0], [0,0,0]])).dot(V) U,S,V = np.linalg.svd(E) W = np.array([[0,-1,0], [1,0,0], [0,0,1]]) if np.linalg.det(U.dot(W).dot(V))&lt;0: W = -W M2s = np.zeros([3,4,4]) M2s[:,:,0] = np.concatenate([U.dot(W).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,1] = np.concatenate([U.dot(W).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,2] = np.concatenate([U.dot(W.T).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,3] = np.concatenate([U.dot(W.T).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) return M2s . Note: The above function gives Four possible values for M2 . Why the 4 options? . Now there are 2 checks we can use to find which is the right camera: . | Determinant(Rotation component of M2) = 1 (so that the rotation belongs to SO(3)) | All Z values should be positive (i.e. the 3D point should be in front of both the cameras right?) | . ",
     "url": "http://localhost:4000/3D_reconstruction/#using-triangulate-to-find-second-camera-matrix-after-fixing-first-camera-matrix--identity",
     "relUrl": "/3D_reconstruction/#using-triangulate-to-find-second-camera-matrix-after-fixing-first-camera-matrix--identity"
-  },"207": {
+  },"209": {
     "doc": "3D_reconstruction",
     "title": "Combining the above two functions",
     "content": "Now we have point correspondences, M1 and 4 M2’s. Therefore we’ll try to triangulate points based on the correct criteria for camera orientations. Additionally we’ll also try to minimize reprojection error: . # iterate over M1(fixed) and M2(4 possibilites) by passing them to triangulate for i in range(M2.shape[2]): M2_current = M2[:,:,i] # build the C1 and C2: pts_in_3d, err = triangulate((K1 @ M1), pts1, (K2 @ M2_current), pts2) if err &lt; err_min and (np.where(pts_in_3d[:,2] &lt; 0)[0].shape[0] == 0): print(\"satisfies the error criteria\") err_min = err best_M2_i = i best_pts_3d = pts_in_3d if (best_M2_i is not None) and (best_pts_3d is not None): print(\"min err is\", err_min) # return M2, C2, w(3d points), M1, C1 return M2[:,:,best_M2_i], (K2 @ M2[:,:,best_M2_i]), best_pts_3d, M1, (K1 @ M1) # last entry is C1 . Finally we all together have: . | our best_3d_points | correct M2 matrix | . Results of Triangulation on Input Images . ",
     "url": "http://localhost:4000/3D_reconstruction/#combining-the-above-two-functions",
     "relUrl": "/3D_reconstruction/#combining-the-above-two-functions"
-  },"208": {
+  },"210": {
     "doc": "3D_reconstruction",
     "title": "Bundle Adjustment",
     "content": ". We know that the error in the triangulation is basically difference between the projection of a 3D point and the actual point in 2D on the image. Now, we will move around the 3D points slightly and check in which orientation the reprojection error comes to a global minimum. The formula for the above operation is shown below: . The process we will follow now is very code specific. An explanation for only this below code is shown, where we will only be minimizing the rotation and translation (M2 matrix) error. High level procedure . | Use the 2D point correspondences to find the Fundamental Matrix (along with RANSAC to find the inlier points) | Use the inliers to find our best F (fundamental matrix) | Compute an initial guess for M2 by using our old findM2 function | Now, the above function would have given us 3D points (P_init) and an M2_init | Now, we have compiled the following: . | M1 and K1 | M2_init and K2 | F and E (E = (K2.T @ F) @ K1) | . | . Having the above content, we will need to derive our reprojection error. We will do this in the RodriguesResidual function: . RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) . | x basically contains the translation and rotation of camera2. We can therefore get M2 from x | We can find the camera matrices C1 = K1 @ M1, C2 = K2 @ M2 | . | Use the above equation to get p1’ and p2’ | Compare p1’ and p1, p2’ and p2, to get the reprojection error we need in both cameras | . Now we have a function which will give us reprojection error for a given M2 matrix. Now lets see how we’ll use this reporjection error to optimize our M2 . Optimization of M2 . Now that we have a function which will give us reprojection error for any given M2, lets minimize this error by moving around our 3D points slightly such that our reprojection error (for all points cumulative) reduces . We do this using the scipy.optimize.minimize function . # just some repackaging/preprocessing to give x to rodriguesResidual x0 = P_init.flatten() x0 = np.append(x0, r2_0.flatten()) x0 = np.append(x0, t2_0.flatten()) # optimization step x_opt, _ = scipy.optimize.minimze(rodriguesResidual, x0, args=(K1, M1, p1, K2, p2)) . Finally our x_opt i.e x_optimal will have the correct rotation and translation of camera 2 and the corrected 3D points . ''' Q5.3 Bundle adjustment. Input: K1, the intrinsics of camera 1 M1, the extrinsics of camera 1 p1, the 2D coordinates of points in image 1 K2, the intrinsics of camera 2 M2_init, the initial extrinsics of camera 1 (get this from findM2) p2, the 2D coordinates of points in image 2 P_init, the initial 3D coordinates of points (get this also from findM2) Output: M2, the optimized extrinsics of camera 1 P2, the optimized 3D coordinates of points o1, the starting objective function value with the initial input o2, the ending objective function value after bundle adjustment Hints: (1) Use the scipy.optimize.minimize function to minimize the objective function, rodriguesResidual. You can try different (method='..') in scipy.optimize.minimize for best results. ''' def bundleAdjustment(K1, M1, p1, K2, M2_init, p2, P_init): # given M2_init decompose it into R and t R2 = M2_init[:,0:3] t2 = M2_init[:,3] r2 = invRodrigues(R2) x_start = P_init.flatten() x_start = np.append(x_start, np.append(r2.flatten(), t2)) obj_start = rodriguesResidual(x_start, K1, M1, p1, K2, p2) print(\"x_start shape is\", x_start.shape) # optimization step from scipy.optimize import minimize x_optimized_obj = minimize(residual_norm, x_start, args=(K1, M1, p1, K2, p2), method='Powell') print(\"x_end shape is\", x_optimized_obj.x.shape) x_optimized = x_optimized_obj.x obj_end = rodriguesResidual(x_optimized, K1, M1, p1, K2, p2) # recompute the M2 and P # decompose x P_final = x_optimized[0:-6] P_shape_req = int(P_final.shape[0]/3) P_final = np.reshape(P_final, newshape=(P_shape_req,3)) r2_final = x_optimized[-6:-3] # reshape to 3x1 to feed to inverse rodrigues r2_final = r2_final.reshape(3,1) # reshape translation matrix to combine in transformation matrix t2_final = x_optimized[-3:].reshape(3,1) # compose the C2 matrix R2_final = rodrigues(r2_final) M2_final = np.hstack((R2_final, t2_final)) return M2_final, P_final, obj_start, obj_end . Results on optimizing points after bundle adjustment . ",
     "url": "http://localhost:4000/3D_reconstruction/#bundle-adjustment",
     "relUrl": "/3D_reconstruction/#bundle-adjustment"
-  },"209": {
+  },"211": {
     "doc": "3D_reconstruction",
     "title": "Final Pipeline Including RANSAC",
     "content": "if __name__ == \"__main__\": np.random.seed(1) #Added for testing, can be commented out some_corresp_noisy = np.load('data/some_corresp_noisy.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] noisy_pts1, noisy_pts2 = some_corresp_noisy['pts1'], some_corresp_noisy['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') templeCoords = np.load('data/templeCoords.npz') temple_pts1 = np.hstack([templeCoords[\"x1\"], templeCoords[\"y1\"]]) #? getting the F matrix from noisy correspondences M = np.max([*im1.shape, *im2.shape]) F, inliers = ransacF(noisy_pts1, noisy_pts2, M, im1, im2) inlier_pts1, inlier_pts2 = inliers[0], inliers[1] print(\"shape of noisy_pts1 is\", noisy_pts1.shape) print(\"shape of inlier_pts1 is\", inlier_pts1.shape) F_naieve = eightpoint(noisy_pts1, noisy_pts2, M) # use displayEpipolarF to compare how ransac_F and naieve_F behave # displayEpipolarF(im1, im2, F) # displayEpipolarF(im1, im2, F_naieve) # Simple Tests to verify your implementation: from scipy.spatial.transform import Rotation as sRot rotVec = sRot.random() mat = rodrigues(rotVec.as_rotvec()) assert(np.linalg.norm(rotVec.as_rotvec() - invRodrigues(mat)) &lt; 1e-3) assert(np.linalg.norm(rotVec.as_matrix() - mat) &lt; 1e-3) #? Getting the initial guess for M2 and P # Assuming the rotation and translation of camera1 is zero M1 = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0]]) M2_init, C2, P_init, M1, C1 = findM2(F, inlier_pts1, inlier_pts2, intrinsics) print(\"M2 shape is\", M2_init) # Optimize the M2 M2_final, P_final, start_obj, end_obj = bundleAdjustment( K1, M1, inlier_pts1, K2, M2_init, inlier_pts2, P_init ) print(\"error before optimization is\", np.linalg.norm(start_obj)**2) print(\"error after optimization is\", np.linalg.norm(end_obj)**2) # compare the old M2 to optimized M2 plot_3D_dual(P_init, P_final) . ",
     "url": "http://localhost:4000/3D_reconstruction/#final-pipeline-including-ransac",
     "relUrl": "/3D_reconstruction/#final-pipeline-including-ransac"
-  },"210": {
+  },"212": {
     "doc": "3D_reconstruction",
     "title": "Effects of RANSAC",
     "content": "RANSAC was used even before bundle adjustment, to remove noisy coorespondences for the initial best gues of the Fundamental Matrix. def ransacF(pts1, pts2, M, im1, im2, nIters=100, tol=10): \"\"\" Every iteration we init a Fundamental matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Fundamental matrix Args: pts1: location of matched points in image1 pts2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The Fundamental matrix with max number of inliers inlier_points : Final list of inliers found for best RANSAC iteration \"\"\" max_iters = nIters # the number of iterations to run RANSAC for inlier_tol = tol # the tolerance value for considering a point to be an inlier locs1 = pts1 locs2 = pts2 # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000000000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])), k=8) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_F = eightpoint(correspondence_points_1, correspondence_points_2, M) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_F, test_locs1, test_locs2, inlier_tol, im1, im2) if error_state == 1: continue if (inlier_count &gt; final_inlier_count): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 100000000: # print(\"original point count is\", locs1.shape[0]) print(\"final inlier count is\", final_inlier_count) print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = eightpoint(final_locs_1, final_locs_2, M) return bestH2to1, [final_locs_1, final_locs_2] else: print(\"SOMETHING WRONG\") bestH2to1 = eightpoint(correspondence_points_1, correspondence_points_2, M) return bestH2to1, 0 . ",
     "url": "http://localhost:4000/3D_reconstruction/#effects-of-ransac",
     "relUrl": "/3D_reconstruction/#effects-of-ransac"
-  },"211": {
+  },"213": {
     "doc": "3D_reconstruction",
     "title": "Tracking Real World Objects in 3D",
     "content": ". ''' Q6.1 Multi-View Reconstruction of keypoints. Input: C1, the 3x4 camera matrix pts1, the Nx3 matrix with the 2D image coordinates and confidence per row C2, the 3x4 camera matrix pts2, the Nx3 matrix with the 2D image coordinates and confidence per row C3, the 3x4 camera matrix pts3, the Nx3 matrix with the 2D image coordinates and confidence per row Output: P, the Nx3 matrix with the corresponding 3D points for each keypoint per row err, the reprojection error. ''' def MultiviewReconstruction(C1, pts1, C2, pts2, C3, pts3, Thres = 200): vis_pts_1 = np.where(pts1[:,2] &gt; Thres) vis_pts_2 = np.where(pts2[:,2] &gt; Thres) vis_pts_3 = np.where(pts3[:,2] &gt; Thres) # create a dummy vector to save the 3D points for each corresp 2D pt pts_3d = np.zeros(pts1.shape) reproj_error = np.zeros(12) overlap_all = np.intersect1d(vis_pts_1, vis_pts_2, vis_pts_3) for i in overlap_all: pts_cam_1_2, err1 = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_cam_2_3, err2 = triangulate(C2, pts2[i,:-1], C3, pts3[i,:-1]) pts_cam_1_3, err3 = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) avg_pt_i = (pts_cam_1_2 + pts_cam_2_3 + pts_cam_1_3)/3 avg_err = (err1+err2+err3)/3 pts_3d[i,:] = avg_pt_i reproj_error[i] = avg_err for i in vis_pts_1[0]: # print(\"i is\", i) if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_2[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_3[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") for i in vis_pts_2[0]: # print(\"i is\", i) if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_3[0]: pts_i, err = triangulate(C2, pts2[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_1[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") for i in vis_pts_3[0]: if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_1[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_2[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") print(\"pts1 shape is\", pts1.shape) print(\"3d points shape is\", pts_3d.shape) return pts_3d, reproj_error, [vis_pts_1, vis_pts_2, vis_pts_3] def MutliviewReconstructionError(x, C1, pts1, C2, pts2, C3, pts3, vis_pts_list): # decompose x P_init = x P_shape_req = int(P_init.shape[0]/3) P_init = np.reshape(P_init, newshape=(P_shape_req,3)) vis_pts_1 = vis_pts_list[0] vis_pts_2 = vis_pts_list[1] vis_pts_3 = vis_pts_list[2] pts1 = pts1[:,0:2] pts2 = pts2[:,0:2] pts3 = pts3[:,0:2] # list to store error values err_list = [] # build a sub_P matrix for all visible points in pts1, pts2, pts3 sub_pts1 = np.take(pts1, vis_pts_1, axis=0)[0] sub_P1 = np.take(P_init, vis_pts_1, axis=0)[0] sub_pts2 = np.take(pts2, vis_pts_2, axis=0)[0] sub_P2 = np.take(P_init, vis_pts_2, axis=0)[0] sub_pts3 = np.take(pts3, vis_pts_3, axis=0)[0] sub_P3 = np.take(P_init, vis_pts_3, axis=0)[0] P_list = [sub_P1, sub_P2, sub_P3] pts_list = [sub_pts1, sub_pts2, sub_pts3] C_list = [C1, C2, C3] for i in range(len(P_list)): P = P_list[i] p= pts_list[i] C = C_list[i] # homogenize P to contain a 1 in the end (P = Nx3 vector) P_homogenous = np.append(P, np.ones((P.shape[0],1)), axis=1) # Find the projection of P1 onto image 1 (vectorize) # Transpose P_homogenous to make it a 4xN vector and left mulitply with C1 # 3xN = 3x4 @ 4XN p_hat = (C @ P_homogenous.T) # normalize and transpose to get back to format of p1 p_hat = ((p_hat/p_hat[2,:])[0:2,:]).T error = np.linalg.norm((p-p_hat).reshape([-1]))**2 err_list.append(error) err_total = err_list[0] + err_list[1] + err_list[2] # print(\"error overall is\", err_total) return err_total def triangulate(C1, pts1, C2, pts2): \"\"\" Find the 3D coords of the keypoints We are given camera matrices and 2D correspondences. We can therefore find the 3D points (refer L17 (Camera Models) of CV slides) Note. We can't just use x = PX to compute the 3D point X because of scale ambiguity i.e the ambiguity can be rep. as x = alpha*Px (we cannot find alpha) Therefore we need to do DLT just like the case of homography (see L14 (2D transforms) CVB slide 61) Args: C1 : the 3x4 camera matrix of camera 1 pts1 : img coords of keypoints in camera 1 (Nx2) C2 : the 3x4 camera matrix of camera 2 pts2 : img coords of keypoints in camera 2 (Nx2) Returns: P : the estimated 3D point for the given pair of keypoint correspondences err : the reprojection error \"\"\" P = np.zeros(shape=(1,3)) err = 0 # get the camera 1 matrix p1_1 = C1[0,:] p2_1 = C1[1,:] p3_1 = C1[2,:] # get the camera 2 matrix p1_2 = C2[0,:] p2_2 = C2[1,:] p3_2 = C2[2,:] x, y = pts1[0], pts1[1] x2, y2 = pts2[0], pts2[1] # calculate the A matrix for this point correspondence A = np.array([y*p3_1 - p2_1 , p1_1 - x*p3_1 , y2*p3_2 - p2_2 , p1_2 - x2*p3_2]) u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose X = v.T[:,-1] # print(\"X is\", X) X = X.T X = np.expand_dims(X,axis=0) # print(\"X after transpose and expand is\", X) # convert X to homogenous coords X = X/X[0,3] # print(\"X after normalizing is\", X) P = np.concatenate((P, X[:,0:3]), axis=0) X = X.T # find the error for this projection # 3x1 = 3x4 . 3x1 pt_1 = ((C1 @ X)/(C1 @ X)[2,0])[0:2,0] pt_2 = ((C2 @ X)/(C2 @ X)[2,0])[0:2,0] # calculate the reporjection error err += np.linalg.norm(pt_1 - pts1)**2 + np.linalg.norm(pt_2 - pts2)**2 # print(\"error in this iteration is\", err) P = P[1:,:] return P[0], err ''' Q6.2 Plot Spatio-temporal (3D) keypoints :param car_points: np.array points * 3 ''' def plot_3d_keypoint_video(pts_3d_video): fig = plt.figure() # num_points = pts_3d.shape[0] ax = fig.add_subplot(111, projection='3d') vid_len = len(pts_3d_video) vals = np.linspace(0.1,1, num=vid_len, endpoint=False) for i in range(len(pts_3d_video)): pts_3d = pts_3d_video[i] for j in range(len(connections_3d)): index0, index1 = connections_3d[j] xline = [pts_3d[index0,0], pts_3d[index1,0]] yline = [pts_3d[index0,1], pts_3d[index1,1]] zline = [pts_3d[index0,2], pts_3d[index1,2]] ax.plot(xline, yline, zline, color=colors[j], alpha=vals[i]) np.set_printoptions(threshold=1e6, suppress=True) ax.set_xlabel('X Label') ax.set_ylabel('Y Label') ax.set_zlabel('Z Label') plt.show() #Extra Credit if __name__ == \"__main__\": pts_3d_video = [] for loop in range(10): print(f\"processing time frame - {loop}\") data_path = os.path.join('data/q6/','time'+str(loop)+'.npz') image1_path = os.path.join('data/q6/','cam1_time'+str(loop)+'.jpg') image2_path = os.path.join('data/q6/','cam2_time'+str(loop)+'.jpg') image3_path = os.path.join('data/q6/','cam3_time'+str(loop)+'.jpg') im1 = plt.imread(image1_path) im2 = plt.imread(image2_path) im3 = plt.imread(image3_path) data = np.load(data_path) pts1 = data['pts1'] pts2 = data['pts2'] pts3 = data['pts3'] K1 = data['K1'] K2 = data['K2'] K3 = data['K3'] M1 = data['M1'] M2 = data['M2'] M3 = data['M3'] #Note - Press 'Escape' key to exit img preview and loop further # img = visualize_keypoints(im2, pts2) C1 = K1 @ M1 C2 = K2 @ M2 C3 = K3 @ M3 pts_3d, err, vis_pts_list = MultiviewReconstruction(C1, pts1, C2, pts2, C3, pts3) x_start = pts_3d.flatten() x_optimized_obj = minimize(MutliviewReconstructionError, x_start, args=(C1, pts1, C2, pts2, C3, pts3, vis_pts_list), method='Powell') print(\"x_end shape is\", x_optimized_obj.x.shape) x_optimized = x_optimized_obj.x P_final = x_optimized P_shape_req = int(P_final.shape[0]/3) P_final = np.reshape(P_final, newshape=(P_shape_req,3)) plot_3d_keypoint(P_final) pts_3d_video.append(P_final) visualize_keypoints(im1, pts1, Threshold=200) plot_3d_keypoint_video(pts_3d_video) out_dir = \"/home/sush/CMU/Assignment_Sem_1/CV_A/Assignment_4/code/outputs\" check_and_create_directory(out_dir, create=1) np.savez_compressed( os.path.join(out_dir, 'q6_1.npz'), P_final) . ",
     "url": "http://localhost:4000/3D_reconstruction/#tracking-real-world-objects-in-3d",
     "relUrl": "/3D_reconstruction/#tracking-real-world-objects-in-3d"
-  },"212": {
+  },"214": {
     "doc": "3D_reconstruction",
     "title": "3D_reconstruction",
     "content": ". | Before you Begin | PDFs | Uses of Mutli-View Geometry | Background: Structure from Motion (SFM) | Theory: Solving for camera parameters in the presence of scale ambiguity . | Solving for Camera Params: Direct Linear Transform | Actual Derivation | . | Theory: Epipolar Geometry . | Essential Matrix: Maps a point -&gt; to a line . | Derivation of Essential Matrix: Longuet Higgins . | Longuet Higgins Derivation | . | Difference Between Essential Matrix and Homography Matrix | How does this Essential Matrix map a point to a line (where is the math?) | . | Fundamental Matrix | . | Structure From Motion Step 1: Estimating Fundamental Matrix: . | Estimate Essential Matrix from Fundamental Matrix (given K1 and K2) | . | Triangulation . | triangulate3D | Using Triangulate to Find Second Camera Matrix after fixing First Camera Matrix = Identity | Combining the above two functions | . | Bundle Adjustment . | High level procedure . | RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) | . | Optimization of M2 | . | Final Pipeline Including RANSAC . | Effects of RANSAC | . | Tracking Real World Objects in 3D | . ",
