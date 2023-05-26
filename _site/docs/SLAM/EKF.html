@@ -148,6 +148,28 @@
 <ol id="markdown-toc">
   <li><a href="#extended-kalman-filter" id="markdown-toc-extended-kalman-filter">Extended Kalman Filter</a></li>
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#robot-state" id="markdown-toc-robot-state">Robot State</a>    <ol>
+      <li><a href="#motion-model" id="markdown-toc-motion-model">Motion Model</a>        <ol>
+          <li><a href="#2d-robot-motion-model" id="markdown-toc-2d-robot-motion-model">2D Robot Motion Model</a></li>
+          <li><a href="#using-motion-model-in-prediction" id="markdown-toc-using-motion-model-in-prediction">Using Motion Model in Prediction</a>            <ol>
+              <li><a href="#noise-free-prediction" id="markdown-toc-noise-free-prediction">Noise Free Prediction</a></li>
+              <li><a href="#prediction-with-uncertainty" id="markdown-toc-prediction-with-uncertainty">Prediction with Uncertainty</a></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li><a href="#sensor-model" id="markdown-toc-sensor-model">Sensor Model</a></li>
+      <li><a href="#measurement-model" id="markdown-toc-measurement-model">Measurement Model</a></li>
+    </ol>
+  </li>
+  <li><a href="#ekf-algorithm" id="markdown-toc-ekf-algorithm">EKF Algorithm</a>    <ol>
+      <li><a href="#the-algorithm" id="markdown-toc-the-algorithm">The Algorithm</a></li>
+      <li><a href="#finding-the-covariances" id="markdown-toc-finding-the-covariances">Finding the Covariances</a>        <ol>
+          <li><a href="#robot-pose-covariance" id="markdown-toc-robot-pose-covariance">Robot Pose Covariance</a></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
 </ol>
 
 </details>
@@ -164,7 +186,7 @@
 
 <p>Note. Full SLAM = no marginalization (i.e. we optimize over all robot states). Online SLAM is
 what we do in EKF where we only care about the previous robot state and marginalize out all
-the old states.</p>
+the older states.</p>
 
 <p>Here, marginalization is just a way of integrating probability density functions to get
 a certainty in pose estimates of past poses. This works fine if the pose estimates were good
@@ -181,9 +203,226 @@ to begin with. This also cannot handle anything like loop closures.</p>
     
 
 <p>Here we’ll use landmarks already known to us from the dataset (landmark poses) in 2D space.
-Hence our localization would also be in 2D</p>
+Hence our localization would also be in 2D.</p>
 
-<p>Since we localize in 2D our robot state space would also need to be in 2D.</p>
+<p>The below image shows the robot poses and the landmarks (in green).</p>
+
+<p><img src="/images/SLAM/EKF/Plot_with_grnd.png" alt="" /></p>
+
+<p>Since we localize in 2D our robot state space would also need to be in 2D. The robot’s pose can
+therefore be just <em>x, y, and yaw</em>.</p>
+
+<p>Similar to the particle filter, here too we will have two steps in the algorithm:</p>
+<ul>
+  <li>Prediction Step - <strong>uses motion model</strong></li>
+  <li>Update Step - <strong>uses sensor model</strong></li>
+</ul>
+
+<p>However, the update step in this case will depend on which landmarks we observe and will only
+update the pose estimates of the robot and those landmarks alone.</p>
+
+<p>The sensor model uses a laser rangefinder to give the landmark position in robot frame (which
+is later converted into global coordinates)</p>
+      <h1 id="robot-state">
+        
+        
+          <a href="#robot-state" class="anchor-heading" aria-labelledby="robot-state"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Robot State
+        
+        
+      </h1>
+    
+
+<p>Since we localize both <strong>landmarks</strong> and the <strong>robot pose</strong>, the state vector must contain
+both information.</p>
+
+<p><img src="/images/SLAM/EKF/state_vector.png" alt="" /></p>
+
+<p>The above state vector captures robot pose and landmark position in <strong>global coordinates</strong>.
+Robot pose has three variables (x,y,theta) and landmark position has two variables (x,y)
+for each landmark.</p>
+
+<p>This results in a <strong>large state vector which is one of the drawbacks of EKF</strong>.</p>
+      <h2 id="motion-model">
+        
+        
+          <a href="#motion-model" class="anchor-heading" aria-labelledby="motion-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Motion Model
+        
+        
+      </h2>
+    
+
+<p>Previously, we used an odometry motion model in particle filters. This model is used here only
+for comparison and explanation and <em>we will be using something slightly different.</em></p>
+
+<p><img src="/images/SLAM/EKF/pf_motion_model.png" alt="" /></p>
+
+<p>Generally there are two forms of expressions for motion models:</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Closed form calculation</th>
+      <th style="text-align: left">Sampling</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Calculates the robot’s pose as a probability using the previous state as a prior</td>
+      <td style="text-align: left">Calculates multiple poses where the robot might land based on the noise in model</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><img src="/images/SLAM/EKF/closed_form.png" alt="" /></td>
+      <td style="text-align: left"><img src="/images/SLAM/EKF/sampling_motion.png" alt="" /></td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>In Particle Filters, we needed estimates of the where each particle would land and we therefore
+had to use sampling. However, for EKF we need estimates of how noisy the estimated robot pose
+would be. <strong>Hence, we will kinda be using a closed form type.</strong></p>
+      <h3 id="2d-robot-motion-model">
+        
+        
+          <a href="#2d-robot-motion-model" class="anchor-heading" aria-labelledby="2d-robot-motion-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 2D Robot Motion Model
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>The robot will be constrained to only move in one axis (x-axis) shown as <em>d_t</em> in the robot’s
+body frame. However, it will be allowed to rotate along it’s central axis by <em>alpha</em>.</li>
+  <li>We will also add noise to motion in all three axis as <em>e_x, e_y, and e_alpha</em></li>
+</ul>
+
+<p><img src="/images/SLAM/EKF/motion_model.png" alt="" /></p>
+      <h3 id="using-motion-model-in-prediction">
+        
+        
+          <a href="#using-motion-model-in-prediction" class="anchor-heading" aria-labelledby="using-motion-model-in-prediction"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Using Motion Model in Prediction
+        
+        
+      </h3>
+    
+
+<p>Here we mathematically define the prediction step used in EKF</p>
+      <h4 id="noise-free-prediction">
+        
+        
+          <a href="#noise-free-prediction" class="anchor-heading" aria-labelledby="noise-free-prediction"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Noise Free Prediction
+        
+        
+      </h4>
+    
+
+<p><img src="/images/SLAM/EKF/noise_free_motion_pred.png" alt="" /></p>
+      <h4 id="prediction-with-uncertainty">
+        
+        
+          <a href="#prediction-with-uncertainty" class="anchor-heading" aria-labelledby="prediction-with-uncertainty"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Prediction with Uncertainty
+        
+        
+      </h4>
+    
+
+<p>We will now represent the prediction step as a non-linear function g(x,u) with some added noise</p>
+
+<p><img src="/images/SLAM/EKF/motion_pred_with_unc_1.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/motion_pred_with_unc_2.png" alt="" /></p>
+      <h2 id="sensor-model">
+        
+        
+          <a href="#sensor-model" class="anchor-heading" aria-labelledby="sensor-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Sensor Model
+        
+        
+      </h2>
+    
+
+<p>Given the range r and bearing β readings from a laser rangefinder, we can estimate the location of landmarks
+in the global frame given a known robot state. We will use this as our measurement prediction model
+h(p_t, β, r)</p>
+
+<p>Therefore the landmark predictions are mathematically defined as:</p>
+
+<p><img src="/images/SLAM/EKF/landmark_pred_1.png" alt="" /></p>
+
+<p>The uncertainty is modelled separately as white noise (normally distributed with zero mean)</p>
+
+<p><img src="/images/SLAM/EKF/landmark_pred_2.png" alt="" /></p>
+      <h2 id="measurement-model">
+        
+        
+          <a href="#measurement-model" class="anchor-heading" aria-labelledby="measurement-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Measurement Model
+        
+        
+      </h2>
+    
+
+<p>Using predicted state vector p t (contains robot pose and landmark) for the j’th landmark, the bearing <strong>β</strong>
+and range <strong>r</strong> estimate for the j’th landmark is captured as <strong>h(p_t , j)</strong></p>
+
+<p>Where h(p_t , j) = measurement model</p>
+
+<p><img src="/images/SLAM/EKF/meas_model.png" alt="" /></p>
+      <h1 id="ekf-algorithm">
+        
+        
+          <a href="#ekf-algorithm" class="anchor-heading" aria-labelledby="ekf-algorithm"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> EKF Algorithm
+        
+        
+      </h1>
+    
+
+<p>The main function of the EKF algorithm helps decrease the uncertainty in our state vector
+(robot and landmark poses). Firstly, lets understand how the uncertainty in poses is captured.</p>
+
+<p>Remember the <a href="#motion-model">motion model</a> and <a href="#sensor-model">sensor model</a>.
+We saw that noise was included in both cases. The motion model noise is called <strong>control noise</strong>
+or process noise and the sensor model noise is called <strong>measurement noise</strong></p>
+
+<p>Since both control and measurement noise affects the robot state, it is easy to maintain a
+combined covariance matrix P . The below equation shows how the state vector relates to the
+mean and covariance matrices.</p>
+
+<p><img src="/images/SLAM/EKF/cov_intro.png" alt="" /></p>
+
+<p>In the EKF algorithm we will update parts the above covariance matrix in different steps:</p>
+<ul>
+  <li>Given Control Reading : we update the Σ_xx primarily plus the first row and first column elements since they depend on x_t</li>
+  <li>Given Sensor Reading : we update the whole covariance matrix (assuming we see all landmarks in each sensor reading)</li>
+</ul>
+      <h2 id="the-algorithm">
+        
+        
+          <a href="#the-algorithm" class="anchor-heading" aria-labelledby="the-algorithm"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> The Algorithm
+        
+        
+      </h2>
+    
+
+<p><img src="/images/SLAM/EKF/algo.png" alt="" /></p>
+      <h2 id="finding-the-covariances">
+        
+        
+          <a href="#finding-the-covariances" class="anchor-heading" aria-labelledby="finding-the-covariances"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Finding the Covariances
+        
+        
+      </h2>
+    
+
+<ul>
+  <li>Step 4 of the <a href="#the-algorithm">EKF Algorithm</a> is the <strong>predicted covariance</strong> based on
+some odometry reading.</li>
+  <li>However, this predicted covariance has two parts. Robot pose covariance and Landmark covariance</li>
+</ul>
+      <h3 id="robot-pose-covariance">
+        
+        
+          <a href="#robot-pose-covariance" class="anchor-heading" aria-labelledby="robot-pose-covariance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Robot Pose Covariance
+        
+        
+      </h3>
 
         
 
