@@ -159,13 +159,31 @@
         </ol>
       </li>
       <li><a href="#sensor-model" id="markdown-toc-sensor-model">Sensor Model</a></li>
-      <li><a href="#measurement-model" id="markdown-toc-measurement-model">Measurement Model</a></li>
     </ol>
   </li>
   <li><a href="#ekf-algorithm" id="markdown-toc-ekf-algorithm">EKF Algorithm</a>    <ol>
-      <li><a href="#the-algorithm" id="markdown-toc-the-algorithm">The Algorithm</a></li>
-      <li><a href="#finding-the-covariances" id="markdown-toc-finding-the-covariances">Finding the Covariances</a>        <ol>
-          <li><a href="#robot-pose-covariance" id="markdown-toc-robot-pose-covariance">Robot Pose Covariance</a></li>
+      <li><a href="#algorithm-overview" id="markdown-toc-algorithm-overview">Algorithm Overview</a></li>
+      <li><a href="#setup-and-initialization" id="markdown-toc-setup-and-initialization">Setup and Initialization</a>        <ol>
+          <li><a href="#landmark-initialization---finding-landmark-pose-covariance" id="markdown-toc-landmark-initialization---finding-landmark-pose-covariance">Landmark Initialization - Finding Landmark Pose Covariance</a></li>
+        </ol>
+      </li>
+      <li><a href="#main-loop-of-algorithm" id="markdown-toc-main-loop-of-algorithm">Main Loop of Algorithm</a>        <ol>
+          <li><a href="#prediction-step" id="markdown-toc-prediction-step">Prediction Step</a>            <ol>
+              <li><a href="#finding-the-covariance" id="markdown-toc-finding-the-covariance">Finding the Covariance</a></li>
+            </ol>
+          </li>
+          <li><a href="#prediction-step-code" id="markdown-toc-prediction-step-code">Prediction Step Code</a></li>
+          <li><a href="#update-step---a-comparison-step" id="markdown-toc-update-step---a-comparison-step">Update Step - A comparison step</a>            <ol>
+              <li><a href="#measurement-model-definition" id="markdown-toc-measurement-model-definition">Measurement Model Definition</a></li>
+              <li><a href="#using-the-measurement-model" id="markdown-toc-using-the-measurement-model">Using the Measurement Model</a></li>
+              <li><a href="#deriving-h_t" id="markdown-toc-deriving-h_t">Deriving H_t</a></li>
+            </ol>
+          </li>
+          <li><a href="#update-step-in-code" id="markdown-toc-update-step-in-code">Update Step in Code</a></li>
+        </ol>
+      </li>
+      <li><a href="#overview-of-implementation" id="markdown-toc-overview-of-implementation">Overview of Implementation</a>        <ol>
+          <li><a href="#visual-interpretation" id="markdown-toc-visual-interpretation">Visual Interpretation</a></li>
         </ol>
       </li>
     </ol>
@@ -207,7 +225,7 @@ Hence our localization would also be in 2D.</p>
 
 <p>The below image shows the robot poses and the landmarks (in green).</p>
 
-<p><img src="/images/SLAM/EKF/Plot_with_grnd.png" alt="" /></p>
+<p><img src="/images/SLAM/EKF/plot.png" alt="" /></p>
 
 <p>Since we localize in 2D our robot state space would also need to be in 2D. The robot’s pose can
 therefore be just <em>x, y, and yaw</em>.</p>
@@ -350,21 +368,6 @@ h(p_t, β, r)</p>
 <p>The uncertainty is modelled separately as white noise (normally distributed with zero mean)</p>
 
 <p><img src="/images/SLAM/EKF/landmark_pred_2.png" alt="" /></p>
-      <h2 id="measurement-model">
-        
-        
-          <a href="#measurement-model" class="anchor-heading" aria-labelledby="measurement-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Measurement Model
-        
-        
-      </h2>
-    
-
-<p>Using predicted state vector p t (contains robot pose and landmark) for the j’th landmark, the bearing <strong>β</strong>
-and range <strong>r</strong> estimate for the j’th landmark is captured as <strong>h(p_t , j)</strong></p>
-
-<p>Where h(p_t , j) = measurement model</p>
-
-<p><img src="/images/SLAM/EKF/meas_model.png" alt="" /></p>
       <h1 id="ekf-algorithm">
         
         
@@ -387,42 +390,524 @@ mean and covariance matrices.</p>
 
 <p><img src="/images/SLAM/EKF/cov_intro.png" alt="" /></p>
 
-<p>In the EKF algorithm we will update parts the above covariance matrix in different steps:</p>
+<p>In the EKF algorithm we will update parts of the above covariance matrix in different steps:</p>
 <ul>
-  <li>Given Control Reading : we update the Σ_xx primarily plus the first row and first column elements since they depend on x_t</li>
-  <li>Given Sensor Reading : we update the whole covariance matrix (assuming we see all landmarks in each sensor reading)</li>
+  <li>The above image shows mean and covariance. <span style="color:black"> We find the mean using the non-linear functions of the motion and sensor model </span></li>
+  <li><span style="color:black"> Given Control Reading </span> : we update the Σ_xx primarily plus the first row and first column elements since they depend on x_t</li>
+  <li><span style="color:black"> Given Sensor Reading  </span> : we update the whole covariance matrix (assuming we see all landmarks in each sensor reading)</li>
 </ul>
-      <h2 id="the-algorithm">
+      <h2 id="algorithm-overview">
         
         
-          <a href="#the-algorithm" class="anchor-heading" aria-labelledby="the-algorithm"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> The Algorithm
+          <a href="#algorithm-overview" class="anchor-heading" aria-labelledby="algorithm-overview"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Algorithm Overview
         
         
       </h2>
     
 
 <p><img src="/images/SLAM/EKF/algo.png" alt="" /></p>
-      <h2 id="finding-the-covariances">
+      <h2 id="setup-and-initialization">
         
         
-          <a href="#finding-the-covariances" class="anchor-heading" aria-labelledby="finding-the-covariances"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Finding the Covariances
+          <a href="#setup-and-initialization" class="anchor-heading" aria-labelledby="setup-and-initialization"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Setup and Initialization
         
         
       </h2>
     
 
+<p>Previously we saw the following image of what our state vector and covariance matrix would look</p>
+
+<p><em>Note:</em>
+<em>state_vector = µ</em></p>
+
+<p><em>covariance = Σ</em></p>
+
+<p><img src="/images/SLAM/EKF/cov_intro.png" alt="" /></p>
+
+<p>The same structre is followed in code where we will have <strong>X</strong> as our state vector and <strong>P</strong> as
+our covariance matrix</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># Generate variance from standard deviation
+</span>  <span class="n">sig_x2</span> <span class="o">=</span> <span class="n">sig_x</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">sig_y2</span> <span class="o">=</span> <span class="n">sig_y</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">sig_alpha2</span> <span class="o">=</span> <span class="n">sig_alpha</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">sig_beta2</span> <span class="o">=</span> <span class="n">sig_beta</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">sig_r2</span> <span class="o">=</span> <span class="n">sig_r</span><span class="o">**</span><span class="mi">2</span>
+
+  <span class="c1"># Open data file and read the initial measurements
+</span>  <span class="n">data_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"../data/data.txt"</span><span class="p">)</span>
+  <span class="n">line</span> <span class="o">=</span> <span class="n">data_file</span><span class="p">.</span><span class="n">readline</span><span class="p">()</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'[</span><span class="se">\t</span><span class="s"> ]'</span><span class="p">,</span> <span class="n">line</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+  <span class="s">"""
+  The data file is extracted as arr and is given to init_landmarks below
+
+  The data file has 2 types of entries:
+  1. landmarks [β_1 r_1 β_2 r_2 · · · ], where β_i , r_i correspond to landmark
+  2. control inputs in form of [d, alpha] (d = translation along x-axis)
+  """</span>
+  <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">])</span>
+  <span class="n">measure</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="c1"># Setup control and measurement covariance
+</span>  <span class="n">control_cov</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">([</span><span class="n">sig_x2</span><span class="p">,</span> <span class="n">sig_y2</span><span class="p">,</span> <span class="n">sig_alpha2</span><span class="p">])</span>
+  <span class="n">measure_cov</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">([</span><span class="n">sig_beta2</span><span class="p">,</span> <span class="n">sig_r2</span><span class="p">])</span>
+
+  <span class="c1"># Setup the initial pose vector and pose uncertainty
+</span>  <span class="c1"># pose vector is initialized to zero
+</span>  <span class="n">pose</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="n">pose_cov</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">0.02</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.02</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="o">**</span><span class="mi">2</span><span class="p">])</span>
+
+  <span class="s">"""
+  measure = all landmarks
+  measure_cov = known sensor covariance
+  pose = initialized to (0,0)
+  pose_cov = how much we trust motion model = fixed
+  """</span>
+  <span class="n">k</span><span class="p">,</span> <span class="n">landmark</span><span class="p">,</span> <span class="n">landmark_cov</span> <span class="o">=</span> <span class="n">init_landmarks</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">measure_cov</span><span class="p">,</span> <span class="n">pose</span><span class="p">,</span>
+                                              <span class="n">pose_cov</span><span class="p">)</span> <span class="c1"># basically H_t in for-loop of pg 204
+</span>  <span class="k">print</span><span class="p">(</span><span class="s">"Orig K is"</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+  <span class="c1"># Setup state vector X by stacking pose and landmark states
+</span>  <span class="c1"># X = [x_t, y_t, thetha_t, landmark1(range), landmark1(bearing), landmark2(range)...]
+</span>  <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">pose</span><span class="p">,</span> <span class="n">landmark</span><span class="p">))</span>
+
+  <span class="c1"># Setup covariance matrix P by expanding pose and landmark covariances
+</span>  <span class="s">"""
+  - The covariance matrix for a state vector = [x,y,thetha] would be 3x3
+  - However, since we also add landmarks into the state vector, we need to add that as well
+  - Since there are 2*k landmarks, we create a new matrix encapsulating pose_cov and landmark_cov
+
+  - this new cov matrix (constructed by np.block) is:
+
+      [[pose_cov,        0     ],
+        [    0,     landmark_cov]]
+
+  """</span>
+  <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">block</span><span class="p">([[</span><span class="n">pose_cov</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">))],</span>
+                <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">landmark_cov</span><span class="p">]])</span>
+
+  <span class="k">print</span><span class="p">(</span><span class="s">"Init covariance </span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+      <h3 id="landmark-initialization---finding-landmark-pose-covariance">
+        
+        
+          <a href="#landmark-initialization---finding-landmark-pose-covariance" class="anchor-heading" aria-labelledby="landmark-initialization---finding-landmark-pose-covariance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Landmark Initialization - Finding Landmark Pose Covariance
+        
+        
+      </h3>
+    
+
+<p>In the above code of setting up the state vector and covariance matrix, we see the following
+lines:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">k</span><span class="p">,</span> <span class="n">landmark</span><span class="p">,</span> <span class="n">landmark_cov</span> <span class="o">=</span> <span class="n">init_landmarks</span><span class="p">(</span><span class="n">measure</span><span class="p">,</span> <span class="n">measure_cov</span><span class="p">,</span> <span class="n">pose</span><span class="p">,</span>
+                                              <span class="n">pose_cov</span><span class="p">)</span> <span class="c1"># basically H_t in for-loop of pg 204
+</span>                                                        <span class="c1"># of probabalistic robotics
+</span>
+<span class="c1"># covariance matrix
+</span><span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">block</span><span class="p">([[</span><span class="n">pose_cov</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">))],</span>
+                <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">landmark_cov</span><span class="p">]])</span>
+</code></pre></div></div>
+
+<p>Here we see that the function init_landmarks is giving us the <strong>landmark_cov and k</strong>
+(k = no. of landmarks). Let’s take a look at this function to see it’s working.</p>
+
+<p>We will need to find the covariance of the landmarks by using the <a href="#sensor-model">Sensor Model</a></p>
+
+<p><img src="/images/SLAM/EKF/landmark_cov.png" alt="" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">init_landmarks</span><span class="p">(</span><span class="n">init_measure</span><span class="p">,</span> <span class="n">init_measure_cov</span><span class="p">,</span> <span class="n">init_pose</span><span class="p">,</span> <span class="n">init_pose_cov</span><span class="p">):</span>
+    <span class="s">'''
+    NOTE: Here we predict where the landmark may be, based on bearing and range sensor readings
+
+    1. Number of landmarks (k)
+    2. landmark states (just position (2k,1)) which will get stacked onto
+       robot pose
+    3. Covariance of landmark pose estimations (see theory)
+
+    input1 init_measure    :  Initial measurements of form (beta0, l0, beta1,...) (2k,1)
+    input2 init_measure_cov:  Initial covariance matrix (2, 2) per landmark given parameters.
+    input3 init_pose       :  Initial pose vector of shape (3, 1).
+    input4 init_pose_cov   :  Initial pose covariance of shape (3, 3) given parameters.
+
+    return1 k              : Number of landmarks.
+    return2 landmarks      : Numpy array of shape (2k, 1) for the state.
+    return3 landmarks_cov  : Numpy array of shape (2k, 2k) for the uncertainty.
+    '''</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="n">init_measure</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="n">landmark</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">landmark_cov</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="n">x_t</span> <span class="o">=</span> <span class="n">init_pose</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y_t</span> <span class="o">=</span> <span class="n">init_pose</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">theta_t</span> <span class="o">=</span> <span class="n">init_pose</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># to find the covaraince of all landmark poses, we need to iterate over each landmark
+</span>    <span class="c1"># and start filling in landmark_cov array initialized above. (we'll fill in diagonal
+</span>    <span class="c1"># components only)
+</span>    <span class="k">for</span> <span class="n">l_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="c1"># l_i is the i'th landmark
+</span>        <span class="c1"># init_measure.shape = (2k,1)
+</span>        <span class="n">beta</span> <span class="o">=</span> <span class="n">init_measure</span><span class="p">[</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">l_range</span> <span class="o">=</span> <span class="n">init_measure</span><span class="p">[</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># need to find landmark location in global coords (l_x, l_y) to find H_l
+</span>        <span class="n">l_x</span> <span class="o">=</span> <span class="n">x_t</span> <span class="o">+</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">l_range</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">)))</span>
+        <span class="n">l_y</span> <span class="o">=</span> <span class="n">y_t</span> <span class="o">+</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">l_range</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">)))</span>
+
+        <span class="n">landmark</span><span class="p">[</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">l_x</span>
+        <span class="n">landmark</span><span class="p">[</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">l_y</span>
+
+        <span class="c1"># Note, L here is the derivative of (l_x,l_y) vector (sensor model) w.r.t beta and theta
+</span>        <span class="c1"># G_l is the derivative of same sensor model w.r.t state varialbes (x,y,theta)
+</span>        <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">l_range</span><span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">))],</span>
+                      <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">l_range</span><span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="o">+</span><span class="n">theta_t</span><span class="p">))]])</span>
+
+        <span class="c1"># G_l represents the robot pose aspect of landmark measurement
+</span>        <span class="c1"># therefore when measuring covariance, it will use robot pose covariance
+</span>        <span class="n">G_l</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">l_range</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_t</span> <span class="o">+</span> <span class="n">beta</span><span class="p">))],</span>
+                        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">l_range</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_t</span> <span class="o">+</span> <span class="n">beta</span><span class="p">))]])</span>
+
+        <span class="c1"># See theory, L below was derived w.r.t to measurement. Therefore,
+</span>        <span class="c1"># during covariance calculation it will use measurement_covariance
+</span>        <span class="c1"># Similarly, G defined w.r.t state variables (x,y,theta) therefore uses pose_covariance
+</span>        <span class="n">pred_landmark_cov</span> <span class="o">=</span> <span class="p">(</span><span class="n">G_l</span> <span class="o">@</span> <span class="n">init_pose_cov</span> <span class="o">@</span> <span class="n">G_l</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">L</span> <span class="o">@</span> <span class="n">init_measure_cov</span> <span class="o">@</span> <span class="n">L</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="n">pred_landmark_cov</span><span class="p">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+
+        <span class="n">landmark_cov</span><span class="p">[</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">l_i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_landmark_cov</span>
+
+    <span class="k">return</span> <span class="n">k</span><span class="p">,</span> <span class="n">landmark</span><span class="p">,</span> <span class="n">landmark_cov</span>
+</code></pre></div></div>
+      <h2 id="main-loop-of-algorithm">
+        
+        
+          <a href="#main-loop-of-algorithm" class="anchor-heading" aria-labelledby="main-loop-of-algorithm"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Main Loop of Algorithm
+        
+        
+      </h2>
+    
+
+<p>Once we have setup our state vector and covariance matrix, we start the series of
+<strong>prediction and update steps</strong>. This is done in code as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Core loop: sequentially process controls and measurements
+</span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data_file</span><span class="p">:</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'[</span><span class="se">\t</span><span class="s"> ]'</span><span class="p">,</span> <span class="n">line</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">])</span>
+
+    <span class="c1"># Control
+</span>    <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s">: Predict step'</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">control</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="n">d</span><span class="p">],</span> <span class="p">[</span><span class="n">alpha</span><span class="p">]])</span>
+
+        <span class="n">X_pre</span><span class="p">,</span> <span class="n">P_pre</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">control</span><span class="p">,</span> <span class="n">control_cov</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+    <span class="c1"># Measurement
+</span>    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s">: Update step'</span><span class="p">)</span>
+        <span class="n">measure</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">X</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">X_pre</span><span class="p">,</span> <span class="n">P_pre</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">measure_cov</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="n">last_X</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div></div>
+      <h3 id="prediction-step">
+        
+        
+          <a href="#prediction-step" class="anchor-heading" aria-labelledby="prediction-step"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Prediction Step
+        
+        
+      </h3>
+    
+
+<p><img src="/images/SLAM/EKF/predict_graph.png" alt="" /></p>
+
+<p>After we initialize the state vector and covariance matrix, we can then proceed to the next
+time step in our data file. At this stage we will be making predictions and updating the state
+vector.</p>
+      <h4 id="finding-the-covariance">
+        
+        
+          <a href="#finding-the-covariance" class="anchor-heading" aria-labelledby="finding-the-covariance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Finding the Covariance
+        
+        
+      </h4>
+    
 <ul>
   <li>Step 4 of the <a href="#the-algorithm">EKF Algorithm</a> is the <strong>predicted covariance</strong> based on
 some odometry reading.</li>
   <li>However, this predicted covariance has two parts. Robot pose covariance and Landmark covariance</li>
+  <li>Landmark covariance was initialized in the previous step. Hence, <span style="color:blue">
+only the robot pose covariance and any covariance associated with robot pose will be updated.
+</span> This translates to only the first row and first column of the covariance matrix
+getting updated. See <a href="#setup-and-initialization">cov matrix</a> for why first row and column</li>
 </ul>
-      <h3 id="robot-pose-covariance">
+
+<p><img src="/images/SLAM/EKF/pose_cov.png" alt="" /></p>
+      <h3 id="prediction-step-code">
         
         
-          <a href="#robot-pose-covariance" class="anchor-heading" aria-labelledby="robot-pose-covariance"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Robot Pose Covariance
+          <a href="#prediction-step-code" class="anchor-heading" aria-labelledby="prediction-step-code"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Prediction Step Code
         
         
       </h3>
+    
+
+<p>Now, we will only be predicting the robot pose <span style="color:black"> (landmarks are initialized once and only updated
+in sensor measurements i.e. update step)</span></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">control</span><span class="p">,</span> <span class="n">control_cov</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="s">'''
+    NOTE: Here we predict only the robot's new state (new state's mean and covariance)
+
+    \param X State vector of shape (3 + 2k, 1) stacking pose and landmarks.
+    \param P Covariance matrix of shape (3 + 2k, 3 + 2k) for X.
+    \param control Control signal of shape (2, 1) in the polar space that moves the robot.
+    \param control_cov Control covariance shape (3, 3) in the (x, y, theta) space.
+    \param k Number of landmarks.
+
+    </span><span class="se">\r</span><span class="s">eturn X_pre Predicted X state of shape (3 + 2k, 1).
+    </span><span class="se">\r</span><span class="s">eturn P_pre Predicted P covariance of shape (3 + 2k, 3 + 2k).
+    '''</span>
+    <span class="c1"># TODO: Predict new position (mean) using control inputs (only geometrical, no cov here)
+</span>    <span class="n">theta_curr</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">d_t</span> <span class="o">=</span> <span class="n">control</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># control input in robot's local frame's x-axis
+</span>    <span class="n">alpha_t</span> <span class="o">=</span> <span class="n">control</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">P_pred</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">pos_cov</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="n">X_pred</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># update only robot pose (not landmark pose)
+</span>    <span class="n">X_pred</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">d_t</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">))</span>
+    <span class="n">X_pred</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">d_t</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">))</span>
+    <span class="n">X_pred</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">alpha_t</span><span class="p">)</span>
+
+    <span class="n">X_pred</span> <span class="o">=</span> <span class="n">X_pred</span> <span class="o">+</span> <span class="n">X</span>
+
+    <span class="c1"># TODO: Predict new uncertainity (covariance) using motion model noise, find G_t and R_t
+</span>    <span class="c1"># NOTE: G_t needs to be mulitplied with P viz of shape (3 + 2k, 3+ 2k), because it has
+</span>    <span class="c1"># pose and measurement cov. IN THIS STEP OF PREDICTION WE ONLY UPDATE POSE COV
+</span>    <span class="c1"># Therefore G_t and R_t can be 3x3 (3 variables in state vector)
+</span>
+    <span class="n">G_t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">d_t</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">))],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">d_t</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">))],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>                <span class="mi">1</span>               <span class="p">]])</span>
+
+    <span class="n">rotation_matrix_z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">)),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">)),</span> <span class="mi">0</span><span class="p">],</span>
+                                  <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">)),</span>  <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_curr</span><span class="p">)),</span> <span class="mi">0</span><span class="p">],</span>
+                                  <span class="p">[</span>           <span class="mi">0</span><span class="p">,</span>                            <span class="mi">0</span><span class="p">,</span>            <span class="mi">1</span><span class="p">]])</span>
+
+    <span class="n">pose_pred_cov</span> <span class="o">=</span> <span class="p">(</span><span class="n">G_t</span> <span class="o">@</span> <span class="n">pos_cov</span> <span class="o">@</span> <span class="n">G_t</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> \
+                    <span class="p">(</span><span class="n">rotation_matrix_z</span> <span class="o">@</span> <span class="n">control_cov</span> <span class="o">@</span> <span class="n">rotation_matrix_z</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># update just the new predicted covariance in robot pose, measurement pose is left untouched
+</span>    <span class="n">P_pred</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">pose_pred_cov</span>
+
+    <span class="k">return</span> <span class="n">X_pred</span><span class="p">,</span> <span class="n">P_pred</span>
+</code></pre></div></div>
+      <h3 id="update-step---a-comparison-step">
+        
+        
+          <a href="#update-step---a-comparison-step" class="anchor-heading" aria-labelledby="update-step---a-comparison-step"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Update Step - A comparison step
+        
+        
+      </h3>
+    
+
+<p><img src="/images/SLAM/EKF/update_graph.png" alt="" /></p>
+
+<p>The prediction step helps us get an esitmate of where the robot and landmarks should be.</p>
+
+<p>Using this estimate of where the robot and landmarks are located, we check the difference
+between what sensor reading we expect to get at these estimated poses
+<strong>(predicted sensor reading)</strong> and where the robot actually is <strong>(actual sensor reading)</strong></p>
+
+<p>The method to predict a sensor reading <strong>given an estimated robot and landmark pose</strong> is by
+defining a measurement model.</p>
+      <h4 id="measurement-model-definition">
+        
+        
+          <a href="#measurement-model-definition" class="anchor-heading" aria-labelledby="measurement-model-definition"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Measurement Model Definition
+        
+        
+      </h4>
+    
+
+<p>Using state vector p_t (contains robot pose and landmark) for the j’th landmark, the bearing <strong>β</strong>
+and range <strong>r</strong> estimate for the j’th landmark is predicted as <strong>h(p_t , j)</strong></p>
+
+<p>Where h(p_t , j) = measurement model</p>
+
+<p><img src="/images/SLAM/EKF/meas_model.png" alt="" /></p>
+      <h4 id="using-the-measurement-model">
+        
+        
+          <a href="#using-the-measurement-model" class="anchor-heading" aria-labelledby="using-the-measurement-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Using the Measurement Model
+        
+        
+      </h4>
+    
+
+<p>The comparison step happens in the final parts of the algorithm shown below:</p>
+
+<p><img src="/images/SLAM/EKF/H_t.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/update_1.png" alt="" /></p>
+
+<p>Here we see that we compare the predicted covariance Σ with H_t. Specifically the second
+equation above is clear in it’s purpose and is explained below:</p>
+
+<ul>
+  <li>µ = µ̄ + K(z - ẑ)</li>
+  <li>The RHS part of this equation shows how we compare the real sensor reading <strong>z</strong> and the
+predicted sensor reading <strong>ẑ</strong></li>
+  <li>The variable <strong>K</strong> then acts as a scaling factor only</li>
+</ul>
+      <h4 id="deriving-h_t">
+        
+        
+          <a href="#deriving-h_t" class="anchor-heading" aria-labelledby="deriving-h_t"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deriving H_t
+        
+        
+      </h4>
+    
+
+<p><img src="/images/SLAM/EKF/jac_H.png" alt="" /></p>
+      <h3 id="update-step-in-code">
+        
+        
+          <a href="#update-step-in-code" class="anchor-heading" aria-labelledby="update-step-in-code"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Update Step in Code
+        
+        
+      </h3>
+    
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">X_pre</span><span class="p">,</span> <span class="n">P_pre</span><span class="p">,</span> <span class="n">measure</span><span class="p">,</span> <span class="n">measure_cov</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="s">'''
+    NOTE: Using predicted landmark &amp; robot pose, we emulate our sensor reading using the sensor model
+
+    \param X_pre Predicted state vector of shape (3 + 2k, 1) from the predict step.
+    \param P_pre Predicted covariance matrix of shape (3 + 2k, 3 + 2k) from the predict step.
+    \param measure Measurement signal of shape (2k, 1).
+    \param measure_cov Measurement covariance of shape (2, 2) per landmark given the parameters.
+    \param k Number of landmarks.
+
+    </span><span class="se">\r</span><span class="s">eturn X Updated X state of shape (3 + 2k, 1).
+    </span><span class="se">\r</span><span class="s">eturn P Updated P covariance of shape (3 + 2k, 3 + 2k).
+
+    Since we have a measurement, we will have to update both pose and measure covariances, i.e.
+    the entire P_pre will be updated.
+
+    Here we use the H_p and H_l described in the theory section. H_l and H_p will be combined
+    to form H_t (the term in the EKF Algorithm in Probablistic Robotics). This H_t term
+    will be defined for each landmark and stored in a massive matrix
+
+    Q viz measurement covariance will need to be added to the H_t of each landmark, therefore
+    it too will also be stored in a huge diagonal matrix
+    '''</span>
+    <span class="c1"># Q needs to be added to (Ht @ P_pre @ (Ht.T)) = (2*k, 2*k), therefore must be same shape
+</span>    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">))</span>
+
+    <span class="c1"># stack all predicted measurements into one large vector
+</span>    <span class="n">z_t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># H_t as discussed above will be a large diagonal matrix where we'll stack H_p and H_l
+</span>    <span class="c1"># side-by-side horizontally (making H_t 2x5 for each landmark). This will then be stacked
+</span>    <span class="c1"># vertically, but again as a diagonal matrix.
+</span>    <span class="c1"># H_t.T will also be multiplied with P_pre (3+2k, 3+2k). Therefore this needs to
+</span>    <span class="c1"># also have 3+2k columns therefore the other dimensions should be 2k rows since
+</span>    <span class="c1"># (H_p concat with H_l) = 2x5. Therefore, final H_t shape = 2k,3+2k
+</span>    <span class="n">H_t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="mi">3</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">)))</span>
+
+    <span class="c1"># iterate through every measurement, assuming every measurement captures every landmark
+</span>    <span class="n">num_measurements</span> <span class="o">=</span> <span class="n">k</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_measurements</span><span class="p">):</span>
+        <span class="c1"># since we have a predicted pose already X_pre[0:3] we'll use that as our
+</span>        <span class="c1"># linearization point
+</span>
+        <span class="c1"># define the predicted pose of robot and landmark in global frame
+</span>        <span class="n">pos_x</span> <span class="o">=</span> <span class="n">X_pre</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># robot pose_x in global frame
+</span>        <span class="n">pos_y</span> <span class="o">=</span> <span class="n">X_pre</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># robot pose_y in global frame
+</span>        <span class="n">pos_theta</span> <span class="o">=</span> <span class="n">X_pre</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#  bearing in global frame
+</span>        <span class="n">l_x</span> <span class="o">=</span> <span class="n">X_pre</span><span class="p">[</span><span class="mi">3</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># landmark i in global frame
+</span>        <span class="n">l_y</span> <span class="o">=</span> <span class="n">X_pre</span><span class="p">[</span><span class="mi">4</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># landmark i in global frame
+</span>
+        <span class="c1"># convert predicted poses to local frame
+</span>        <span class="n">l_x_offset</span> <span class="o">=</span> <span class="n">l_x</span> <span class="o">-</span> <span class="n">pos_x</span>
+        <span class="n">l_y_offset</span> <span class="o">=</span> <span class="n">l_y</span> <span class="o">-</span> <span class="n">pos_y</span>
+
+        <span class="c1"># use predicted pose of robot and landmark to get predicted measurements
+</span>        <span class="n">i_bearing</span> <span class="o">=</span> <span class="n">warp2pi</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">l_y_offset</span><span class="p">,</span> <span class="n">l_x_offset</span><span class="p">)</span> <span class="o">-</span> <span class="n">pos_theta</span><span class="p">)</span> <span class="c1"># bearing of i-th l
+</span>        <span class="n">i_range</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">l_x_offset</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">l_y_offset</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># range of i-th landmark
+</span>        <span class="n">z_t</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_bearing</span>
+        <span class="n">z_t</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_range</span>
+
+        <span class="c1"># Jacobian of measurement function (h(β,r) in theory) w.r.t pose (x,y,theta)
+</span>        <span class="c1"># Note here we define h(β,r), whereas in theory it is h(r,β), hence rows are interchanged
+</span>        <span class="n">H_p</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[(</span><span class="o">-</span><span class="n">l_x_offset</span><span class="o">/</span><span class="n">i_range</span><span class="p">)</span>    <span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">l_y_offset</span><span class="o">/</span><span class="n">i_range</span><span class="p">),</span>       <span class="mi">0</span><span class="p">],</span>
+                        <span class="p">[(</span><span class="n">l_y_offset</span><span class="o">/</span><span class="p">(</span><span class="n">i_range</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="o">-</span><span class="n">l_x_offset</span><span class="o">/</span><span class="p">(</span><span class="n">i_range</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">],],</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="c1"># Note here we define h(β,r)
+</span>        <span class="n">H_l</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[(</span><span class="n">l_x_offset</span><span class="o">/</span><span class="n">i_range</span><span class="p">)</span>      <span class="p">,</span> <span class="p">(</span><span class="n">l_y_offset</span><span class="o">/</span><span class="n">i_range</span><span class="p">)</span>     <span class="p">],</span>
+                        <span class="p">[(</span><span class="o">-</span><span class="n">l_y_offset</span><span class="o">/</span><span class="p">(</span><span class="n">i_range</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="p">(</span><span class="n">l_x_offset</span><span class="o">/</span><span class="p">(</span><span class="n">i_range</span><span class="o">**</span><span class="mi">2</span><span class="p">))]])</span>
+
+        <span class="c1"># See theory how H_t is constructed. H_p goes only along the first three columns
+</span>        <span class="n">H_t</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_p</span>
+        <span class="n">H_t</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span> <span class="p">:</span> <span class="mi">5</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_l</span>
+
+        <span class="n">Q</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">:</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">measure_cov</span>
+
+    <span class="c1"># Now after obtaining H_t and Q_t, find Kalman gain K
+</span>    <span class="c1"># K = (3+2k, 3+2k) @ (3+2k, 2k) @ (2k, 2k) = (3+2k, 2k)
+</span>    <span class="n">K</span> <span class="o">=</span> <span class="n">P_pre</span> <span class="o">@</span> <span class="n">H_t</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">((</span><span class="n">H_t</span> <span class="o">@</span> <span class="n">P_pre</span> <span class="o">@</span> <span class="n">H_t</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">Q</span><span class="p">)</span>
+
+    <span class="c1"># Update pose(mean) and noise(covariance) using K
+</span>    <span class="n">X_updated</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">X_pre</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">X_updated</span> <span class="o">=</span> <span class="n">X_pre</span> <span class="o">+</span> <span class="p">(</span><span class="n">K</span> <span class="o">@</span> <span class="p">(</span><span class="n">measure</span> <span class="o">-</span> <span class="n">z_t</span><span class="p">))</span> <span class="c1"># (measure - z_t) = (actual - prediction)
+</span>
+    <span class="n">P_updated</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">K</span> <span class="o">@</span> <span class="n">H_t</span><span class="p">))</span> <span class="o">@</span> <span class="n">P_pre</span>
+
+    <span class="k">return</span> <span class="n">X_updated</span><span class="p">,</span> <span class="n">P_updated</span>
+</code></pre></div></div>
+      <h2 id="overview-of-implementation">
+        
+        
+          <a href="#overview-of-implementation" class="anchor-heading" aria-labelledby="overview-of-implementation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Overview of Implementation
+        
+        
+      </h2>
+    
+
+<p><img src="/images/SLAM/EKF/imp_1.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/imp_2.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/imp_3.png" alt="" /></p>
+      <h3 id="visual-interpretation">
+        
+        
+          <a href="#visual-interpretation" class="anchor-heading" aria-labelledby="visual-interpretation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Visual Interpretation
+        
+        
+      </h3>
+    
+
+<p><img src="/images/SLAM/EKF/predict_graph.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/update_graph.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/update_3_graph.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/update_4_graph.png" alt="" /></p>
 
         
 
