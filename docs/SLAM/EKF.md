@@ -576,3 +576,8 @@ def update(X_pre, P_pre, measure, measure_cov, k):
 ![](/images/SLAM/EKF/update_3_graph.png)
 
 ![](/images/SLAM/EKF/update_4_graph.png)
+
+## Detailed Notes and Derivation
+
+[Detailed Derivation](https://drive.google.com/file/d/1sjxMO7rdThf_R7wtCv-aCYT6wKwvaGkB/view?usp=sharing)
+{: .btn .fs-5 .mb-4 .mb-md-0}
