@@ -537,8 +537,15 @@ form of histograms (like SIFT), the filterbanks themselves cannot be used instea
 
 <p><img src="/images/homography/21.png" alt="" /></p>
 
-<p>Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
-which forms the null space of A.</p>
+<ul>
+  <li>Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
+which forms the null space of A.</li>
+  <li>Remember, null-space of a vector is the transformation (i.e. transformation matrix) which
+squeezed the vector onto a point (i.e. it reduces dimensions to zero).</li>
+  <li>In this case <strong>x</strong> is the vector and we find the corresponding transformation matrix which
+forms it’s null-space. This matrix then becomes our homography matrix</li>
+  <li>For a better understanding of SVD, refer to <a href="https://drive.google.com/file/d/1d6xcBbI2qcyaCx-rccI3sc9pdjQFMp2n/view?usp=sharing">This Document</a></li>
+</ul>
       <h3 id="bonus-ransac-rejecting-outliers-during-our-homography-calculation">
         
         

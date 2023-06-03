@@ -751,7 +751,7 @@
   },"125": {
     "doc": "Least Squares SLAM",
     "title": "Background",
-    "content": "In EKF we used the jacobian of the measurement model in the update step. However, upon deeper inspection we see that this matrix is very sparse (spare = lots of zeros) . It would therefore be most efficient if we could utilize this sparsity. ",
+    "content": "In EKF we used the jacobian of the measurement model in the update step. However, upon deeper inspection we see that this matrix is very sparse (spare = lots of zeros) . | It would therefore be most efficient if we could utilize this sparsity. | Additionally, EKF was sort of a local solver in that all prior states were marginalized out. Hence, we could not improve our estimates of our previous robot states even if we got more and more measurements. | . ",
     "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#background",
     "relUrl": "/docs/SLAM/Non_linear_slam.html#background"
   },"126": {
@@ -768,617 +768,671 @@
     "relUrl": "/docs/SLAM/Non_linear_slam.html#introduction"
   },"128": {
     "doc": "Least Squares SLAM",
-    "title": "2D Linear SLAM",
-    "content": "Here we will look to best fit our measurements (z) to our observed robot states (θ). Specifically, we will try to optimize over both the robot states and sensor measurements and try to reach the best middle ground. Factor Graphs or Pose Graphs give us the best method of doing such global optimizations. This global optimization is first defined in the below manner in terms of increasing the probability p(z | θ) . Why Least Squares? . The reason we will formulate the above maximization equations as a least squares problem is becuase we get mulitple landmark measurements as our robot moves, ending up with more observations than variables (states in state vector). Hence its not possible to extract an exact solution which fits mathematically. Therefore, our next easiest guess would be a least squares formulation. The exact derivation can be seen Here. The abbreviated version is shown below. ",
-    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#2d-linear-slam",
-    "relUrl": "/docs/SLAM/Non_linear_slam.html#2d-linear-slam"
+    "title": "2D Linear Least Squares SLAM",
+    "content": "Here we will look to best fit our measurements (z) to our observed robot states (θ). Specifically, we will try to optimize over both the robot states and sensor measurements and try to reach the best middle ground. Factor Graphs or Pose Graphs give us the best method of doing such global optimizations. This global optimization is first defined in the below manner in terms of increasing probability p(z | θ) . Why Least Squares? . The reason we will formulate the above maximization equations as a least squares problem is becuase we get mulitple landmark measurements as our robot moves, ending up with more observations than variables (states in state vector). Hence its not possible to extract an exact solution which fits mathematically. Therefore, our next easiest guess would be a least squares formulation. Think of it like simultaneous equations, if we have 3 variables, we need only 3 equations to solve for the variables. However, if we have 4 equations, it’s overdetermined. Similaraly, here we have only few robot states, but a lot of observations constraining those states. These observations can be odometry readings or sensor readings. ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#2d-linear-least-squares-slam",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#2d-linear-least-squares-slam"
   },"129": {
     "doc": "Least Squares SLAM",
     "title": "Derivation",
-    "content": "Here we look to minimizing the uncertainty in our measurements (which are the edges of our factor graph). To do so, we need to define measurement functions for these measurements. ",
+    "content": "The exact derivation can be seen in this link. The abbreviated version is shown below. Now, let’s assume that our measurement function h(x) is linear (Even if it isn’t linear, we approximate the non-linear function by taking the first order taylor expansion later on) . Here we don’t solve directly for Ax = b because of noise in the measurements. Instead, we do the following: . The above equation will lead to: . Intuition for our final solution . ",
     "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#derivation",
     "relUrl": "/docs/SLAM/Non_linear_slam.html#derivation"
   },"130": {
     "doc": "Least Squares SLAM",
-    "title": "Odometry Measurement Function",
-    "content": ". ",
-    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#odometry-measurement-function",
-    "relUrl": "/docs/SLAM/Non_linear_slam.html#odometry-measurement-function"
+    "title": "Measurement Funtion h(x)",
+    "content": "Odometry Measurement Function . Landmark Measurment Function . Shapes of the A and b matrices . During the derivation we saw that . | | . | Now, the A matrix is seen to be the same size as the jacobian. We define the jacobian below (it’s equated to A, but it’s yet to be scaled by Σ^-0.5) | b is the same size as the number of measurements z. Hence, h_0 should also be a vector or the same size | . | We see that the rows of the jacobian are p, u1, u2, d1, d2 .. | Since we’re working in 2D, each of these measurements will have an x and y component | p is technically not a measurement, but is the starting pose of the robot | Hence we can define the number of rows of A to be equal to (n_odom + 1) * 2 + n_obs * 2 . | We also see that the b vector has no. of rows = no. of measurements | Therefore size of b = n_poses * 2 + n_landmarks * 2 | . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#measurement-funtion-hx",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#measurement-funtion-hx"
   },"131": {
     "doc": "Least Squares SLAM",
-    "title": "Landmark Measurment Function",
-    "content": ". ",
-    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#landmark-measurment-function",
-    "relUrl": "/docs/SLAM/Non_linear_slam.html#landmark-measurment-function"
+    "title": "2D Linear Least Squares in Code",
+    "content": "Fully Define the A and b matrices (setup step) . def create_linear_system(odoms, observations, sigma_odom, sigma_observation, n_poses, n_landmarks): ''' \\param odoms Odometry measurements between i and i+1 in the global coordinate system. Shape: (n_odom, 2). \\param observations Landmark measurements between pose i and landmark j in the global coordinate system. Shape: (n_obs, 4). \\param sigma_odom Shared covariance matrix of odometry measurements. Shape: (2, 2). \\param sigma_observation Shared covariance matrix of landmark measurements. Shape: (2, 2). \\return A (M, N) Jacobian matrix. \\return b (M, ) Residual vector. where M = (n_odom + 1) * 2 + n_obs * 2, total rows of measurements. N = n_poses * 2 + n_landmarks * 2, length of the state vector. ''' n_odom = len(odoms) n_obs = len(observations) M = (n_odom + 1) * 2 + n_obs * 2 N = n_poses * 2 + n_landmarks * 2 A = np.zeros((M, N)) b = np.zeros((M, )) # Prepare Sigma^{-1/2}. sqrt_inv_odom = np.linalg.inv(scipy.linalg.sqrtm(sigma_odom)) sqrt_inv_obs = np.linalg.inv(scipy.linalg.sqrtm(sigma_observation)) # TODO: First fill in the prior to anchor the 1st pose at (0, 0) # The prior is just a reference frame, it also has some uncertainty, but no measurement # Hence the measurement function which estimates the prior is just a identity function # i.e h_p(r_t) = r_t. Since no measurements exist, the b matrix will have only zeros (already the case) # Here we also define the uncertainty in prior is same as odom uncertainty A[0:2, 0:2] = sqrt_inv_odom @ np.eye(2) # no need to update b (already zeros) # TODO: Then fill in odometry measurements \"\"\" The A matrix structure is shown in the theory section. Along the rows, it has: - predicted prior (of size 1) - predicted odom measurements (of size n_odom) - predicted landmark measurements (of size n_obs) We will also follow the same order \"\"\" H_odom = np.array([[-1,0,1,0], [0,-1,0,1]], dtype=np.float32) H_land = np.array([[-1,0,1,0], [0,-1,0,1]], dtype=np.float32) A_fill_odom = sqrt_inv_odom @ H_odom for i in range(n_odom): # declare an offset for i to include the prior term (which only occurs once along rows) j = i+1 # A[2*j : 2*j+2 , 2*j : 2*j+4] = sqrt_inv_odom @ H_odom A[2*j : 2*j+2, 2*i : 2*i+4] = A_fill_odom b[2*j : 2*j + 2] = sqrt_inv_odom @ odoms[i] # TODO: Then fill in landmark measurements A_fill_land = sqrt_inv_obs @ H_land # H_land like H_odom is also a 2x4 matrix for i in range(n_obs): # observations = (52566,4) # (pose_index, landmark_index, measurement_x, measurement_y) # Therefore we need to check which pose is associated with which landmark p_idx = int(observations[i,0]) l_idx = int(observations[i,1]) # offset to account for prior (offset only along rows) + all odom measurements above j = i + n_odom + 1 A[2*j : 2*j+2, 2*p_idx : 2*p_idx+2] = A_fill_land[0:2, 0:2] A[2*j : 2*j+2, 2*(n_poses + l_idx):2*(n_poses + l_idx)+2] = A_fill_land[0:2, 2:4] b[2*j : 2*j+2] = sqrt_inv_obs @ observations[i,2:4] # Convert matrix to sparse format which scipy can use return csr_matrix(A), b . Solving the Linear System . The previous function has access to all the odometry and landmark measurements at once. Therefore we already have fleshed out the A and b matrices. Using this, we can then solve for the same as shown below: . if __name__ == '__main__': n_poses = len(gt_traj) n_landmarks = len(gt_landmarks) odoms = data['odom'] observations = data['observations'] sigma_odom = data['sigma_odom'] sigma_landmark = data['sigma_landmark'] \"\"\" The shapes of above values for 2d_linear.npz are: odoms = (999,2) which makes sense since there are 1000 robot poses observations = (52566,4) # (pose_index, landmark_index, measurement_x, measurement_y) sigma_odom = (2,2) sigma_landmark = (2,2) \"\"\" # Build a linear system A, b = create_linear_system(odoms, observations, sigma_odom, sigma_landmark, n_poses, n_landmarks) # Solve with the selected method for method in args.method: print(f'Applying {method}') total_time = 0 total_iters = args.repeats for i in range(total_iters): start = time.time() x, R = solve(A, b, method) end = time.time() total_time += end - start print(f'{method} takes {total_time / total_iters}s on average') if R is not None: plt.spy(R) plt.show() traj, landmarks = devectorize_state(x, n_poses) # Visualize the final result plot_traj_and_landmarks(traj, landmarks, gt_traj, gt_landmarks) . As seen above, we have have multiple methods to solve the minimization function. Lookup scipy.optimize.minimize to see a simple way in which one can solve an optimization problem by defining an objective function. Here, our objective function is the Ax = b . The methods we will define below are pre-programmed to solve for such linear equations. ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#2d-linear-least-squares-in-code",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#2d-linear-least-squares-in-code"
   },"132": {
     "doc": "Least Squares SLAM",
+    "title": "Naieve Solvers",
+    "content": "Pseudo-Inverse . During our derivation we saw that one simple way to solve our minimization problem is to use the psuedo-inverse: . This is done in code as shown below: . def solve_pinv(A, b): # TODO: return x s.t. Ax = b using pseudo inverse. N = A.shape[1] x = np.zeros((N, )) # Ax = b &lt;======&gt; inv(A.T @ A) @ A.T @ A @ x = A.T b x = inv(A.T @ A) @ (A.T @ b) return x, None . Why not do SVD? . RECAP . | In CV ( see Planar Homography ) we saw that our final equation to solve boiled down to the an Ax = 0 form. | Here x is found by taking the SVD of A and choosing the eigen vector (with least eigen value) which forms the null space of A. | Remember, null-space of a vector is the transformation (i.e. transformation matrix) which squeezed the vector onto a point (i.e. it reduces dimensions to zero). | In this case x is the vector and we find the corresponding transformation matrix which forms it’s null-space. This matrix then becomes our homography matrix | For a better understanding of SVD, refer to This Document . | In the SLAM problem, we can’t do SVD mainly because it would take too long to compute! | The vector here will have a million dimensions | Also, we won’t be utilizing the sparsity and letting go of an easy improvement | . Scipy Default Solver . def solve_default(A, b): from scipy.sparse.linalg import spsolve x = spsolve(A.T @ A, A.T @ b) return x, None . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#naieve-solvers",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#naieve-solvers"
+  },"133": {
+    "doc": "Least Squares SLAM",
+    "title": "Matrix Factorization - Utilizing the Sparsity",
+    "content": "Cholesky - LU Decomposition - Fast, little lower numerical stability . from scipy.sparse import csc_matrix, eye from scipy.sparse.linalg import inv, splu, spsolve, spsolve_triangular def solve_lu(A, b): # TODO: return x, U s.t. Ax = b, and A = LU with LU decomposition. # https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.splu.html # Better ref: https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.SuperLU.html N = A.shape[1] x = np.zeros((N, )) lu = splu(A.T @ A, permc_spec='NATURAL') x = lu.solve(A.T @ b) U = eye(N) U = lu.U.A return x, U def solve_lu_colamd(A, b): # TODO: return x, U s.t. Ax = b, and Permutation_rows A Permutration_cols = LU with reordered LU decomposition. # https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.splu.html N = A.shape[1] x = np.zeros((N, )) lu = splu(A.T @ A, permc_spec='COLAMD') x = lu.solve(A.T @ b) U = eye(N) U = lu.U.A return x, U . Above we see an lu_colamd method defined separately: . Column Ordering . ChatGPT explanation . Sparse LU factorization is a technique used to solve systems of linear equations involving sparse matrices. The process involves decomposing the original matrix into a lower triangular matrix (L), an upper triangular matrix (U), and a permutation matrix (P) such that A = PLU. The resulting LU factorization can then be used to efficiently solve multiple linear systems with the same coefficient matrix. The choice of column ordering can significantly affect the performance of the LU factorization algorithm. The COLAMD algorithm is an approximate minimum degree ordering method that aims to minimize the fill-in, which refers to the number of additional non-zero entries introduced during the LU factorization process. By reducing the fill-in, the COLAMD ordering can lead to faster factorization and improved computational efficiency. My Understading . The colamd method rearranges (permutes) the A matrix to avoid accumulation of data in the last few columns of one of the triangular matrices. This rearragement as seen in helps in the following manner: . | The algorithm reorders the columns of the matrix so that the non-zero entries are clustered together | This can reduce the number of fill-in elements created during the factorization process. | Therefore reordering can significantly reduce the computational and memory requirements of the LU decomposition. | . Some graphical examples which were computed for this dataset is shown below: . QR Factorization - Slower, but more stable . def solve_qr(A, b): # TODO: return x, R s.t. Ax = b, and |Ax - b|^2 = |Rx - d|^2 + |e|^2 # https://github.com/theNded/PySPQR N = A.shape[1] x = np.zeros((N, )) R = eye(N) # rz gives the upper triangular part Z, R ,E, rank = rz(A, b, permc_spec='NATURAL') x = spsolve_triangular(R,Z,lower=False) return x, R def solve_qr_colamd(A, b): # TODO: return x, R s.t. Ax = b, and |Ax - b|^2 = |R E^T x - d|^2 + |e|^2, with reordered QR decomposition (E is the permutation matrix). # https://github.com/theNded/PySPQR N = A.shape[1] x = np.zeros((N, )) R = eye(N) # rz gives the upper triangular part Z, R ,E, rank = rz(A, b, permc_spec='COLAMD') # E is symmetric and is the permutation vector s.t. QR = AE E = permutation_vector_to_matrix(E) x = spsolve_triangular(R,Z,lower=False) x = E @ x return x, R . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#matrix-factorization---utilizing-the-sparsity",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#matrix-factorization---utilizing-the-sparsity"
+  },"134": {
+    "doc": "Least Squares SLAM",
+    "title": "Results of Least Sq. Optimization and Visual Inference",
+    "content": "Ground Truth Trajectory . Optimization Results . Inference on the Runtime Comparisons . Therefore, it’s safe to say that the when A matrix is more dense, the colamd method makes sense and efficiency boost is observed. Therefore, for small A matrices, it might not be necessary. Additionaly Optimization Results . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#results-of-least-sq-optimization-and-visual-inference",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#results-of-least-sq-optimization-and-visual-inference"
+  },"135": {
+    "doc": "Least Squares SLAM",
+    "title": "2D Non-Linear Least Squares SLAM4",
+    "content": " ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#2d-non-linear-least-squares-slam4",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#2d-non-linear-least-squares-slam4"
+  },"136": {
+    "doc": "Least Squares SLAM",
+    "title": "Measurement Functions",
+    "content": ". ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#measurement-functions",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#measurement-functions"
+  },"137": {
+    "doc": "Least Squares SLAM",
+    "title": "Building the Linear System from Non-Linear System",
+    "content": ". ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#building-the-linear-system-from-non-linear-system",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#building-the-linear-system-from-non-linear-system"
+  },"138": {
+    "doc": "Least Squares SLAM",
+    "title": "Non Linear System in Code",
+    "content": "def warp2pi(angle_rad): \"\"\" Warps an angle in [-pi, pi]. Used in the update step. \\param angle_rad Input angle in radius \\return angle_rad_warped Warped angle to [-\\pi, \\pi]. \"\"\" angle_rad = angle_rad - 2 * np.pi * np.floor( (angle_rad + np.pi) / (2 * np.pi)) return angle_rad def init_states(odoms, observations, n_poses, n_landmarks): ''' Initialize the state vector given odometry and observations. ''' traj = np.zeros((n_poses, 2)) landmarks = np.zeros((n_landmarks, 2)) landmarks_mask = np.zeros((n_landmarks), dtype=bool) for i in range(len(odoms)): traj[i + 1, :] = traj[i, :] + odoms[i, :] for i in range(len(observations)): pose_idx = int(observations[i, 0]) landmark_idx = int(observations[i, 1]) if not landmarks_mask[landmark_idx]: landmarks_mask[landmark_idx] = True pose = traj[pose_idx, :] theta, d = observations[i, 2:] landmarks[landmark_idx, 0] = pose[0] + d * np.cos(theta) landmarks[landmark_idx, 1] = pose[1] + d * np.sin(theta) return traj, landmarks def odometry_estimation(x, i): ''' \\param x State vector containing both the pose and landmarks \\param i Index of the pose to start from (odometry between pose i and i+1) \\return odom Odometry (\\Delta x, \\Delta y) in the shape (2, ) ''' # TODO: return odometry estimation odom = np.zeros((2, )) try: odom[0] = x[2*(i+1)] - x[2*i] odom[1] = x[2*(i+1)+1] - x[(2*i)+1] except: ipdb.set_trace() return odom def bearing_range_estimation(x, i, j, n_poses): ''' \\param x State vector containing both the pose and landmarks \\param i Index of the pose to start from \\param j Index of the landmark to be measured \\param n_poses Number of poses \\return obs Observation from pose i to landmark j (theta, d) in the shape (2, ) ''' # TODO: return bearing range estimations obs = np.zeros((2, )) # given the robot pose and landmark location, get the bearing estimate (see theory) y_dist = x[(2*n_poses)+(2*j)+1] - x[(2*i)+1] x_dist = x[(2*n_poses)+(2*j)] - x[(2*i)] obs[0] = warp2pi(np.arctan2(y_dist, x_dist)) obs[1] = np.sqrt(x_dist**2 + y_dist**2) return obs def compute_meas_obs_jacobian(x, i, j, n_poses): ''' \\param x State vector containing both the pose and landmarks \\param i Index of the pose to start from \\param j Index of the landmark to be measured \\param n_poses Number of poses \\return jacobian Derived Jacobian matrix in the shape (2, 4) ''' # TODO: return jacobian matrix jacobian = np.zeros((2, 4)) y_dist = x[(2*n_poses)+(2*j)+1] - x[(2*i)+1] x_dist = x[(2*n_poses)+(2*j)] - x[(2*i)] sensor_range = np.sqrt(x_dist**2 + y_dist**2) jacobian[0,0] = y_dist/(sensor_range**2) jacobian[0,1] = -x_dist/(sensor_range**2) jacobian[0,2] = -y_dist/(sensor_range**2) jacobian[0,3] = x_dist/(sensor_range**2) jacobian[1,0] = -x_dist/sensor_range jacobian[1,1] = -y_dist/sensor_range jacobian[1,2] = x_dist/sensor_range jacobian[1,3] = y_dist/sensor_range return jacobian def create_linear_system(x, odoms, observations, sigma_odom, sigma_observation, n_poses, n_landmarks): ''' \\param x State vector x at which we linearize the system. \\param odoms Odometry measurements between i and i+1 in the global coordinate system. Shape: (n_odom, 2). \\param observations Landmark measurements between pose i and landmark j in the global coordinate system. Shape: (n_obs, 4). \\param sigma_odom Shared covariance matrix of odometry measurements. Shape: (2, 2). \\param sigma_observation Shared covariance matrix of landmark measurements. Shape: (2, 2). \\return A (M, N) Jacobian matrix. \\return b (M, ) Residual vector. where M = (n_odom + 1) * 2 + n_obs * 2, total rows of measurements. N = n_poses * 2 + n_landmarks * 2, length of the state vector. ''' n_odom = len(odoms) n_obs = len(observations) M = (n_odom + 1) * 2 + n_obs * 2 N = n_poses * 2 + n_landmarks * 2 A = np.zeros((M, N)) b = np.zeros((M, )) sqrt_inv_odom = np.linalg.inv(scipy.linalg.sqrtm(sigma_odom)) sqrt_inv_obs = np.linalg.inv(scipy.linalg.sqrtm(sigma_observation)) # TODO: First fill in the prior to anchor the 1st pose at (0, 0) # The prior is just a reference frame, it also has some uncertainty, but no measurement # Hence the measurement function which estimates the prior is just a identity function # i.e h_p(r_t) = r_t. Since no measurements exist, the b matrix will have only zeros (already the case) # Here we also define the uncertainty in prior is same as odom uncertainty A[0:2, 0:2] = sqrt_inv_odom @ np.eye(2) # no need to update b (already zeros) H_odom = np.array([[-1,0,1,0], [0,-1,0,1]], dtype=np.float32) A_fill_odom = sqrt_inv_odom @ H_odom # TODO: Then fill in odometry measurements for i in range(n_odom): # declare an offset for i to include the prior term (which only occurs once along rows) j = i+1 A[2*j : 2*j+2, 2*i : 2*i+4] = A_fill_odom b[2*j : 2*j + 2] = sqrt_inv_odom @ (odom[i] - odometry_estimation(x,i)) # TODO: Then fill in landmark measurements for i in range(n_obs): p_idx = int(observations[i,0]) l_idx = int(observations[i,1]) Al = sqrt_inv_obs @ compute_meas_obs_jacobian(x, p_idx, l_idx, n_poses) # offset again to account for prior j = n_odom+1+i A[2*j:2*j+2, 2*p_idx:2*p_idx+2] = Al[0:2,0:2] A[2*j:2*j+2,2*(n_poses+l_idx):2*(n_poses+l_idx)+2] = Al[0:2,2:4] b[2*j:2*j+2] = sqrt_inv_obs @ warp2pi(observations[i,2:4] - bearing_range_estimation(x,p_idx,l_idx,n_poses)) return csr_matrix(A), b if __name__ == '__main__': n_poses = len(gt_traj) n_landmarks = len(gt_landmarks) odom = data['odom'] observations = data['observations'] sigma_odom = data['sigma_odom'] sigma_landmark = data['sigma_landmark'] # Initialize: non-linear optimization requires a good init. for method in args.method: print(f'Applying {method}') traj, landmarks = init_states(odom, observations, n_poses, n_landmarks) print('Before optimization') plot_traj_and_landmarks(traj, landmarks, gt_traj, gt_landmarks) # Iterative optimization x = vectorize_state(traj, landmarks) for i in range(10): A, b = create_linear_system(x, odom, observations, sigma_odom, sigma_landmark, n_poses, n_landmarks) dx, _ = solve(A, b, method) x = x + dx traj, landmarks = devectorize_state(x, n_poses) print('After optimization') plot_traj_and_landmarks(traj, landmarks, gt_traj, gt_landmarks) . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#non-linear-system-in-code",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#non-linear-system-in-code"
+  },"139": {
+    "doc": "Least Squares SLAM",
+    "title": "Results",
+    "content": ". ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#results",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#results"
+  },"140": {
+    "doc": "Least Squares SLAM",
+    "title": "Distinction between Non-Linear and Linear Optimization",
+    "content": ". | The Non Linear optimization process is different in that we have a residual h 0 term which causes the optimizer to solve for the error between predicted and actual measurement. In the linear case the optimizer directly solves for x in the equation Ax = b. | Additionally, the non-linear method also requires a good initial estimate to start. This is because the optimization is iterative for the non-linear case if the initialization is bad it will take longer or not converge within the required error tolerance. | . ",
+    "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html#distinction-between-non-linear-and-linear-optimization",
+    "relUrl": "/docs/SLAM/Non_linear_slam.html#distinction-between-non-linear-and-linear-optimization"
+  },"141": {
+    "doc": "Least Squares SLAM",
     "title": "Least Squares SLAM",
-    "content": "{: .text-delta } . | Background . | Learning Goals | . | Introduction | 2D Linear SLAM . | Why Least Squares? | Derivation | Odometry Measurement Function | Landmark Measurment Function | . | . Detailed write-up . ",
+    "content": "{: .text-delta } . | Background . | Learning Goals | . | Introduction | 2D Linear Least Squares SLAM . | Why Least Squares? | Derivation . | Intuition for our final solution | . | Measurement Funtion h(x) . | Odometry Measurement Function | Landmark Measurment Function | Shapes of the A and b matrices | . | 2D Linear Least Squares in Code . | Fully Define the A and b matrices (setup step) | Solving the Linear System | . | Naieve Solvers . | Pseudo-Inverse . | Why not do SVD? | Scipy Default Solver | . | . | Matrix Factorization - Utilizing the Sparsity . | Cholesky - LU Decomposition - Fast, little lower numerical stability . | Column Ordering | ChatGPT explanation | My Understading | . | QR Factorization - Slower, but more stable | . | Results of Least Sq. Optimization and Visual Inference . | Ground Truth Trajectory | Optimization Results | Inference on the Runtime Comparisons | Additionaly Optimization Results | . | . | 2D Non-Linear Least Squares SLAM4 . | Measurement Functions | Building the Linear System from Non-Linear System | Non Linear System in Code | Results | Distinction between Non-Linear and Linear Optimization | . | . Detailed write-up . ",
     "url": "http://localhost:4000/docs/SLAM/Non_linear_slam.html",
     "relUrl": "/docs/SLAM/Non_linear_slam.html"
-  },"133": {
+  },"142": {
     "doc": "Numpy",
     "title": "Before you Begin",
     "content": "Official Documentation . Numpy and Scipy are two resources to compute a variety of functions on matrices. Scipy is built on top of numpy and has a larger codebase of modules which we can utilize . ",
     "url": "http://localhost:4000/numpy/#before-you-begin",
     "relUrl": "/numpy/#before-you-begin"
-  },"134": {
+  },"143": {
     "doc": "Numpy",
     "title": "Images and Arrays",
     "content": " ",
     "url": "http://localhost:4000/numpy/#images-and-arrays",
     "relUrl": "/numpy/#images-and-arrays"
-  },"135": {
+  },"144": {
     "doc": "Numpy",
     "title": "Image Operations",
     "content": "Importing Images . In the below code we input an image and convert it into an array. Shape of an array is just it’s size . im = array(Image.open('empire.jpg')) print im.shape, im.dtype . The output would look lik this: . (800, 569, 3) uint8 (RGB image) . Converting image to Greyscale . This uses an extra library called Python Pillow . from PIL import Image, ImageOps im = array(Image.open('empire.jpg').convert('L'),'f') print im.shape, im.dtype . Plotting an image . img = np.array(Image.open('House2.jpg')) plt.figure(figsize=(8,8)) plt.imshow(img) plt.show . ",
     "url": "http://localhost:4000/numpy/#image-operations",
     "relUrl": "/numpy/#image-operations"
-  },"136": {
+  },"145": {
     "doc": "Numpy",
     "title": "Array Functions and Operations",
     "content": " ",
     "url": "http://localhost:4000/numpy/#array-functions-and-operations",
     "relUrl": "/numpy/#array-functions-and-operations"
-  },"137": {
+  },"146": {
     "doc": "Numpy",
     "title": "Array Nomenclature",
     "content": ". It’s important to realise that we only care about shapes of a matrix and our computation revolves around the shape tuple (1,2,3) irrespective of which is row or column. Develop a generalized version of matrix definitions!! . An image can have shape as (640,540,3). Here we need to think in the way that there are 640 rows and 540 columns and 3 RGB channels. Therefore, rows, columns, pages don’t matter much. Just think in terms of shapes. sum() function in 1D . import numpy as np arr = [20, 2, .2, 10, 4] print(\"\\nSum of arr : \", np.sum(arr)) print(\"Sum of arr(uint8) : \", np.sum(arr, dtype = np.uint8)) print(\"Sum of arr(float32) : \", np.sum(arr, dtype = np.float32)) . Output: . Sum of arr : 36.2 Sum of arr(uint8) : 36 Sum of arr(float32) : 36.2 . In 1D it just computes the sum of all elements in the array. It can also do type conversion on the go. We can extend this same logic to 2D, there too it calculates the sum of all matrix elements . sum() in 2D along axes . Axis along which we want to calculate the sum value. Otherwise, it will consider arr to be flattened(works on all the axis). axis = 0 means it calculates sum of all elements in ith column and (i=1)th column.. axis = 1 means it calculates sum of all elements in (j)th column and (j+1)th column.. arr = [[14, 17, 12, 33, 44], [15, 6, 27, 8, 19], [23, 2, 54, 1, 4,]] print(\"\\nSum of arr : \", np.sum(arr)) print(\"Sum of arr(axis = 0) : \", np.sum(arr, axis = 0)) print(\"Sum of arr(axis = 1) : \", np.sum(arr, axis = 1)) . Output would be: . Sum of arr : 279 Sum of arr(axis = 0) : [52 25 93 42 67] Sum of arr(axis = 1) : [120 75 84] . But notice how the vector of axis = 1 has been transposed to show as a row vector . We change that behaviour by adding a second argument to the sum() function: . print(\"\\nSum of arr (keepdimension is True): \\n\", np.sum(arr, axis = 1, keepdims = True)) . Output . Sum of arr (keepdimension is True): [[120] [ 75] [ 84]] . Looping over an Image and Grayscale . We can loop over individual elements in a matrix after knowing the shape of the matrix . The shape of the image is given as a tuple eg. (640, 540, 3) . | the last item of that tuple is the RGB spectrum (3 dimensions per pixel) | the first two items in the tuple is the actual size of the image | . for i in range(img.shape[1]): print() . In the above code we are looping over the rows. Therefore we are looping 640 times. Method 1 : Consider this method of converting image into greyscale: . import numpy as np import matplotlib.pyplot as plt from PIL import Image, ImageOps img = np.array(Image.open('B1.jpg')) print(img.shape) for i in range(img.shape[0]): for j in range(img.shape[1]): grey_value = 0 for k in range(img.shape[2]): grey_value += img[i,j,k] img[i,j,0] = int(grey_value/3) img2 = img[:,:,1] plt.figure(figsize=(8,8)) plt.imshow(img2) plt.show() . Also note how we removed the third (extra) dimensions using: . img2 = img[:,:,1] . This method uses averaging to find grayscale. However a slightly modified version is usually preferred: . Method 2: Accounting for Luminance Perception . import numpy as np import matplotlib.pyplot as plt from PIL import Image, ImageOps weight = [0.2989, 0.5870, 0.1140] img = np.array(Image.open('B1.jpg')) print(img.shape) for i in range(img.shape[0]): for j in range(img.shape[1]): grey_value = 0 for k in range(len(weight)): grey_value += (img[i,j,k]*weight[k]) img[i,j,0] = int(grey_value) img2 = img[:,:,1] plt.figure(figsize=(8,8)) plt.imshow(img2, cmap=plt.get_cmap(\"gray\")) plt.show() . Method 3: Simpler code using numpy.mean . from PIL import Image import numpy as np import matplotlib.pyplot as plt color_img = np.array(Image.open('B1.jpg')) / 255 img = np.mean(color_img, axis=2) plt.figure(figsize=(8,8)) plt.imshow(img, cmap=plt.get_cmap(\"gray\")) plt.show() . ",
     "url": "http://localhost:4000/numpy/#array-nomenclature",
     "relUrl": "/numpy/#array-nomenclature"
-  },"138": {
+  },"147": {
     "doc": "Numpy",
     "title": "Built-in Numpy functions",
     "content": " ",
     "url": "http://localhost:4000/numpy/#built-in-numpy-functions",
     "relUrl": "/numpy/#built-in-numpy-functions"
-  },"139": {
+  },"148": {
     "doc": "Numpy",
     "title": "Difference between dot, matmul, and *",
     "content": ". ",
     "url": "http://localhost:4000/numpy/#difference-between-dot-matmul-and-",
     "relUrl": "/numpy/#difference-between-dot-matmul-and-"
-  },"140": {
+  },"149": {
     "doc": "Numpy",
     "title": "Plotting a pixel-wise histogram",
     "content": "img = np.array(Image.open('emma_stone.jpg')) img_flat = img.flatten() plt.hist(img_flat, bins=200, range=[0, 256]) plt.title(\"Number of pixels in each intensity value\") plt.xlabel(\"Intensity\") plt.ylabel(\"Number of pixels\") plt.show() . ",
     "url": "http://localhost:4000/numpy/#plotting-a-pixel-wise-histogram",
     "relUrl": "/numpy/#plotting-a-pixel-wise-histogram"
-  },"141": {
+  },"150": {
     "doc": "Numpy",
     "title": "Reshaping Arrays",
     "content": "x = np.arange(4).reshape((2,2)) x &gt;&gt;array([[0, 1], [2, 3]]) . ",
     "url": "http://localhost:4000/numpy/#reshaping-arrays",
     "relUrl": "/numpy/#reshaping-arrays"
-  },"142": {
+  },"151": {
     "doc": "Numpy",
     "title": "Transpose of a matrix",
     "content": "Simple transpose is done using the matrix.transpose() or matrix.T method (both are same). One of them is showed below: . # (refer matrix x in above example) np.transpose(x) array([[0, 2], [1, 3]]) . However the transpose function takes more arguments and this is important for 3D matrices. Note that if a 3D matrix say ‘A’ has shape (1,2,3), the result of transpose without specifying any extra argument will be (3,2,1) . x = np.ones((1, 2, 3)) np.transpose(x, (1, 0, 2)).shape &gt;&gt;(2, 1, 3) . Note. While declaring array as in np.ones(1,2,3). This can be interpreted in two ways: . | If we are printing the array in terminal we will read it as: there are 1 pages, 2 rows and 3 columns | If it’s an image, the shape will be 1 row, 2 coulmns and 3 will be for 3 RGB channels | . It’s important to realise that we only care about shapes of a matrix and our computation revolves around the shape tuple (1,2,3) irrespective of which is row or column. Develop a generalized version of matrix definitions!! . However, we will access each row/column starting from 0 as x[0,0,0] or x[1,1,1]. The second argument stands for the axes parameter. Axes are numbered as 0,1,2 . i.e. default configuration of axes is (0,1,2) for a 3D array and (0,1) for a 2D array . Therefore if we specify &lt;np.transpose(x,(1,0,2))&gt; we’re saying that we want the first two shapes interchanged. Remember that first two shapes are pages and rows. Hence, those two will interchange. ",
     "url": "http://localhost:4000/numpy/#transpose-of-a-matrix",
     "relUrl": "/numpy/#transpose-of-a-matrix"
-  },"143": {
+  },"152": {
     "doc": "Numpy",
     "title": "Padding of Matrices",
     "content": "Padding is used to ensure overall image size does not reduce while run filters/convulutions on it . import numpy as np x = np.ones(3) y = np.pad(x, pad_width=1) y # Expected result # array([0., 1., 1., 1., 0.]) . ",
     "url": "http://localhost:4000/numpy/#padding-of-matrices",
     "relUrl": "/numpy/#padding-of-matrices"
-  },"144": {
+  },"153": {
     "doc": "Numpy",
     "title": "newaxis method",
     "content": "ref: newaxis . This method can be used to convert a row vector to a column vector and at the same time add another dimension as shown below: . a = np.array([0,1,2]) print(a.shape) . Output: (3,) . Now lets do the newaxis modification: . c = (a[:, np.newaxis]) print(c) print(c.shape) . Output: . [[0] [1] [2]] (3, 1) . Therefore we can see that the vector has been rotated and another dimension has been added to the shape tuple . ",
     "url": "http://localhost:4000/numpy/#newaxis-method",
     "relUrl": "/numpy/#newaxis-method"
-  },"145": {
+  },"154": {
     "doc": "Numpy",
     "title": "einsum",
     "content": "Refer to this document: einsum . ",
     "url": "http://localhost:4000/numpy/#einsum",
     "relUrl": "/numpy/#einsum"
-  },"146": {
+  },"155": {
     "doc": "Numpy",
     "title": "Stacking rows using vstack",
     "content": "We can use this function to stack rows onto an exiting numpy array. in_arr1 = geek.array([ 1, 2, 3] ) in_arr2 = geek.array([ 4, 5, 6] ) # Stacking the two arrays vertically out_arr = geek.vstack((in_arr1, in_arr2)) print (out_arr) . Practically we can use this in a specific case. If we don’t know the number of rows we will be adding to a numpy array: . | We will define the array as a 0 row array | We then add rows as we progress using the vstack function | . word_array = np.array([]).reshape(0, maxlength) for message in messages: word_count = np.zeros((1, word_num)) for word in word_list: if word == \"yes\": word_count[0, word_dictionary[word]] += 1 word_array = np.vstack([word_array, word_count]) return word_array . ",
     "url": "http://localhost:4000/numpy/#stacking-rows-using-vstack",
     "relUrl": "/numpy/#stacking-rows-using-vstack"
-  },"147": {
+  },"156": {
     "doc": "Numpy",
     "title": "Saving a numpy matrix in a text file",
     "content": "np.savetxt('./output/p06_sample_train_matrix', train_matrix[:100,:]) . ",
     "url": "http://localhost:4000/numpy/#saving-a-numpy-matrix-in-a-text-file",
     "relUrl": "/numpy/#saving-a-numpy-matrix-in-a-text-file"
-  },"148": {
+  },"157": {
     "doc": "Numpy",
     "title": "Numpy",
     "content": ". | Before you Begin | Images and Arrays . | Image Operations . | Importing Images | Converting image to Greyscale | Plotting an image | . | Array Functions and Operations | Array Nomenclature . | sum() function in 1D | sum() in 2D along axes | Looping over an Image and Grayscale . | Method 1 : Consider this method of converting image into greyscale: | Method 2: Accounting for Luminance Perception | Method 3: Simpler code using numpy.mean | . | . | . | Built-in Numpy functions . | Difference between dot, matmul, and * | Plotting a pixel-wise histogram | Reshaping Arrays | Transpose of a matrix | Padding of Matrices | newaxis method | einsum | Stacking rows using vstack | Saving a numpy matrix in a text file | . | . ",
     "url": "http://localhost:4000/numpy/",
     "relUrl": "/numpy/"
-  },"149": {
+  },"158": {
     "doc": "Optical Flow and Image Alignment",
     "title": "PDF Download",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/optical_flow/#pdf-download",
     "relUrl": "/optical_flow/#pdf-download"
-  },"150": {
+  },"159": {
     "doc": "Optical Flow and Image Alignment",
     "title": "Optical Flow and Image Alignment",
     "content": ". | PDF Download | . ",
     "url": "http://localhost:4000/optical_flow/",
     "relUrl": "/optical_flow/"
-  },"151": {
+  },"160": {
     "doc": "Particle Filters Theory",
     "title": "Before you Begin",
     "content": "Particle Filters are a direct application of Bayes Filters. The Short Version of Bayes Filter is shown below: . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html#before-you-begin",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html#before-you-begin"
-  },"152": {
+  },"161": {
     "doc": "Particle Filters Theory",
     "title": "High Level Overview",
     "content": "We will be doing the following steps: . | Initialize particles randomly across the whole map | resample at every step (selecting only the particles whose predicted laserscan matches actual laserscan) (low variance sampler) | Slowly decay the number of particles being randomly reinitialized | Use the mean of the particles’s estimated pose to get true pose | . Detailed write-up . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html#high-level-overview",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html#high-level-overview"
-  },"153": {
+  },"162": {
     "doc": "Particle Filters Theory",
     "title": "Particle Filters Theory",
     "content": "{: .text-delta } . | Before you Begin | High Level Overview | . ",
     "url": "http://localhost:4000/docs/SLAM/Particle%20Filter_theory.html",
     "relUrl": "/docs/SLAM/Particle%20Filter_theory.html"
-  },"154": {
+  },"163": {
     "doc": "Planar Homography",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/planar_homography/#before-you-begin",
     "relUrl": "/planar_homography/#before-you-begin"
-  },"155": {
+  },"164": {
     "doc": "Planar Homography",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/planar_homography/#pdfs",
     "relUrl": "/planar_homography/#pdfs"
-  },"156": {
+  },"165": {
     "doc": "Planar Homography",
     "title": "Some Basics on Camera Projection",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#some-basics-on-camera-projection",
     "relUrl": "/planar_homography/#some-basics-on-camera-projection"
-  },"157": {
+  },"166": {
     "doc": "Planar Homography",
     "title": "Projection of 3D to 2D image plane",
     "content": "To understand how a camera views the 3D world, first we look at the projection of 3D points onto an image plane. We use basic high school physics and some similar triangle properties to derive the following formula: . Notice that the minus sign is bit irritating to work with. (Also we don’t see inverted images as the formula suggests. This is becauase our brain does the inversion in real time) . Therefore, let’s start with the below version of the formula by ignoring this inversion effect . Now, the above equation can be written in matrix form, but we’ll form one artifact in this conversion i.e. lambda . It’s clear that we can find this lambda as shown. However, why do we even need this? Ans. We want to represent the coordinates in homogenous coordinates . ",
     "url": "http://localhost:4000/planar_homography/#projection-of-3d-to-2d-image-plane",
     "relUrl": "/planar_homography/#projection-of-3d-to-2d-image-plane"
-  },"158": {
+  },"167": {
     "doc": "Planar Homography",
     "title": "Camera Matrices",
     "content": "Generic Representation . Now, let’s add another constraint on this equation. Suppose we rotate our 3D point in space or we rotate the camera itself by a certain angle. In the world of robotics we call such transforms as a rotation matrix. Reference: Rotation Matrices . To get a good grasp of rotation matrices, I highly recommend some linear algebra brush-up using 3B1B (3 Blue 1 Brown). Specifically (watch 8th minute of this video) The rotation shown in the above video in the 8th minute is a rotation matrix in 2D. Now, adding a 3D translation (just 3 numbers which add to the x,y,z component of a 3D vector) along with a 3D rotation we get the basic projection equation . Where the two matrices are called the camera intrinsics (captures focal lengths) and the camera extrinsics (capturing rotation and translation) . This rotation (r-matrix) can also be visualized as fixing a world coordinate frame onto some plane in the 3D world (think of a it as a flat table top) and then thinking how our camera is rotated w.r.t that frame: . Now, most cameras also distort images due to lens optics or other properties inherent in building the camera itself. These are captured as shown below: . Now, adding these intrinsic and extrinsic factors, we get: . Alternate notation of camera matrices . ",
     "url": "http://localhost:4000/planar_homography/#camera-matrices",
     "relUrl": "/planar_homography/#camera-matrices"
-  },"159": {
+  },"168": {
     "doc": "Planar Homography",
     "title": "The Homography Situation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#the-homography-situation",
     "relUrl": "/planar_homography/#the-homography-situation"
-  },"160": {
+  },"169": {
     "doc": "Planar Homography",
     "title": "Single View",
     "content": "Now, if we focus on only planes (table top and human holding camera situation): We can make certain simplifying assumptions. This is primarily that the 3D point we’re looking at has constant depth in it’s immediate neighbourhood. Using this we simplify our equations to: . This 3x3 m-matrix now represents the mapping of 3D points on a plane to 2D point in an image . ",
     "url": "http://localhost:4000/planar_homography/#single-view",
     "relUrl": "/planar_homography/#single-view"
-  },"161": {
+  },"170": {
     "doc": "Planar Homography",
     "title": "Multiple Views",
     "content": "Now, by simple extension of the above logic we can derive the following: . | We have just 1 plane in the 3D world | We have two cameras looking at this plane | Each camera has it’s own 3x3 m-matrix which maps 3D plane points onto 2D image frame | Therefore if two cameras can see the same 3D point, we can find a mapping between the two cameras | This mapping between the two cameras is given by a new 3x3 matrix called the homography matrix | . ",
     "url": "http://localhost:4000/planar_homography/#multiple-views",
     "relUrl": "/planar_homography/#multiple-views"
-  },"162": {
+  },"171": {
     "doc": "Planar Homography",
     "title": "Limitations of Planar Homography",
     "content": ". | When the scene is very far away from the camera, all objects can be said to have the same depth. This is because the relative depth distances between foreground and background will be negligible in comparison to the average scene depth. Therefore, in such cases all objects in scene can be said to lie on a plane and as proved above, can be captured by two cameras related by a homography matrix. | For nearby scenes where the variation in scene depth is more apparent, a homography mapping works well only under pure rotation. | . ",
     "url": "http://localhost:4000/planar_homography/#limitations-of-planar-homography",
     "relUrl": "/planar_homography/#limitations-of-planar-homography"
-  },"163": {
+  },"172": {
     "doc": "Planar Homography",
     "title": "Implementation of Homography Estimation",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#implementation-of-homography-estimation",
     "relUrl": "/planar_homography/#implementation-of-homography-estimation"
-  },"164": {
+  },"173": {
     "doc": "Planar Homography",
     "title": "The Pipeline",
-    "content": "The main application of homography transforms is to find how some reference template has been warped due to movement of the camera. This is seem below as: . The applications of this are: . | image stitching (think of two images from two views as a warped version of view 0) | augmented reality (projecting some images onto a fixed/known plane in the real world) | . To perform any of the above cool applications, we first need to compute the homography between any two views. The pipeline for this would be: . | Have one reference view and another view with the camera having moved slightly | Detect some keypoints (interest points like corners/edges) in each image | Describe these keypoints in some way (maybe capture the histogram of pixel intensities in a small patch around the keypoint) | Match the keypoints in one image to another using the keypoint descriptions | Use the spatial information of these matched keypoints (i.e. the x,y coordinates of each of these keypoints) to find the Homography matrix | **Apply the homography matrix as a transformation on one of the images **to warp and match the images | . Let’s go deeper into the each of the above steps: . Keypoint Detection . | There are several methods to find keypoints in an image. Usually these keypoints are corners since other features like edges may warp or curve due to distortion and may be difficult to trace. | The common methods are Harris Corner Detector, polygon fitting, FAST detectors etc. | Here we use the FAST detector | . Keypoint Descriptors . Common descriptors include BRIEF, ORB, SIFT etc. Here we’ve used the BRIEF descriptor . The BRIEF descriptor works by creating a binary feature vector of a patch from random (x,y) point pairs. This randomness in generating point pairs ensures changes in pixel intensities are captuerd in multiple directions thereby being sensitive to a large variety of edges or corners. The BRIEF descriptor also compares these binary strings using hamming distance further reduces compute time. Due to this computational cost of calculating histograms for each filter bank it would not make sense to use filterbanks instead of BRIEF. Further, just filterbanks cannot encode patch descriptions, i.e. without any form of histograms (like SIFT), the filterbanks themselves cannot be used instead of BRIEF. Reference: BRIEF Descriptor . The implementation of keypoint detection, description and matching are shown below: . import numpy as np import cv2 import skimage.color from helper import briefMatch from helper import computeBrief from helper import corner_detection # Q2.1.4 def matchPics(I1, I2, opts): \"\"\" Match features across images Input ----- I1, I2: Source images opts: Command line args Returns ------- matches: List of indices of matched features across I1, I2 [p x 2] locs1, locs2: Pixel coordinates of matches [N x 2] \"\"\" print(\"computing image matches\") ratio = opts.ratio #'ratio for BRIEF feature descriptor' sigma = opts.sigma #'threshold for corner detection using FAST feature detector' # Convert Images to GrayScale I1 = skimage.color.rgb2gray(I1) I2 = skimage.color.rgb2gray(I2) # Detect Features in Both Images # locs1 is just the detected corners of I1 locs1 = corner_detection(I1, sigma) locs2 = corner_detection(I2, sigma) # Obtain descriptors for the computed feature locations # We use the breif descriptor to give the patch descriptions (patch of pixel width = 9) # for the corners(keypoints) which we obtained from corner_description # desc is the binary string (len(string)=256 and 256bits) # which serves as the feature descriptor desc1, locs1 = computeBrief(I1, locs1) desc2, locs2 = computeBrief(I2, locs2) # Match features using the descriptors matches = briefMatch(desc1, desc2, ratio) print(f'Computed {matches.shape[0]} matches successfully') return matches, locs1, locs2 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches . Calculating the Homography Matrix . Let’s say we have two images: image1 and image2 . To Derive the A matrix we undergo the following steps: . Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value) which forms the null space of A. (Bonus) RANSAC: Rejecting outliers during our homography calculation . Implementation of above steps . import numpy as np import cv2 import skimage.io import skimage.color from planarH import * from opts import get_opts from matchPics import matchPics from helper import briefMatch def warpImage(opts): \"\"\" Warp template image based on homography transform Args: opts: user inputs \"\"\" image1 = cv2.imread('../data/cv_cover.jpg') image2 = cv2.imread('../data/cv_desk.png') template_img = cv2.imread('../data/hp_cover.jpg') # make sure harry_potter image is same size as CV book x,y,z = image1.shape template_img = cv2.resize(template_img, (y,x)) matches, locs1, locs2 = matchPics(image1, image2, opts) # invert the columns of locs1 and locs2 locs1[:, [1, 0]] = locs1[:, [0, 1]] locs2[:, [1, 0]] = locs2[:, [0, 1]] matched_points = create_matched_points(matches, locs1, locs2) h, inlier = computeH_ransac(matched_points[:,0:2], matched_points[:,2:], opts) print(\"homography matrix is \\n\", h) # compositeH(h, source, destination) composite_img = compositeH(h, template_img, image2) # Display images cv2.imshow(\"Composite Image :)\", composite_img) cv2.waitKey() if __name__ == \"__main__\": opts = get_opts() warpImage(opts) . RANSAC and Construction of Composite Image . from copy import deepcopy from dataclasses import replace from platform import python_branch import numpy as np import cv2 import matplotlib.pyplot as plt import skimage.color import math import random from scipy import ndimage from scipy.spatial import distance from matchPics import matchPics from helper import plotMatches from opts import get_opts from tqdm import tqdm def computeH(x1, x2): \"\"\" Computes the homography based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the homography matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0], x2[i,1], 1, 0, 0, 0, -x1[i,0]*x2[i,0], -x1[i,0]*x2[i,1], -x1[i,0] ]) row_2 = np.array([ 0, 0, 0, x2[i,0], x2[i,1], 1, -x1[i,1]*x2[i,0], -x1[i,1]*x2[i,1], -x1[i,1] ]) A_build.append(row_1) A_build.append(row_2) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(np.matmul(A.T, A)) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose H2to1 = np.reshape(v.T[:,-1], (3,3)) return H2to1 def computeH_norm(x1, x2): #Q2.2.2 \"\"\" Compute the normalized coordinates and also the homography matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: H2to1: Hmography matrix after denormalization \"\"\" # Q2.2.2 # Compute the centroid of the points centroid_img_1 = np.sum(x1, axis=0)/x1.shape[0] centroid_img_2 = np.sum(x2, axis=0)/x2.shape[0] # print(f'centroid of img1 is {centroid_img_1} \\n centroid of img2 is {centroid_img_2}') # Shift the origin of the points to the centroid # let origin for img1 be centroid_img_1 and similarly for img2 #? Now translate every point such that centroid is at [0,0] moved_x1 = x1 - centroid_img_1 moved_x2 = x2 - centroid_img_2 current_max_dist_img1 = np.max(np.linalg.norm(moved_x1),axis=0) current_max_dist_img2 = np.max(np.linalg.norm(moved_x2),axis=0) # moved and scaled image 1 points scale1 = np.sqrt(2) / (current_max_dist_img1) scale2 = np.sqrt(2) / (current_max_dist_img2) moved_scaled_x1 = moved_x1 * scale1 moved_scaled_x2 = moved_x2 * scale2 # Similarity transform 1 #? We construct the transformation matrix to be 3x3 as it has to be same shape of Homography t1 = np.diag([scale1, scale1, 1]) t1[0:2,2] = -scale1*centroid_img_1 # Similarity transform 2 t2 = np.diag([scale2, scale2, 1]) t2[0:2,2] = -scale2*centroid_img_2 # Compute homography H = computeH(moved_scaled_x1, moved_scaled_x2) # Denormalization H2to1 = np.matmul(np.linalg.inv(t1), np.matmul(H, t2)) return H2to1 def create_matched_points(matches, locs1, locs2): \"\"\" Match the corners in img1 and img2 according to the BRIEF matched points Args: matches (Mx2): Vector containing the index of locs1 and locs2 which matches locs1 (Nx2): Vector containing corner positions for img1 locs2 (Nx2): Vector containing corner positions for img2 Returns: _type_: _description_ \"\"\" matched_pts = [] for i in range(matches.shape[0]): matched_pts.append(np.array([locs1[matches[i,0],0], locs1[matches[i,0],1], locs2[matches[i,1],0], locs2[matches[i,1],1]])) # remove the first dummy value and return matched_points = np.stack(matched_pts, axis=0) return matched_points def computeH_ransac(locs1, locs2, opts): \"\"\" Every iteration we init a Homography matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Homography matrix Args: locs1: location of matched points in image1 locs2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The homography matrix with max number of inliers final_inliers : Final list of inliers considered for homography \"\"\" #Q2.2.3 #Compute the best fitting homography given a list of matching points max_iters = opts.max_iters # the number of iterations to run RANSAC for inlier_tol = opts.inlier_tol # the tolerance value for considering a point to be an inlier # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])),k=4) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_H = computeH_norm(correspondence_points_1, correspondence_points_2) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_H, test_locs1, test_locs2, inlier_tol) if error_state == 1: continue if (inlier_count &gt; final_inlier_count) and (distance_error &lt; final_distance_error): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 10000: # print(\"original point count is\", locs1.shape[0]) # print(\"final inlier count is\", final_inlier_count) # print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = computeH_norm(final_locs_1, final_locs_2) return bestH2to1, final_inliers else: bestH2to1 = computeH_norm(correspondence_points_1, correspondence_points_2) return bestH2to1, 0 def compute_inliers(h, x1, x2, tol): \"\"\" Compute the number of inliers for a given homography matrix Args: h: Homography matrix x1 : matched points in image 1 x2 : matched points in image 2 tol: tolerance value to check for inliers Returns: inliers : indexes of x1 or x2 which are inliers inlier_count : number of total inliers dist_error_sum : Cumulative sum of errors in reprojection error calc flag : flag to indicate if H was invertible or not \"\"\" # take H inv to map points in x1 to x2 try: H = np.linalg.inv(h) except: return [1,1,1], 1, 1, 1 x2_extd = np.append(x2, np.ones((x2.shape[0],1)), axis=1) x1_extd = (np.append(x1, np.ones((x1.shape[0],1)), axis=1)) x2_est = np.zeros((x2_extd.shape), dtype=x2_extd.dtype) for i in range(x1.shape[0]): x2_est[i,:] = H @ x1_extd[i,:] x2_est = x2_est/np.expand_dims(x2_est[:,2], axis=1) dist_error = np.linalg.norm((x2_extd-x2_est),axis=1) # print(\"dist error is\", dist_error) inliers = np.where((dist_error &lt; tol), 1, 0) inlier_count = np.count_nonzero(inliers == 1) return inliers, inlier_count, np.sum(dist_error), 0 def compositeH(H2to1, template, img): \"\"\" Create a composite image after warping the template image on top of the image using the homography Args: H2to1 : Existing(already found) homography matrix template: Harry Potter (template image) img: Base image onto which we overlay Harry Potter image Returns: composite_img: Base image with overlayed Harry Potter cover \"\"\" output_shape = (img.shape[1],img.shape[0]) # destination_img = img # source_img = template h = np.linalg.inv(H2to1) # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography warped_template = cv2.warpPerspective(template, h, output_shape) # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img) return composite_img def panorama_composite(H2to1, template, img): \"\"\" Stitch two images together to form a panorama Args: H2to1: Homography Matrix template: The pano_right image img: The pano_left image Returns: composite_img: Stitched image (panorama) \"\"\" output_shape = (img.shape[1]+240,img.shape[0]+240) # destination_img = img # source_img = template h = H2to1 img_padded = np.zeros((img.shape[0]+240,img.shape[1]+240,3), dtype=img.dtype) img_padded[0:img.shape[0], 0:img.shape[1], :] = img[:,:,:] # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography cv2.imshow(\"template image\", template) cv2.waitKey() cv2.imshow(\"destination image\", img) cv2.waitKey() warped_template = cv2.warpPerspective(template, h, output_shape) cv2.imshow(\"warped template\", warped_template) cv2.waitKey() # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img_padded) return composite_img . ",
+    "content": "The main application of homography transforms is to find how some reference template has been warped due to movement of the camera. This is seem below as: . The applications of this are: . | image stitching (think of two images from two views as a warped version of view 0) | augmented reality (projecting some images onto a fixed/known plane in the real world) | . To perform any of the above cool applications, we first need to compute the homography between any two views. The pipeline for this would be: . | Have one reference view and another view with the camera having moved slightly | Detect some keypoints (interest points like corners/edges) in each image | Describe these keypoints in some way (maybe capture the histogram of pixel intensities in a small patch around the keypoint) | Match the keypoints in one image to another using the keypoint descriptions | Use the spatial information of these matched keypoints (i.e. the x,y coordinates of each of these keypoints) to find the Homography matrix | **Apply the homography matrix as a transformation on one of the images **to warp and match the images | . Let’s go deeper into the each of the above steps: . Keypoint Detection . | There are several methods to find keypoints in an image. Usually these keypoints are corners since other features like edges may warp or curve due to distortion and may be difficult to trace. | The common methods are Harris Corner Detector, polygon fitting, FAST detectors etc. | Here we use the FAST detector | . Keypoint Descriptors . Common descriptors include BRIEF, ORB, SIFT etc. Here we’ve used the BRIEF descriptor . The BRIEF descriptor works by creating a binary feature vector of a patch from random (x,y) point pairs. This randomness in generating point pairs ensures changes in pixel intensities are captuerd in multiple directions thereby being sensitive to a large variety of edges or corners. The BRIEF descriptor also compares these binary strings using hamming distance further reduces compute time. Due to this computational cost of calculating histograms for each filter bank it would not make sense to use filterbanks instead of BRIEF. Further, just filterbanks cannot encode patch descriptions, i.e. without any form of histograms (like SIFT), the filterbanks themselves cannot be used instead of BRIEF. Reference: BRIEF Descriptor . The implementation of keypoint detection, description and matching are shown below: . import numpy as np import cv2 import skimage.color from helper import briefMatch from helper import computeBrief from helper import corner_detection # Q2.1.4 def matchPics(I1, I2, opts): \"\"\" Match features across images Input ----- I1, I2: Source images opts: Command line args Returns ------- matches: List of indices of matched features across I1, I2 [p x 2] locs1, locs2: Pixel coordinates of matches [N x 2] \"\"\" print(\"computing image matches\") ratio = opts.ratio #'ratio for BRIEF feature descriptor' sigma = opts.sigma #'threshold for corner detection using FAST feature detector' # Convert Images to GrayScale I1 = skimage.color.rgb2gray(I1) I2 = skimage.color.rgb2gray(I2) # Detect Features in Both Images # locs1 is just the detected corners of I1 locs1 = corner_detection(I1, sigma) locs2 = corner_detection(I2, sigma) # Obtain descriptors for the computed feature locations # We use the breif descriptor to give the patch descriptions (patch of pixel width = 9) # for the corners(keypoints) which we obtained from corner_description # desc is the binary string (len(string)=256 and 256bits) # which serves as the feature descriptor desc1, locs1 = computeBrief(I1, locs1) desc2, locs2 = computeBrief(I2, locs2) # Match features using the descriptors matches = briefMatch(desc1, desc2, ratio) print(f'Computed {matches.shape[0]} matches successfully') return matches, locs1, locs2 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches . Calculating the Homography Matrix . Let’s say we have two images: image1 and image2 . To Derive the A matrix we undergo the following steps: . | Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value) which forms the null space of A. | Remember, null-space of a vector is the transformation (i.e. transformation matrix) which squeezed the vector onto a point (i.e. it reduces dimensions to zero). | In this case x is the vector and we find the corresponding transformation matrix which forms it’s null-space. This matrix then becomes our homography matrix | For a better understanding of SVD, refer to This Document | . (Bonus) RANSAC: Rejecting outliers during our homography calculation . Implementation of above steps . import numpy as np import cv2 import skimage.io import skimage.color from planarH import * from opts import get_opts from matchPics import matchPics from helper import briefMatch def warpImage(opts): \"\"\" Warp template image based on homography transform Args: opts: user inputs \"\"\" image1 = cv2.imread('../data/cv_cover.jpg') image2 = cv2.imread('../data/cv_desk.png') template_img = cv2.imread('../data/hp_cover.jpg') # make sure harry_potter image is same size as CV book x,y,z = image1.shape template_img = cv2.resize(template_img, (y,x)) matches, locs1, locs2 = matchPics(image1, image2, opts) # invert the columns of locs1 and locs2 locs1[:, [1, 0]] = locs1[:, [0, 1]] locs2[:, [1, 0]] = locs2[:, [0, 1]] matched_points = create_matched_points(matches, locs1, locs2) h, inlier = computeH_ransac(matched_points[:,0:2], matched_points[:,2:], opts) print(\"homography matrix is \\n\", h) # compositeH(h, source, destination) composite_img = compositeH(h, template_img, image2) # Display images cv2.imshow(\"Composite Image :)\", composite_img) cv2.waitKey() if __name__ == \"__main__\": opts = get_opts() warpImage(opts) . RANSAC and Construction of Composite Image . from copy import deepcopy from dataclasses import replace from platform import python_branch import numpy as np import cv2 import matplotlib.pyplot as plt import skimage.color import math import random from scipy import ndimage from scipy.spatial import distance from matchPics import matchPics from helper import plotMatches from opts import get_opts from tqdm import tqdm def computeH(x1, x2): \"\"\" Computes the homography based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the homography matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0], x2[i,1], 1, 0, 0, 0, -x1[i,0]*x2[i,0], -x1[i,0]*x2[i,1], -x1[i,0] ]) row_2 = np.array([ 0, 0, 0, x2[i,0], x2[i,1], 1, -x1[i,1]*x2[i,0], -x1[i,1]*x2[i,1], -x1[i,1] ]) A_build.append(row_1) A_build.append(row_2) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(np.matmul(A.T, A)) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose H2to1 = np.reshape(v.T[:,-1], (3,3)) return H2to1 def computeH_norm(x1, x2): #Q2.2.2 \"\"\" Compute the normalized coordinates and also the homography matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: H2to1: Hmography matrix after denormalization \"\"\" # Q2.2.2 # Compute the centroid of the points centroid_img_1 = np.sum(x1, axis=0)/x1.shape[0] centroid_img_2 = np.sum(x2, axis=0)/x2.shape[0] # print(f'centroid of img1 is {centroid_img_1} \\n centroid of img2 is {centroid_img_2}') # Shift the origin of the points to the centroid # let origin for img1 be centroid_img_1 and similarly for img2 #? Now translate every point such that centroid is at [0,0] moved_x1 = x1 - centroid_img_1 moved_x2 = x2 - centroid_img_2 current_max_dist_img1 = np.max(np.linalg.norm(moved_x1),axis=0) current_max_dist_img2 = np.max(np.linalg.norm(moved_x2),axis=0) # moved and scaled image 1 points scale1 = np.sqrt(2) / (current_max_dist_img1) scale2 = np.sqrt(2) / (current_max_dist_img2) moved_scaled_x1 = moved_x1 * scale1 moved_scaled_x2 = moved_x2 * scale2 # Similarity transform 1 #? We construct the transformation matrix to be 3x3 as it has to be same shape of Homography t1 = np.diag([scale1, scale1, 1]) t1[0:2,2] = -scale1*centroid_img_1 # Similarity transform 2 t2 = np.diag([scale2, scale2, 1]) t2[0:2,2] = -scale2*centroid_img_2 # Compute homography H = computeH(moved_scaled_x1, moved_scaled_x2) # Denormalization H2to1 = np.matmul(np.linalg.inv(t1), np.matmul(H, t2)) return H2to1 def create_matched_points(matches, locs1, locs2): \"\"\" Match the corners in img1 and img2 according to the BRIEF matched points Args: matches (Mx2): Vector containing the index of locs1 and locs2 which matches locs1 (Nx2): Vector containing corner positions for img1 locs2 (Nx2): Vector containing corner positions for img2 Returns: _type_: _description_ \"\"\" matched_pts = [] for i in range(matches.shape[0]): matched_pts.append(np.array([locs1[matches[i,0],0], locs1[matches[i,0],1], locs2[matches[i,1],0], locs2[matches[i,1],1]])) # remove the first dummy value and return matched_points = np.stack(matched_pts, axis=0) return matched_points def computeH_ransac(locs1, locs2, opts): \"\"\" Every iteration we init a Homography matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Homography matrix Args: locs1: location of matched points in image1 locs2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The homography matrix with max number of inliers final_inliers : Final list of inliers considered for homography \"\"\" #Q2.2.3 #Compute the best fitting homography given a list of matching points max_iters = opts.max_iters # the number of iterations to run RANSAC for inlier_tol = opts.inlier_tol # the tolerance value for considering a point to be an inlier # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])),k=4) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_H = computeH_norm(correspondence_points_1, correspondence_points_2) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_H, test_locs1, test_locs2, inlier_tol) if error_state == 1: continue if (inlier_count &gt; final_inlier_count) and (distance_error &lt; final_distance_error): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 10000: # print(\"original point count is\", locs1.shape[0]) # print(\"final inlier count is\", final_inlier_count) # print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = computeH_norm(final_locs_1, final_locs_2) return bestH2to1, final_inliers else: bestH2to1 = computeH_norm(correspondence_points_1, correspondence_points_2) return bestH2to1, 0 def compute_inliers(h, x1, x2, tol): \"\"\" Compute the number of inliers for a given homography matrix Args: h: Homography matrix x1 : matched points in image 1 x2 : matched points in image 2 tol: tolerance value to check for inliers Returns: inliers : indexes of x1 or x2 which are inliers inlier_count : number of total inliers dist_error_sum : Cumulative sum of errors in reprojection error calc flag : flag to indicate if H was invertible or not \"\"\" # take H inv to map points in x1 to x2 try: H = np.linalg.inv(h) except: return [1,1,1], 1, 1, 1 x2_extd = np.append(x2, np.ones((x2.shape[0],1)), axis=1) x1_extd = (np.append(x1, np.ones((x1.shape[0],1)), axis=1)) x2_est = np.zeros((x2_extd.shape), dtype=x2_extd.dtype) for i in range(x1.shape[0]): x2_est[i,:] = H @ x1_extd[i,:] x2_est = x2_est/np.expand_dims(x2_est[:,2], axis=1) dist_error = np.linalg.norm((x2_extd-x2_est),axis=1) # print(\"dist error is\", dist_error) inliers = np.where((dist_error &lt; tol), 1, 0) inlier_count = np.count_nonzero(inliers == 1) return inliers, inlier_count, np.sum(dist_error), 0 def compositeH(H2to1, template, img): \"\"\" Create a composite image after warping the template image on top of the image using the homography Args: H2to1 : Existing(already found) homography matrix template: Harry Potter (template image) img: Base image onto which we overlay Harry Potter image Returns: composite_img: Base image with overlayed Harry Potter cover \"\"\" output_shape = (img.shape[1],img.shape[0]) # destination_img = img # source_img = template h = np.linalg.inv(H2to1) # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography warped_template = cv2.warpPerspective(template, h, output_shape) # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img) return composite_img def panorama_composite(H2to1, template, img): \"\"\" Stitch two images together to form a panorama Args: H2to1: Homography Matrix template: The pano_right image img: The pano_left image Returns: composite_img: Stitched image (panorama) \"\"\" output_shape = (img.shape[1]+240,img.shape[0]+240) # destination_img = img # source_img = template h = H2to1 img_padded = np.zeros((img.shape[0]+240,img.shape[1]+240,3), dtype=img.dtype) img_padded[0:img.shape[0], 0:img.shape[1], :] = img[:,:,:] # Create mask of same size as template mask = np.ones((template.shape[0], template.shape[1]))*255 mask = np.stack((mask, mask, mask), axis=2) # Warp mask by appropriate homography warped_mask = cv2.warpPerspective(mask, h, output_shape) # Warp template by appropriate homography cv2.imshow(\"template image\", template) cv2.waitKey() cv2.imshow(\"destination image\", img) cv2.waitKey() warped_template = cv2.warpPerspective(template, h, output_shape) cv2.imshow(\"warped template\", warped_template) cv2.waitKey() # Use mask to combine the warped template and the image composite_img = np.where(warped_mask, warped_template, img_padded) return composite_img . ",
     "url": "http://localhost:4000/planar_homography/#the-pipeline",
     "relUrl": "/planar_homography/#the-pipeline"
-  },"165": {
+  },"174": {
     "doc": "Planar Homography",
     "title": "Applying Homography Estimation in the Real World",
     "content": " ",
     "url": "http://localhost:4000/planar_homography/#applying-homography-estimation-in-the-real-world",
     "relUrl": "/planar_homography/#applying-homography-estimation-in-the-real-world"
-  },"166": {
+  },"175": {
     "doc": "Planar Homography",
     "title": "Basic cool applications",
     "content": "If we know how a template matches to a warped image, such as: . We can then use this homography matrix to map any plane (here a different book cover) onto our destination image . ",
     "url": "http://localhost:4000/planar_homography/#basic-cool-applications",
     "relUrl": "/planar_homography/#basic-cool-applications"
-  },"167": {
+  },"176": {
     "doc": "Planar Homography",
     "title": "AR Video",
     "content": "Here we use the same book-cover homography mapping but onto a sequence of frames of a video . ",
     "url": "http://localhost:4000/planar_homography/#ar-video",
     "relUrl": "/planar_homography/#ar-video"
-  },"168": {
+  },"177": {
     "doc": "Planar Homography",
     "title": "Panorama Stitching",
     "content": "During my visit to Ohiopyle, I took few pictures of the river. Let’s back to the fact that homography works well for far away scenes, where the large distance from camera to landscape makes the relative distances of objects in the landscape negligible. In such cases even small translations of the camera have a small effect on the landscape itself. However, since the scene at ohiopyle was not too far away, any translation would yield a bad homography matrix and cause shoddy stitching. Therefore I tried to mitigate this by only rotating about my hip (to ensure no translational movement) while taking the two views. The results of the stitching are shown below: . ",
     "url": "http://localhost:4000/planar_homography/#panorama-stitching",
     "relUrl": "/planar_homography/#panorama-stitching"
-  },"169": {
+  },"178": {
     "doc": "Planar Homography",
     "title": "Acknowledgement and References",
     "content": "A lot of images are taken from the lecture slides during my computer vision class at CMU. These were taught by Prof. Kris Kitani and Prof. Deva Ramanan . These slides are publicly available (slides) . ",
     "url": "http://localhost:4000/planar_homography/#acknowledgement-and-references",
     "relUrl": "/planar_homography/#acknowledgement-and-references"
-  },"170": {
+  },"179": {
     "doc": "Planar Homography",
     "title": "My Ohiopyle trip",
     "content": ". ",
     "url": "http://localhost:4000/planar_homography/#my-ohiopyle-trip",
     "relUrl": "/planar_homography/#my-ohiopyle-trip"
-  },"171": {
+  },"180": {
     "doc": "Planar Homography",
     "title": "Helper Functions",
     "content": "The helper function in this framework is shown below: . import numpy as np import cv2 import scipy.io as sio from matplotlib import pyplot as plt import skimage.feature PATCHWIDTH = 9 def briefMatch(desc1,desc2,ratio): matches = skimage.feature.match_descriptors(desc1,desc2,'hamming',cross_check=True,max_ratio=ratio) return matches def plotMatches(im1,im2,matches,locs1,locs2): fig, ax = plt.subplots(nrows=1, ncols=1) im1 = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY) im2 = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY) plt.axis('off') skimage.feature.plot_matches(ax,im1,im2,locs1,locs2,matches,matches_color='r',only_matches=True) plt.show() return def makeTestPattern(patchWidth, nbits): np.random.seed(0) compareX = patchWidth*patchWidth * np.random.random((nbits,1)) compareX = np.floor(compareX).astype(int) np.random.seed(1) compareY = patchWidth*patchWidth * np.random.random((nbits,1)) compareY = np.floor(compareY).astype(int) return (compareX, compareY) def computePixel(img, idx1, idx2, width, center): halfWidth = width // 2 col1 = idx1 % width - halfWidth row1 = idx1 // width - halfWidth col2 = idx2 % width - halfWidth row2 = idx2 // width - halfWidth return 1 if img[int(center[0]+row1)][int(center[1]+col1)] &lt; img[int(center[0]+row2)][int(center[1]+col2)] else 0 def computeBrief(img, locs): patchWidth = 9 nbits = 256 compareX, compareY = makeTestPattern(patchWidth,nbits) m, n = img.shape halfWidth = patchWidth//2 locs = np.array(list(filter(lambda x: halfWidth &lt;= x[0] &lt; m-halfWidth and halfWidth &lt;= x[1] &lt; n-halfWidth, locs))) desc = np.array([list(map(lambda x: computePixel(img, x[0], x[1], patchWidth, c), zip(compareX, compareY))) for c in locs]) return desc, locs def corner_detection(img, sigma): # fast method result_img = skimage.feature.corner_fast(img, n=PATCHWIDTH, threshold=sigma) locs = skimage.feature.corner_peaks(result_img, min_distance=1) return locs def loadVid(path): # Create a VideoCapture object and read from input file # If the input is the camera, pass 0 instead of the video file name cap = cv2.VideoCapture(path) # Append frames to list frames = [] # Check if camera opened successfully if cap.isOpened()== False: print(\"Error opening video stream or file\") # Read until video is completed while(cap.isOpened()): # Capture frame-by-frame ret, frame = cap.read() if ret: #Store the resulting frame frames.append(frame) else: break # When everything done, release the video capture object cap.release() frames = np.stack(frames) return frames . ",
     "url": "http://localhost:4000/planar_homography/#helper-functions",
     "relUrl": "/planar_homography/#helper-functions"
-  },"172": {
+  },"181": {
     "doc": "Planar Homography",
     "title": "Planar Homography",
     "content": ". | Before you Begin | PDFs | Some Basics on Camera Projection . | Projection of 3D to 2D image plane | Camera Matrices . | Generic Representation | Alternate notation of camera matrices | . | . | The Homography Situation . | Single View | Multiple Views | Limitations of Planar Homography | . | Implementation of Homography Estimation . | The Pipeline . | Keypoint Detection | Keypoint Descriptors | Calculating the Homography Matrix | (Bonus) RANSAC: Rejecting outliers during our homography calculation | Implementation of above steps | RANSAC and Construction of Composite Image | . | . | Applying Homography Estimation in the Real World . | Basic cool applications | AR Video | Panorama Stitching | . | Acknowledgement and References . | My Ohiopyle trip | . | Helper Functions | . ",
     "url": "http://localhost:4000/planar_homography/",
     "relUrl": "/planar_homography/"
-  },"173": {
+  },"182": {
     "doc": "Recap on Probability",
     "title": "Before you Begin",
     "content": "Ref Book. Probabalistic Robotics . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#before-you-begin",
     "relUrl": "/docs/SLAM/Probability_review.html#before-you-begin"
-  },"174": {
+  },"183": {
     "doc": "Recap on Probability",
     "title": "Discrete and Continuous Variables",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-and-continuous-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-and-continuous-variables"
-  },"175": {
+  },"184": {
     "doc": "Recap on Probability",
     "title": "Discrete Variables and Notations",
     "content": "Here the value X in P(X) can take on any value X=x_i, just that x_i are discrete points . However, keep in my that we formally call the below function Probability Mass Function . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#discrete-variables-and-notations",
     "relUrl": "/docs/SLAM/Probability_review.html#discrete-variables-and-notations"
-  },"176": {
+  },"185": {
     "doc": "Recap on Probability",
     "title": "Continuous Random Variables",
     "content": "Here the value of X in p(X) can take on a continuous variable X=x, where x is a smooth function . Now, here we use lower_case p to denote the p(x) since in the continuous probability world, we cannot speak in terms of absolute probability, but in terms of a density function: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#continuous-random-variables",
     "relUrl": "/docs/SLAM/Probability_review.html#continuous-random-variables"
-  },"177": {
+  },"186": {
     "doc": "Recap on Probability",
     "title": "Get Absolute Probability from PDF",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#get-absolute-probability-from-pdf"
-  },"178": {
+  },"187": {
     "doc": "Recap on Probability",
     "title": "Understanding p(x) PDF",
     "content": "As seen above, only the integration (area under curve) gives us the absolute probability. Therefore, this p(x) must be a curve of sorts, something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#understanding-px-pdf",
     "relUrl": "/docs/SLAM/Probability_review.html#understanding-px-pdf"
-  },"179": {
+  },"188": {
     "doc": "Recap on Probability",
     "title": "Can the value of p(x) &gt; 1?",
     "content": "Yes. This is because p(x) is a PDF not absolute probability. Consider the example of a proximity sensor whose readings only range from 0m - 0.5m. The PDF for such a sensor would look like the below graph . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#can-the-value-of-px--1",
     "relUrl": "/docs/SLAM/Probability_review.html#can-the-value-of-px--1"
-  },"180": {
+  },"189": {
     "doc": "Recap on Probability",
     "title": "Joint and Contional Probability",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-and-contional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-and-contional-probability"
-  },"181": {
+  },"190": {
     "doc": "Recap on Probability",
     "title": "Joint Probability",
     "content": "Note. The calculation of absolute probability will change depending upon the nature of the variables: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#joint-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#joint-probability"
-  },"182": {
+  },"191": {
     "doc": "Recap on Probability",
     "title": "Conditional Probability",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#conditional-probability",
     "relUrl": "/docs/SLAM/Probability_review.html#conditional-probability"
-  },"183": {
+  },"192": {
     "doc": "Recap on Probability",
     "title": "Marginals and Conditionals",
     "content": "To start, lets get an intuition on what a marginal or conditional may look like: . | Let’s consider a multivariate probability distribution (i.e there are say 2 random variables) | Let us consider these two variables to have their own distributions | Let these two distributions be exam grades and study time | Imagine exam_grades are distributed along y-axis, and study_time along x-axis (sorry for asking you to imagine this much :/) | Let the z-axis be a joint probability of both x and y | Now, combining everything we should have a 3D plot | . If we view this plot from the top view, we should see something like this: . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#marginals-and-conditionals",
     "relUrl": "/docs/SLAM/Probability_review.html#marginals-and-conditionals"
-  },"184": {
+  },"193": {
     "doc": "Recap on Probability",
     "title": "Crux of the Matter:",
     "content": ". | Think of conditionals as taking a slice of this cloud and evaluating distribution of exam grades given a specific study time | Think of marginals as squishing the cloud (say squishing all study-time data onto the exam-grades axis) and then studying the distribution | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#crux-of-the-matter",
     "relUrl": "/docs/SLAM/Probability_review.html#crux-of-the-matter"
-  },"185": {
+  },"194": {
     "doc": "Recap on Probability",
     "title": "Small Leap",
     "content": "Now that you’ve understood the intuition behind marginals, here’s the math . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#small-leap",
     "relUrl": "/docs/SLAM/Probability_review.html#small-leap"
-  },"186": {
+  },"195": {
     "doc": "Recap on Probability",
     "title": "Bayes Theorem",
     "content": ". ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html#bayes-theorem",
     "relUrl": "/docs/SLAM/Probability_review.html#bayes-theorem"
-  },"187": {
+  },"196": {
     "doc": "Recap on Probability",
     "title": "Recap on Probability",
     "content": "{: .text-delta } . | Before you Begin | Discrete and Continuous Variables . | Discrete Variables and Notations | Continuous Random Variables | Get Absolute Probability from PDF | Understanding p(x) PDF | Can the value of p(x) &gt; 1? | . | Joint and Contional Probability . | Joint Probability | Conditional Probability | . | Marginals and Conditionals . | Crux of the Matter: | Small Leap | . | Bayes Theorem | . ",
     "url": "http://localhost:4000/docs/SLAM/Probability_review.html",
     "relUrl": "/docs/SLAM/Probability_review.html"
-  },"188": {
+  },"197": {
     "doc": "Intro to Pytorch",
     "title": "Before you Begin",
     "content": "My Pytorch Website . ",
     "url": "http://localhost:4000/pytorch/#before-you-begin",
     "relUrl": "/pytorch/#before-you-begin"
-  },"189": {
+  },"198": {
     "doc": "Intro to Pytorch",
     "title": "Intro to Pytorch",
     "content": ". | Before you Begin | . ",
     "url": "http://localhost:4000/pytorch/",
     "relUrl": "/pytorch/"
-  },"190": {
+  },"199": {
     "doc": "RESNET",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . Convolutional Neural Nets are really good at extracting features. We will use a RESNET in this case to extract face features and make it a face detector. My understanding on why we use RESNETs: . | It prevents overfitting and limits the non-linearity to the necessary amount by allowing for gradients to skip neurons on the backward pass | It solves the issue of vanishing gradients | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#before-you-begin",
     "relUrl": "/docs/DL_Overview/Resnet.html#before-you-begin"
-  },"191": {
+  },"200": {
     "doc": "RESNET",
     "title": "Forward Prop in a RESNET",
     "content": "A simple network would have following form: . Now, if we add a skip connection, we get the following structure: . Note. The new activation is g(z + a) . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#forward-prop-in-a-resnet"
-  },"192": {
+  },"201": {
     "doc": "RESNET",
     "title": "Backward Prop in a RESNET",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet",
     "relUrl": "/docs/DL_Overview/Resnet.html#backward-prop-in-a-resnet"
-  },"193": {
+  },"202": {
     "doc": "RESNET",
     "title": "Why use RESNETS?",
     "content": " ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html#why-use-resnets",
     "relUrl": "/docs/DL_Overview/Resnet.html#why-use-resnets"
-  },"194": {
+  },"203": {
     "doc": "RESNET",
     "title": "RESNET",
     "content": "{: .text-delta } . | Before you Begin | Forward Prop in a RESNET | Backward Prop in a RESNET | Why use RESNETS? | . ",
     "url": "http://localhost:4000/docs/DL_Overview/Resnet.html",
     "relUrl": "/docs/DL_Overview/Resnet.html"
-  },"195": {
+  },"204": {
     "doc": "SLAM",
     "title": "Simultaneous Localisation and Mapping",
     "content": "Understanding and Implementing SLAM for Robotics . ",
     "url": "http://localhost:4000/docs/SLAM#simultaneous-localisation-and-mapping",
     "relUrl": "/docs/SLAM#simultaneous-localisation-and-mapping"
-  },"196": {
+  },"205": {
     "doc": "SLAM",
     "title": "SLAM",
     "content": " ",
     "url": "http://localhost:4000/docs/SLAM",
     "relUrl": "/docs/SLAM"
-  },"197": {
+  },"206": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#before-you-begin",
     "relUrl": "/spatial_pyramid_matching/#before-you-begin"
-  },"198": {
+  },"207": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/#pdfs",
     "relUrl": "/spatial_pyramid_matching/#pdfs"
-  },"199": {
+  },"208": {
     "doc": "Spatial Pyramid Matching for Scene Classification",
     "title": "Spatial Pyramid Matching for Scene Classification",
     "content": ". | Before you Begin | PDFs | . ",
     "url": "http://localhost:4000/spatial_pyramid_matching/",
     "relUrl": "/spatial_pyramid_matching/"
-  },"200": {
+  },"209": {
     "doc": "Camera Models",
     "title": "Introduction",
     "content": " ",
     "url": "http://localhost:4000/camera_model/#introduction",
     "relUrl": "/camera_model/#introduction"
-  },"201": {
+  },"210": {
     "doc": "Camera Models",
     "title": "Basics",
     "content": ". In the above image, the division by Z happens implicitly due to homogenous coordinate notation . ",
     "url": "http://localhost:4000/camera_model/#basics",
     "relUrl": "/camera_model/#basics"
-  },"202": {
+  },"211": {
     "doc": "Camera Models",
     "title": "Account for other issues in image frame",
     "content": "We will introduce 3 coordinate systems below: . | Camera Coordinate Frame | Image Coordinate Frame (where homogenous notation is used as there is no z-axis information) | World Coordinate Information | . Sometimes the camera coordinate frame and the image coordinate frame is misaligned as shown below: . ________________________________________________________________________________________________________________ . ",
     "url": "http://localhost:4000/camera_model/#account-for-other-issues-in-image-frame",
     "relUrl": "/camera_model/#account-for-other-issues-in-image-frame"
-  },"203": {
+  },"212": {
     "doc": "Camera Models",
     "title": "Intrinsic and Extrinsic Decomposition",
     "content": ". Lesson Learnt: . If we follow the how a 3D point gets left multiplied by extrinsic and then by intrinsic the coordinate frame intuition we derive is: . (3D Point -&gt; Extrinsic -&gt; Intrinsic) = (World Frame -&gt; Camera Frame -&gt; Image Frame) . t = Translation (last column of extrinsic matrix) R = Rotation (first 3x3 part of extrinsic matrix) . ",
     "url": "http://localhost:4000/camera_model/#intrinsic-and-extrinsic-decomposition",
     "relUrl": "/camera_model/#intrinsic-and-extrinsic-decomposition"
-  },"204": {
+  },"213": {
     "doc": "Camera Models",
     "title": "Final Version of Camera Model (I prefer this)",
     "content": ". ",
     "url": "http://localhost:4000/camera_model/#final-version-of-camera-model-i-prefer-this",
     "relUrl": "/camera_model/#final-version-of-camera-model-i-prefer-this"
-  },"205": {
+  },"214": {
     "doc": "Camera Models",
     "title": "Camera Models",
     "content": ". | Introduction . | Basics | Account for other issues in image frame | Intrinsic and Extrinsic Decomposition . | Lesson Learnt: | . | Final Version of Camera Model (I prefer this) | . | . ",
     "url": "http://localhost:4000/camera_model/",
     "relUrl": "/camera_model/"
-  },"206": {
+  },"215": {
     "doc": "Home",
     "title": "About Me",
     "content": ". I’m Sushanth Jayanth, presently pursuing my Master’s in Robotics Systems Development (MRSD) at CMU. I’m super interested in Computer Vision. This website was originally meant for me to revise topics in vision. However, with SLAM, ML and DL, I’ve been learning a lot more on Robotics. Resume . ",
     "url": "http://localhost:4000/#about-me",
     "relUrl": "/#about-me"
-  },"207": {
+  },"216": {
     "doc": "Home",
     "title": "Current Work",
     "content": "I’m currently doing part-time research at Kantor Lab at CMU’s Field Robotics Center, working on Robotics for Agriculture. I work on a robotic grapevine pruning project involving 3D skeletonization of grapevine pointclouds for pruning weight estimation. ",
     "url": "http://localhost:4000/#current-work",
     "relUrl": "/#current-work"
-  },"208": {
+  },"217": {
     "doc": "Home",
     "title": "Previous Work",
     "content": ". I worked on see-and-spray systems on the perception team of TartanSense. . Edhitha was a student team which has continuously taken part at the AUVSI SUAS competition held at Maryland, USA. I was part of the 2016 team where we finished 5th amongst 60 international teams and was the team lead in 2017. ",
     "url": "http://localhost:4000/#previous-work",
     "relUrl": "/#previous-work"
-  },"209": {
+  },"218": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "http://localhost:4000/",
     "relUrl": "/"
-  },"210": {
+  },"219": {
     "doc": "3D_reconstruction",
     "title": "Before you Begin",
     "content": "Reference Book 1 Reference Book 2 . ",
     "url": "http://localhost:4000/3D_reconstruction/#before-you-begin",
     "relUrl": "/3D_reconstruction/#before-you-begin"
-  },"211": {
+  },"220": {
     "doc": "3D_reconstruction",
     "title": "PDFs",
     "content": "Assignment Questionnaire . My Answers . ",
     "url": "http://localhost:4000/3D_reconstruction/#pdfs",
     "relUrl": "/3D_reconstruction/#pdfs"
-  },"212": {
+  },"221": {
     "doc": "3D_reconstruction",
     "title": "Uses of Mutli-View Geometry",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#uses-of-mutli-view-geometry",
     "relUrl": "/3D_reconstruction/#uses-of-mutli-view-geometry"
-  },"213": {
+  },"222": {
     "doc": "3D_reconstruction",
     "title": "Background: Structure from Motion (SFM)",
     "content": "The basis for classical 3D vision is viewing an object from multiple views to give 3D understanding. In humans, we don’t have to move to perceive 3D because our eyes(cameras) are already seperated by a fixed distance. This is the same as having one camera move by a fixed distance. Hence, we see “stereo depth vision” . ",
     "url": "http://localhost:4000/3D_reconstruction/#background-structure-from-motion-sfm",
     "relUrl": "/3D_reconstruction/#background-structure-from-motion-sfm"
-  },"214": {
+  },"223": {
     "doc": "3D_reconstruction",
     "title": "Theory: Solving for camera parameters in the presence of scale ambiguity",
     "content": "Remember we had the following equation: . The lambda above is account for a scale factor which is ambiguous. This equation can also be written as: . ",
     "url": "http://localhost:4000/3D_reconstruction/#theory-solving-for-camera-parameters-in-the-presence-of-scale-ambiguity",
     "relUrl": "/3D_reconstruction/#theory-solving-for-camera-parameters-in-the-presence-of-scale-ambiguity"
-  },"215": {
+  },"224": {
     "doc": "3D_reconstruction",
     "title": "Solving for Camera Params: Direct Linear Transform",
     "content": "Now, the above equation is a similarity equation. To solve the equation we make use of a neat trick called Direct Linear Transform . PX should give the same ray (vector) as x, hence their cross product would be zero . ",
     "url": "http://localhost:4000/3D_reconstruction/#solving-for-camera-params-direct-linear-transform",
     "relUrl": "/3D_reconstruction/#solving-for-camera-params-direct-linear-transform"
-  },"216": {
+  },"225": {
     "doc": "3D_reconstruction",
     "title": "Actual Derivation",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#actual-derivation",
     "relUrl": "/3D_reconstruction/#actual-derivation"
-  },"217": {
+  },"226": {
     "doc": "3D_reconstruction",
     "title": "Theory: Epipolar Geometry",
     "content": ". | Simply put, epipolar geometry maps a point in one view, to a line in another view | Epipolar Geometry is purely determined by camera intrinsics and camera extrinsics | . ",
     "url": "http://localhost:4000/3D_reconstruction/#theory-epipolar-geometry",
     "relUrl": "/3D_reconstruction/#theory-epipolar-geometry"
-  },"218": {
+  },"227": {
     "doc": "3D_reconstruction",
     "title": "Essential Matrix: Maps a point -&gt; to a line",
     "content": ". Derivation of Essential Matrix: Longuet Higgins . | Recall the skew-symmetric form of a matrix can encode cross products . | . | We can use this to show how three vectors can define the volume of a parallelpiped: . | . | Now, given a calibrated camera (i.e. known intrinsics) we can capture a 3D point in two views . | . | . Longuet Higgins Derivation . The above derivation tells us in simplicity: . | The volume of the parallelpiped (as seen previously is defined by a.(b x c)) is zero | This means that three vectors are in one plane | Which makes sense since the epipolar plane is what connects the 2 camera centers and the 3D point | | . Difference Between Essential Matrix and Homography Matrix . How does this Essential Matrix map a point to a line (where is the math?) . ",
     "url": "http://localhost:4000/3D_reconstruction/#essential-matrix-maps-a-point---to-a-line",
     "relUrl": "/3D_reconstruction/#essential-matrix-maps-a-point---to-a-line"
-  },"219": {
+  },"228": {
     "doc": "3D_reconstruction",
     "title": "Fundamental Matrix",
     "content": ". ",
     "url": "http://localhost:4000/3D_reconstruction/#fundamental-matrix",
     "relUrl": "/3D_reconstruction/#fundamental-matrix"
-  },"220": {
+  },"229": {
     "doc": "3D_reconstruction",
     "title": "Structure From Motion Step 1: Estimating Fundamental Matrix:",
     "content": ". . We are given two images of the same object from two different views: . ''' Q2.1: Eight Point Algorithm Input: pts1, Nx2 Matrix pts2, Nx2 Matrix M, a scalar parameter computed as max (imwidth, imheight) Output: F, the fundamental matrix HINTS: (1) Normalize the input pts1 and pts2 using the matrix T. (2) Setup the eight point algorithm's equation. (3) Solve for the least square solution using SVD. (4) Use the function `_singularize` (provided) to enforce the singularity condition. (5) Use the function `refineF` (provided) to refine the computed fundamental matrix. (Remember to usethe normalized points instead of the original points) (6) Unscale the fundamental matrix ''' def eightpoint(pts1, pts2, M): \"\"\" Compute the normalized coordinates and also the fundamental matrix using computeH Args: x1 (Mx2): the matched locations of corners in img1 x2 (Mx2): the matched locations of corners in img2 Returns: F2to1: Fundamental matrix after denormalization \"\"\" # Compute the centroid of the points x1, x2 = pts1, pts2 # Doing the M normaliazation moved_scaled_x1 = x1/M moved_scaled_x2 = x2/M t = np.diag([1/M, 1/M, 1]) # Compute Fundamental Matrix F = computeF(moved_scaled_x1, moved_scaled_x2) # Refine and then enforce singularity constraint F = _singularize(F) F = refineF(F, moved_scaled_x1, moved_scaled_x2) # Denormalization F2to1 = np.matmul(t.T, (F @ t)) F2to1 = F2to1/F2to1[2,2] return F2to1 def computeF(x1, x2): \"\"\" Computes the fundamental based on matching points in both images Args: x1: keypoints in image 1 x2: keypoints in image 2 Returns: H2to1: the fundamental matrix \"\"\" # Define a dummy H matrix A_build = [] # Define the A matrix for (Ah = 0) (A matrix size = N*2 x 9) for i in range(x1.shape[0]): row_1 = np.array([ x2[i,0]*x1[i,0], x2[i,0]*x1[i,1], x2[i,0], x2[i,1]*x1[i,0], x2[i,1]*x1[i,1], x2[i,1], x1[i,0], x1[i,1], 1]) A_build.append(row_1) A = np.stack(A_build, axis=0) # Do the least squares minimization to get the homography matrix # this is done as eigenvector coresponding to smallest eigen value of A`A = H matrix u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose F2to1 = np.reshape(v.T[:,-1], (3,3)) return F2to1 def check_and_create_directory(dir_path, create): \"\"\" Checks for existing directories and creates if unavailable [input] * dir_path : path to be checked * create : tag to specify only checking path or also creating path \"\"\" if create == 1: if not os.path.exists(dir_path): os.makedirs(dir_path) else: if not os.path.exists(dir_path): warnings.warn(f'following path could not be found: {dir_path}') if __name__ == \"__main__\": correspondence = np.load('data/some_corresp.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] pts1, pts2 = correspondence['pts1'], correspondence['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') F = eightpoint(pts1, pts2, M=np.max([*im1.shape, *im2.shape])) print(\"the fundamental matrix found was \\n\", F) # Q2.1 out_dir = \"/home/sush/CMU/Assignment_Sem_1/CV_A/Assignment_4/code/outputs\" check_and_create_directory(out_dir, create=1) np.savez_compressed( os.path.join(out_dir, 'q2_1.npz'), F, np.max([*im1.shape, *im2.shape]) ) displayEpipolarF(im1, im2, F) . Output: . ",
     "url": "http://localhost:4000/3D_reconstruction/#structure-from-motion-step-1-estimating-fundamental-matrix",
     "relUrl": "/3D_reconstruction/#structure-from-motion-step-1-estimating-fundamental-matrix"
-  },"221": {
+  },"230": {
     "doc": "3D_reconstruction",
     "title": "Estimate Essential Matrix from Fundamental Matrix (given K1 and K2)",
     "content": "''' Q3.1: Compute the essential matrix E. Input: F, fundamental matrix K1, internal camera calibration matrix of camera 1 K2, internal camera calibration matrix of camera 2 Output: E, the essential matrix ''' def essentialMatrix(F, K1, K2): E = (K2.T @ F) @ K1 E = E/E[2,2] print(\"rank of E is\", np.linalg.matrix_rank(E)) return E if __name__ == \"__main__\": correspondence = np.load('data/some_corresp.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] pts1, pts2 = correspondence['pts1'], correspondence['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') # ----- TODO ----- # YOUR CODE HERE F = eightpoint(pts1, pts2, M=np.max([*im1.shape, *im2.shape])) E = essentialMatrix(F, K1, K2) print(\"E is \\n\", E) . ",
     "url": "http://localhost:4000/3D_reconstruction/#estimate-essential-matrix-from-fundamental-matrix-given-k1-and-k2",
     "relUrl": "/3D_reconstruction/#estimate-essential-matrix-from-fundamental-matrix-given-k1-and-k2"
-  },"222": {
+  },"231": {
     "doc": "3D_reconstruction",
     "title": "Triangulation",
     "content": " ",
     "url": "http://localhost:4000/3D_reconstruction/#triangulation",
     "relUrl": "/3D_reconstruction/#triangulation"
-  },"223": {
+  },"232": {
     "doc": "3D_reconstruction",
     "title": "triangulate3D",
     "content": ". | Here we fix one camera (extrinsic matrix = Identity matrix). Now, we know correspondence points in image1 and image2. | Using that we found the Fundamental Matrix | . Now, to estimate the 3D location of these points, we need . | Camera matrices (extrinsic*intrinsic) for both cameras M1 and M2 | Image points (x,y) which correspond to each other | Direct Linear Transform | . DLT was mentioned above, but small recap: . After finding the 3D points, we will reproject them back onto the image and compare them with our original correspondence points (which we either manually selected or got from some keypoint detector like ORB or BRIEF) . The formula for reprojection error in this case is: . def triangulate(C1, pts1, C2, pts2): \"\"\" Find the 3D coords of the keypoints We are given camera matrices and 2D correspondences. We can therefore find the 3D points (refer L17 (Camera Models) of CV slides) Note. We can't just use x = PX to compute the 3D point X because of scale ambiguity i.e the ambiguity can be rep. as x = alpha*Px (we cannot find alpha) Therefore we need to do DLT just like the case of homography (see L14 (2D transforms) CVB slide 61) Args: C1 : the 3x4 camera matrix of camera 1 pts1 : img coords of keypoints in camera 1 (Nx2) C2 : the 3x4 camera matrix of camera 2 pts2 : img coords of keypoints in camera 2 (Nx2) Returns: P : the estimated 3D point for the given pair of keypoint correspondences err : the reprojection error \"\"\" P = np.zeros(shape=(1,3)) err = 0 for i in range(len(pts1)): # get the camera 1 matrix p1_1 = C1[0,:] p2_1 = C1[1,:] p3_1 = C1[2,:] # get the camera 2 matrix p1_2 = C2[0,:] p2_2 = C2[1,:] p3_2 = C2[2,:] x, y = pts1[i,0], pts1[i,1] x2, y2 = pts2[i,0], pts2[i,1] # calculate the A matrix for this point correspondence A = np.array([y*p3_1 - p2_1 , p1_1 - x*p3_1 , y2*p3_2 - p2_2 , p1_2 - x2*p3_2]) u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose X = v.T[:,-1] # print(\"X is\", X) X = X.T X = np.expand_dims(X,axis=0) # print(\"X after transpose and expand is\", X) # convert X to homogenous coords X = X/X[0,3] # print(\"X after normalizing is\", X) P = np.concatenate((P, X[:,0:3]), axis=0) X = X.T # find the error for this projection # 3x1 = 3x4 . 3x1 pt_1 = ((C1 @ X)/(C1 @ X)[2,0])[0:2,0] pt_2 = ((C2 @ X)/(C2 @ X)[2,0])[0:2,0] # calculate the reporjection error err += np.linalg.norm(pt_1 - pts1[i,:])**2 + np.linalg.norm(pt_2 - pts2[i,:])**2 print(\"error in this iteration is\", err) P = P[1:,:] return P, err . Summary . | Given two camera matrices and keypoint correspondences for two views, we triangulated the point (found 3D point) | We found the reprojection error for this estimated 3D point | . ",
     "url": "http://localhost:4000/3D_reconstruction/#triangulate3d",
     "relUrl": "/3D_reconstruction/#triangulate3d"
-  },"224": {
+  },"233": {
     "doc": "3D_reconstruction",
     "title": "Using Triangulate to Find Second Camera Matrix after fixing First Camera Matrix = Identity",
     "content": "Previsously we saw that we need an M2 to triangulate, but we don’t have an M2 yet :/. However, since our first camera is fixed (identity) we can find the camera matrix M2 of our second camera as: . def camera2(E): U,S,V = np.linalg.svd(E) m = S[:2].mean() E = U.dot(np.array([[m,0,0], [0,m,0], [0,0,0]])).dot(V) U,S,V = np.linalg.svd(E) W = np.array([[0,-1,0], [1,0,0], [0,0,1]]) if np.linalg.det(U.dot(W).dot(V))&lt;0: W = -W M2s = np.zeros([3,4,4]) M2s[:,:,0] = np.concatenate([U.dot(W).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,1] = np.concatenate([U.dot(W).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,2] = np.concatenate([U.dot(W.T).dot(V), U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) M2s[:,:,3] = np.concatenate([U.dot(W.T).dot(V), -U[:,2].reshape([-1, 1])/abs(U[:,2]).max()], axis=1) return M2s . Note: The above function gives Four possible values for M2 . Why the 4 options? . Now there are 2 checks we can use to find which is the right camera: . | Determinant(Rotation component of M2) = 1 (so that the rotation belongs to SO(3)) | All Z values should be positive (i.e. the 3D point should be in front of both the cameras right?) | . ",
     "url": "http://localhost:4000/3D_reconstruction/#using-triangulate-to-find-second-camera-matrix-after-fixing-first-camera-matrix--identity",
     "relUrl": "/3D_reconstruction/#using-triangulate-to-find-second-camera-matrix-after-fixing-first-camera-matrix--identity"
-  },"225": {
+  },"234": {
     "doc": "3D_reconstruction",
     "title": "Combining the above two functions",
     "content": "Now we have point correspondences, M1 and 4 M2’s. Therefore we’ll try to triangulate points based on the correct criteria for camera orientations. Additionally we’ll also try to minimize reprojection error: . # iterate over M1(fixed) and M2(4 possibilites) by passing them to triangulate for i in range(M2.shape[2]): M2_current = M2[:,:,i] # build the C1 and C2: pts_in_3d, err = triangulate((K1 @ M1), pts1, (K2 @ M2_current), pts2) if err &lt; err_min and (np.where(pts_in_3d[:,2] &lt; 0)[0].shape[0] == 0): print(\"satisfies the error criteria\") err_min = err best_M2_i = i best_pts_3d = pts_in_3d if (best_M2_i is not None) and (best_pts_3d is not None): print(\"min err is\", err_min) # return M2, C2, w(3d points), M1, C1 return M2[:,:,best_M2_i], (K2 @ M2[:,:,best_M2_i]), best_pts_3d, M1, (K1 @ M1) # last entry is C1 . Finally we all together have: . | our best_3d_points | correct M2 matrix | . Results of Triangulation on Input Images . ",
     "url": "http://localhost:4000/3D_reconstruction/#combining-the-above-two-functions",
     "relUrl": "/3D_reconstruction/#combining-the-above-two-functions"
-  },"226": {
+  },"235": {
     "doc": "3D_reconstruction",
     "title": "Bundle Adjustment",
     "content": ". We know that the error in the triangulation is basically difference between the projection of a 3D point and the actual point in 2D on the image. Now, we will move around the 3D points slightly and check in which orientation the reprojection error comes to a global minimum. The formula for the above operation is shown below: . The process we will follow now is very code specific. An explanation for only this below code is shown, where we will only be minimizing the rotation and translation (M2 matrix) error. High level procedure . | Use the 2D point correspondences to find the Fundamental Matrix (along with RANSAC to find the inlier points) | Use the inliers to find our best F (fundamental matrix) | Compute an initial guess for M2 by using our old findM2 function | Now, the above function would have given us 3D points (P_init) and an M2_init | Now, we have compiled the following: . | M1 and K1 | M2_init and K2 | F and E (E = (K2.T @ F) @ K1) | . | . Having the above content, we will need to derive our reprojection error. We will do this in the RodriguesResidual function: . RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) . | x basically contains the translation and rotation of camera2. We can therefore get M2 from x | We can find the camera matrices C1 = K1 @ M1, C2 = K2 @ M2 | . | Use the above equation to get p1’ and p2’ | Compare p1’ and p1, p2’ and p2, to get the reprojection error we need in both cameras | . Now we have a function which will give us reprojection error for a given M2 matrix. Now lets see how we’ll use this reporjection error to optimize our M2 . Optimization of M2 . Now that we have a function which will give us reprojection error for any given M2, lets minimize this error by moving around our 3D points slightly such that our reprojection error (for all points cumulative) reduces . We do this using the scipy.optimize.minimize function . # just some repackaging/preprocessing to give x to rodriguesResidual x0 = P_init.flatten() x0 = np.append(x0, r2_0.flatten()) x0 = np.append(x0, t2_0.flatten()) # optimization step x_opt, _ = scipy.optimize.minimze(rodriguesResidual, x0, args=(K1, M1, p1, K2, p2)) . Finally our x_opt i.e x_optimal will have the correct rotation and translation of camera 2 and the corrected 3D points . ''' Q5.3 Bundle adjustment. Input: K1, the intrinsics of camera 1 M1, the extrinsics of camera 1 p1, the 2D coordinates of points in image 1 K2, the intrinsics of camera 2 M2_init, the initial extrinsics of camera 1 (get this from findM2) p2, the 2D coordinates of points in image 2 P_init, the initial 3D coordinates of points (get this also from findM2) Output: M2, the optimized extrinsics of camera 1 P2, the optimized 3D coordinates of points o1, the starting objective function value with the initial input o2, the ending objective function value after bundle adjustment Hints: (1) Use the scipy.optimize.minimize function to minimize the objective function, rodriguesResidual. You can try different (method='..') in scipy.optimize.minimize for best results. ''' def bundleAdjustment(K1, M1, p1, K2, M2_init, p2, P_init): # given M2_init decompose it into R and t R2 = M2_init[:,0:3] t2 = M2_init[:,3] r2 = invRodrigues(R2) x_start = P_init.flatten() x_start = np.append(x_start, np.append(r2.flatten(), t2)) obj_start = rodriguesResidual(x_start, K1, M1, p1, K2, p2) print(\"x_start shape is\", x_start.shape) # optimization step from scipy.optimize import minimize x_optimized_obj = minimize(residual_norm, x_start, args=(K1, M1, p1, K2, p2), method='Powell') print(\"x_end shape is\", x_optimized_obj.x.shape) x_optimized = x_optimized_obj.x obj_end = rodriguesResidual(x_optimized, K1, M1, p1, K2, p2) # recompute the M2 and P # decompose x P_final = x_optimized[0:-6] P_shape_req = int(P_final.shape[0]/3) P_final = np.reshape(P_final, newshape=(P_shape_req,3)) r2_final = x_optimized[-6:-3] # reshape to 3x1 to feed to inverse rodrigues r2_final = r2_final.reshape(3,1) # reshape translation matrix to combine in transformation matrix t2_final = x_optimized[-3:].reshape(3,1) # compose the C2 matrix R2_final = rodrigues(r2_final) M2_final = np.hstack((R2_final, t2_final)) return M2_final, P_final, obj_start, obj_end . Results on optimizing points after bundle adjustment . ",
     "url": "http://localhost:4000/3D_reconstruction/#bundle-adjustment",
     "relUrl": "/3D_reconstruction/#bundle-adjustment"
-  },"227": {
+  },"236": {
     "doc": "3D_reconstruction",
     "title": "Final Pipeline Including RANSAC",
     "content": "if __name__ == \"__main__\": np.random.seed(1) #Added for testing, can be commented out some_corresp_noisy = np.load('data/some_corresp_noisy.npz') # Loading correspondences intrinsics = np.load('data/intrinsics.npz') # Loading the intrinscis of the camera K1, K2 = intrinsics['K1'], intrinsics['K2'] noisy_pts1, noisy_pts2 = some_corresp_noisy['pts1'], some_corresp_noisy['pts2'] im1 = plt.imread('data/im1.png') im2 = plt.imread('data/im2.png') templeCoords = np.load('data/templeCoords.npz') temple_pts1 = np.hstack([templeCoords[\"x1\"], templeCoords[\"y1\"]]) #? getting the F matrix from noisy correspondences M = np.max([*im1.shape, *im2.shape]) F, inliers = ransacF(noisy_pts1, noisy_pts2, M, im1, im2) inlier_pts1, inlier_pts2 = inliers[0], inliers[1] print(\"shape of noisy_pts1 is\", noisy_pts1.shape) print(\"shape of inlier_pts1 is\", inlier_pts1.shape) F_naieve = eightpoint(noisy_pts1, noisy_pts2, M) # use displayEpipolarF to compare how ransac_F and naieve_F behave # displayEpipolarF(im1, im2, F) # displayEpipolarF(im1, im2, F_naieve) # Simple Tests to verify your implementation: from scipy.spatial.transform import Rotation as sRot rotVec = sRot.random() mat = rodrigues(rotVec.as_rotvec()) assert(np.linalg.norm(rotVec.as_rotvec() - invRodrigues(mat)) &lt; 1e-3) assert(np.linalg.norm(rotVec.as_matrix() - mat) &lt; 1e-3) #? Getting the initial guess for M2 and P # Assuming the rotation and translation of camera1 is zero M1 = np.array([[1,0,0,0],[0,1,0,0],[0,0,1,0]]) M2_init, C2, P_init, M1, C1 = findM2(F, inlier_pts1, inlier_pts2, intrinsics) print(\"M2 shape is\", M2_init) # Optimize the M2 M2_final, P_final, start_obj, end_obj = bundleAdjustment( K1, M1, inlier_pts1, K2, M2_init, inlier_pts2, P_init ) print(\"error before optimization is\", np.linalg.norm(start_obj)**2) print(\"error after optimization is\", np.linalg.norm(end_obj)**2) # compare the old M2 to optimized M2 plot_3D_dual(P_init, P_final) . ",
     "url": "http://localhost:4000/3D_reconstruction/#final-pipeline-including-ransac",
     "relUrl": "/3D_reconstruction/#final-pipeline-including-ransac"
-  },"228": {
+  },"237": {
     "doc": "3D_reconstruction",
     "title": "Effects of RANSAC",
     "content": "RANSAC was used even before bundle adjustment, to remove noisy coorespondences for the initial best gues of the Fundamental Matrix. def ransacF(pts1, pts2, M, im1, im2, nIters=100, tol=10): \"\"\" Every iteration we init a Fundamental matrix using 4 corresponding points and calculate number of inliers. Finally use the Homography matrix which had max number of inliers (and these inliers as well) to find the final Fundamental matrix Args: pts1: location of matched points in image1 pts2: location of matched points in image2 opts: user inputs used for distance tolerance in ransac Returns: bestH2to1 : The Fundamental matrix with max number of inliers inlier_points : Final list of inliers found for best RANSAC iteration \"\"\" max_iters = nIters # the number of iterations to run RANSAC for inlier_tol = tol # the tolerance value for considering a point to be an inlier locs1 = pts1 locs2 = pts2 # define size of both locs1 and locs2 num_rows = locs1.shape[0] # define a container for keeping track of inlier counts final_inlier_count = 0 final_distance_error = 10000000000 #? Create a boolean vector of length N where 1 = inlier and 0 = outlier print(\"Computing RANSAC\") for i in range(max_iters): test_locs1 = deepcopy(locs1) test_locs2 = deepcopy(locs2) # chose a random sample of 4 points to find H rand_index = [] rand_index = random.sample(range(int(locs1.shape[0])), k=8) rand_points_1 = [] rand_points_2 = [] for j in rand_index: rand_points_1.append(locs1[j,:]) rand_points_2.append(locs2[j,:]) test_locs1 = np.delete(test_locs1, rand_index, axis=0) test_locs2 = np.delete(test_locs2, rand_index, axis=0) correspondence_points_1 = np.vstack(rand_points_1) correspondence_points_2 = np.vstack(rand_points_2) ref_F = eightpoint(correspondence_points_1, correspondence_points_2, M) inliers, inlier_count, distance_error, error_state = compute_inliers(ref_F, test_locs1, test_locs2, inlier_tol, im1, im2) if error_state == 1: continue if (inlier_count &gt; final_inlier_count): final_inlier_count = inlier_count final_inliers = inliers final_corresp_points_1 = correspondence_points_1 final_corresp_points_2 = correspondence_points_2 final_distance_error = distance_error final_test_locs1 = test_locs1 final_test_locs2 = test_locs2 if final_distance_error != 100000000: # print(\"original point count is\", locs1.shape[0]) print(\"final inlier count is\", final_inlier_count) print(\"final inlier's cumulative distance error is\", final_distance_error) delete_indexes = np.where(final_inliers==0) final_locs_1 = np.delete(final_test_locs1, delete_indexes, axis=0) final_locs_2 = np.delete(final_test_locs2, delete_indexes, axis=0) final_locs_1 = np.vstack((final_locs_1, final_corresp_points_1)) final_locs_2 = np.vstack((final_locs_2, final_corresp_points_2)) bestH2to1 = eightpoint(final_locs_1, final_locs_2, M) return bestH2to1, [final_locs_1, final_locs_2] else: print(\"SOMETHING WRONG\") bestH2to1 = eightpoint(correspondence_points_1, correspondence_points_2, M) return bestH2to1, 0 . ",
     "url": "http://localhost:4000/3D_reconstruction/#effects-of-ransac",
     "relUrl": "/3D_reconstruction/#effects-of-ransac"
-  },"229": {
+  },"238": {
     "doc": "3D_reconstruction",
     "title": "Tracking Real World Objects in 3D",
     "content": ". ''' Q6.1 Multi-View Reconstruction of keypoints. Input: C1, the 3x4 camera matrix pts1, the Nx3 matrix with the 2D image coordinates and confidence per row C2, the 3x4 camera matrix pts2, the Nx3 matrix with the 2D image coordinates and confidence per row C3, the 3x4 camera matrix pts3, the Nx3 matrix with the 2D image coordinates and confidence per row Output: P, the Nx3 matrix with the corresponding 3D points for each keypoint per row err, the reprojection error. ''' def MultiviewReconstruction(C1, pts1, C2, pts2, C3, pts3, Thres = 200): vis_pts_1 = np.where(pts1[:,2] &gt; Thres) vis_pts_2 = np.where(pts2[:,2] &gt; Thres) vis_pts_3 = np.where(pts3[:,2] &gt; Thres) # create a dummy vector to save the 3D points for each corresp 2D pt pts_3d = np.zeros(pts1.shape) reproj_error = np.zeros(12) overlap_all = np.intersect1d(vis_pts_1, vis_pts_2, vis_pts_3) for i in overlap_all: pts_cam_1_2, err1 = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_cam_2_3, err2 = triangulate(C2, pts2[i,:-1], C3, pts3[i,:-1]) pts_cam_1_3, err3 = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) avg_pt_i = (pts_cam_1_2 + pts_cam_2_3 + pts_cam_1_3)/3 avg_err = (err1+err2+err3)/3 pts_3d[i,:] = avg_pt_i reproj_error[i] = avg_err for i in vis_pts_1[0]: # print(\"i is\", i) if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_2[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_3[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") for i in vis_pts_2[0]: # print(\"i is\", i) if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_3[0]: pts_i, err = triangulate(C2, pts2[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_1[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") for i in vis_pts_3[0]: if i not in overlap_all: # print(\"computing\", i) if i in vis_pts_1[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C3, pts3[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err elif i in vis_pts_2[0]: pts_i, err = triangulate(C1, pts1[i,:-1], C2, pts2[i,:-1]) pts_3d[i,:] = pts_i reproj_error[i] = err else: print(\"point not visible in 2 views\") print(\"pts1 shape is\", pts1.shape) print(\"3d points shape is\", pts_3d.shape) return pts_3d, reproj_error, [vis_pts_1, vis_pts_2, vis_pts_3] def MutliviewReconstructionError(x, C1, pts1, C2, pts2, C3, pts3, vis_pts_list): # decompose x P_init = x P_shape_req = int(P_init.shape[0]/3) P_init = np.reshape(P_init, newshape=(P_shape_req,3)) vis_pts_1 = vis_pts_list[0] vis_pts_2 = vis_pts_list[1] vis_pts_3 = vis_pts_list[2] pts1 = pts1[:,0:2] pts2 = pts2[:,0:2] pts3 = pts3[:,0:2] # list to store error values err_list = [] # build a sub_P matrix for all visible points in pts1, pts2, pts3 sub_pts1 = np.take(pts1, vis_pts_1, axis=0)[0] sub_P1 = np.take(P_init, vis_pts_1, axis=0)[0] sub_pts2 = np.take(pts2, vis_pts_2, axis=0)[0] sub_P2 = np.take(P_init, vis_pts_2, axis=0)[0] sub_pts3 = np.take(pts3, vis_pts_3, axis=0)[0] sub_P3 = np.take(P_init, vis_pts_3, axis=0)[0] P_list = [sub_P1, sub_P2, sub_P3] pts_list = [sub_pts1, sub_pts2, sub_pts3] C_list = [C1, C2, C3] for i in range(len(P_list)): P = P_list[i] p= pts_list[i] C = C_list[i] # homogenize P to contain a 1 in the end (P = Nx3 vector) P_homogenous = np.append(P, np.ones((P.shape[0],1)), axis=1) # Find the projection of P1 onto image 1 (vectorize) # Transpose P_homogenous to make it a 4xN vector and left mulitply with C1 # 3xN = 3x4 @ 4XN p_hat = (C @ P_homogenous.T) # normalize and transpose to get back to format of p1 p_hat = ((p_hat/p_hat[2,:])[0:2,:]).T error = np.linalg.norm((p-p_hat).reshape([-1]))**2 err_list.append(error) err_total = err_list[0] + err_list[1] + err_list[2] # print(\"error overall is\", err_total) return err_total def triangulate(C1, pts1, C2, pts2): \"\"\" Find the 3D coords of the keypoints We are given camera matrices and 2D correspondences. We can therefore find the 3D points (refer L17 (Camera Models) of CV slides) Note. We can't just use x = PX to compute the 3D point X because of scale ambiguity i.e the ambiguity can be rep. as x = alpha*Px (we cannot find alpha) Therefore we need to do DLT just like the case of homography (see L14 (2D transforms) CVB slide 61) Args: C1 : the 3x4 camera matrix of camera 1 pts1 : img coords of keypoints in camera 1 (Nx2) C2 : the 3x4 camera matrix of camera 2 pts2 : img coords of keypoints in camera 2 (Nx2) Returns: P : the estimated 3D point for the given pair of keypoint correspondences err : the reprojection error \"\"\" P = np.zeros(shape=(1,3)) err = 0 # get the camera 1 matrix p1_1 = C1[0,:] p2_1 = C1[1,:] p3_1 = C1[2,:] # get the camera 2 matrix p1_2 = C2[0,:] p2_2 = C2[1,:] p3_2 = C2[2,:] x, y = pts1[0], pts1[1] x2, y2 = pts2[0], pts2[1] # calculate the A matrix for this point correspondence A = np.array([y*p3_1 - p2_1 , p1_1 - x*p3_1 , y2*p3_2 - p2_2 , p1_2 - x2*p3_2]) u, s, v = np.linalg.svd(A) # here the linalg.svd gives v_transpose # but we need just V therefore we again transpose X = v.T[:,-1] # print(\"X is\", X) X = X.T X = np.expand_dims(X,axis=0) # print(\"X after transpose and expand is\", X) # convert X to homogenous coords X = X/X[0,3] # print(\"X after normalizing is\", X) P = np.concatenate((P, X[:,0:3]), axis=0) X = X.T # find the error for this projection # 3x1 = 3x4 . 3x1 pt_1 = ((C1 @ X)/(C1 @ X)[2,0])[0:2,0] pt_2 = ((C2 @ X)/(C2 @ X)[2,0])[0:2,0] # calculate the reporjection error err += np.linalg.norm(pt_1 - pts1)**2 + np.linalg.norm(pt_2 - pts2)**2 # print(\"error in this iteration is\", err) P = P[1:,:] return P[0], err ''' Q6.2 Plot Spatio-temporal (3D) keypoints :param car_points: np.array points * 3 ''' def plot_3d_keypoint_video(pts_3d_video): fig = plt.figure() # num_points = pts_3d.shape[0] ax = fig.add_subplot(111, projection='3d') vid_len = len(pts_3d_video) vals = np.linspace(0.1,1, num=vid_len, endpoint=False) for i in range(len(pts_3d_video)): pts_3d = pts_3d_video[i] for j in range(len(connections_3d)): index0, index1 = connections_3d[j] xline = [pts_3d[index0,0], pts_3d[index1,0]] yline = [pts_3d[index0,1], pts_3d[index1,1]] zline = [pts_3d[index0,2], pts_3d[index1,2]] ax.plot(xline, yline, zline, color=colors[j], alpha=vals[i]) np.set_printoptions(threshold=1e6, suppress=True) ax.set_xlabel('X Label') ax.set_ylabel('Y Label') ax.set_zlabel('Z Label') plt.show() #Extra Credit if __name__ == \"__main__\": pts_3d_video = [] for loop in range(10): print(f\"processing time frame - {loop}\") data_path = os.path.join('data/q6/','time'+str(loop)+'.npz') image1_path = os.path.join('data/q6/','cam1_time'+str(loop)+'.jpg') image2_path = os.path.join('data/q6/','cam2_time'+str(loop)+'.jpg') image3_path = os.path.join('data/q6/','cam3_time'+str(loop)+'.jpg') im1 = plt.imread(image1_path) im2 = plt.imread(image2_path) im3 = plt.imread(image3_path) data = np.load(data_path) pts1 = data['pts1'] pts2 = data['pts2'] pts3 = data['pts3'] K1 = data['K1'] K2 = data['K2'] K3 = data['K3'] M1 = data['M1'] M2 = data['M2'] M3 = data['M3'] #Note - Press 'Escape' key to exit img preview and loop further # img = visualize_keypoints(im2, pts2) C1 = K1 @ M1 C2 = K2 @ M2 C3 = K3 @ M3 pts_3d, err, vis_pts_list = MultiviewReconstruction(C1, pts1, C2, pts2, C3, pts3) x_start = pts_3d.flatten() x_optimized_obj = minimize(MutliviewReconstructionError, x_start, args=(C1, pts1, C2, pts2, C3, pts3, vis_pts_list), method='Powell') print(\"x_end shape is\", x_optimized_obj.x.shape) x_optimized = x_optimized_obj.x P_final = x_optimized P_shape_req = int(P_final.shape[0]/3) P_final = np.reshape(P_final, newshape=(P_shape_req,3)) plot_3d_keypoint(P_final) pts_3d_video.append(P_final) visualize_keypoints(im1, pts1, Threshold=200) plot_3d_keypoint_video(pts_3d_video) out_dir = \"/home/sush/CMU/Assignment_Sem_1/CV_A/Assignment_4/code/outputs\" check_and_create_directory(out_dir, create=1) np.savez_compressed( os.path.join(out_dir, 'q6_1.npz'), P_final) . ",
     "url": "http://localhost:4000/3D_reconstruction/#tracking-real-world-objects-in-3d",
     "relUrl": "/3D_reconstruction/#tracking-real-world-objects-in-3d"
-  },"230": {
+  },"239": {
     "doc": "3D_reconstruction",
     "title": "3D_reconstruction",
     "content": ". | Before you Begin | PDFs | Uses of Mutli-View Geometry | Background: Structure from Motion (SFM) | Theory: Solving for camera parameters in the presence of scale ambiguity . | Solving for Camera Params: Direct Linear Transform | Actual Derivation | . | Theory: Epipolar Geometry . | Essential Matrix: Maps a point -&gt; to a line . | Derivation of Essential Matrix: Longuet Higgins . | Longuet Higgins Derivation | . | Difference Between Essential Matrix and Homography Matrix | How does this Essential Matrix map a point to a line (where is the math?) | . | Fundamental Matrix | . | Structure From Motion Step 1: Estimating Fundamental Matrix: . | Estimate Essential Matrix from Fundamental Matrix (given K1 and K2) | . | Triangulation . | triangulate3D | Using Triangulate to Find Second Camera Matrix after fixing First Camera Matrix = Identity | Combining the above two functions | . | Bundle Adjustment . | High level procedure . | RodriguesResidual: rodriguesResidual(x, K1, M1, p1, K2, p2) | . | Optimization of M2 | . | Final Pipeline Including RANSAC . | Effects of RANSAC | . | Tracking Real World Objects in 3D | . ",

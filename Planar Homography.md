@@ -272,9 +272,13 @@ To Derive the A matrix we undergo the following steps:
 
 ![](/images/homography/21.png)
 
-Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
+- Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
 which forms the null space of A.
-
+- Remember, null-space of a vector is the transformation (i.e. transformation matrix) which
+  squeezed the vector onto a point (i.e. it reduces dimensions to zero).
+- In this case **x** is the vector and we find the corresponding transformation matrix which
+  forms it's null-space. This matrix then becomes our homography matrix
+- For a better understanding of SVD, refer to [This Document](https://drive.google.com/file/d/1d6xcBbI2qcyaCx-rccI3sc9pdjQFMp2n/view?usp=sharing)
 
 ### (Bonus) RANSAC: Rejecting outliers during our homography calculation
 
