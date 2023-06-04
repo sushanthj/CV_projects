@@ -8,7 +8,7 @@ permalink: /
 
 # About Me
 
-![](/images/DP.png)
+![](/images/DP2.jpeg)
 
 I'm Sushanth Jayanth, presently pursuing my Master's in Robotics Systems Development (MRSD) at CMU. I'm super interested in Computer Vision. This website was originally meant for me to revise topics
 in vision. However, with SLAM, ML and DL, I've been learning a lot more on Robotics.
