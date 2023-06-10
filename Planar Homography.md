@@ -273,7 +273,10 @@ To Derive the A matrix we undergo the following steps:
 ![](/images/homography/21.png)
 
 - Where h is found by taking the SVD of A and choosing the eigen vector (with least eigen value)
-which forms the null space of A.
+  which forms the null space of A.
+- We will also normalize the correspondence points to better numerical stability of direct
+  linear transform (DLT) estimation. Refer [Normalization Document](https://drive.google.com/file/d/14ubBhUQqKF_UZJLy60bBADf0we1Uxqlm/view?usp=sharing) to get a better understanding of
+  the normalization steps used below
 - Remember, null-space of a vector is the transformation (i.e. transformation matrix) which
   squeezed the vector onto a point (i.e. it reduces dimensions to zero).
 - In this case **x** is the vector and we find the corresponding transformation matrix which
