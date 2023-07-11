@@ -136,6 +136,9 @@ mean and covariance matrices.
 
 ![](/images/SLAM/EKF/cov_intro.png)
 
+![](/images/SLAM/EKF/landmark_state_vector.jpeg)
+
+
 In the EKF algorithm we will update parts of the above covariance matrix in different steps:
 - The above image shows mean and covariance. <span style="color:black"> We find the mean using the non-linear functions of the motion and sensor model </span>
 - <span style="color:black"> Given Control Reading </span> : we update the Σ_xx primarily plus the first row and first column elements since they depend on x_t
@@ -157,6 +160,8 @@ Previously we saw the following image of what our state vector and covariance ma
 
 
 ![](/images/SLAM/EKF/cov_intro.png)
+
+![](/images/SLAM/EKF/landmark_state_vector.jpeg)
 
 The same structre is followed in code where we will have **X** as our state vector and **P** as
 our covariance matrix

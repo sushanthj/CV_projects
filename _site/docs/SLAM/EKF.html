@@ -23,7 +23,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>EKF | My Projects</title>
+<title>EKF | Navigating Robotics</title>
 <meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="EKF" />
 <meta property="og:locale" content="en_US" />
@@ -31,7 +31,7 @@
 <meta property="og:description" content="Computer Vision projects and assignments during my time in CMU" />
 <link rel="canonical" href="http://localhost:4000/docs/SLAM/EKF.html" />
 <meta property="og:url" content="http://localhost:4000/docs/SLAM/EKF.html" />
-<meta property="og:site_name" content="My Projects" />
+<meta property="og:site_name" content="Navigating Robotics" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="EKF" />
@@ -81,7 +81,7 @@
   <div class="side-bar">
     <div class="site-header">
       <a href="http://localhost:4000/" class="site-title lh-tight">
-  My Projects
+  Navigating Robotics
 
 </a>
       <a href="#" id="menu-button" class="site-button">
@@ -103,7 +103,7 @@
       
         <div class="search">
           <div class="search-input-wrap">
-            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search My Projects" aria-label="Search My Projects" autocomplete="off">
+            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search Navigating Robotics" aria-label="Search Navigating Robotics" autocomplete="off">
             <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
           </div>
           <div id="search-results" class="search-results"></div>
@@ -391,6 +391,8 @@ mean and covariance matrices.</p>
 
 <p><img src="/images/SLAM/EKF/cov_intro.png" alt="" /></p>
 
+<p><img src="/images/SLAM/EKF/landmark_state_vector.jpeg" alt="" /></p>
+
 <p>In the EKF algorithm we will update parts of the above covariance matrix in different steps:</p>
 <ul>
   <li>The above image shows mean and covariance. <span style="color:black"> We find the mean using the non-linear functions of the motion and sensor model </span></li>
@@ -424,6 +426,8 @@ mean and covariance matrices.</p>
 <p><em>covariance = Σ</em></p>
 
 <p><img src="/images/SLAM/EKF/cov_intro.png" alt="" /></p>
+
+<p><img src="/images/SLAM/EKF/landmark_state_vector.jpeg" alt="" /></p>
 
 <p>The same structre is followed in code where we will have <strong>X</strong> as our state vector and <strong>P</strong> as
 our covariance matrix</p>
