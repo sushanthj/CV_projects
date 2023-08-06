@@ -85,7 +85,9 @@ in the beginning of training, we don't let sigma and gamma terms to dominate
 - Now, we move the entire data to a separate appropriate location (second yellow box)
   as defined by gamma and beta.
 - How do we get this gamma and beta?
-  Ans. ![](/images/IDL4/batch_norm_extra.png)
+  - Ans. They are only learnt, we don't define or derive them (initialize them to 0 or 1 and 
+    let them be learned)
+  - ![](/images/IDL4/batch_norm_extra.png)
 
 Q. Why is batch_norm applied before the activation function?
 Ans. It's debatable. But if it's used after activation some activations may get

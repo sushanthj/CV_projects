@@ -17,7 +17,7 @@ theme: just-the-docs
 title: Navigating Robotics
 email: sushanth.jayanth@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Computer Vision projects and assignments during my time in CMU
+  Projects and assignments during my time in CMU
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
