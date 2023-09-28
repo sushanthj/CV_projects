@@ -51,7 +51,7 @@ update the pose estimates of the robot and those landmarks alone.
 The sensor model uses a laser rangefinder to give the landmark position in robot frame (which
 is later converted into global coordinates)
 
-# Robot State
+# Predicting Robot State
 
 Since we localize both **landmarks** and the **robot pose**, the state vector must contain
 both information.
@@ -64,7 +64,19 @@ for each landmark.
 
 This results in a **large state vector which is one of the drawbacks of EKF**.
 
-## Motion Model
+## Motion Model - Used to Predict where robot will be in next timestep
+
+This is simply a non-linear state space equation:
+
+### Refresher
+
+- Linear: f(x) = Ax + b
+- Non_Linear: f(x) = g(x)
+
+- Here we do Non-Linear with some noise: f(x) = g(x) + noise
+- Here we'll call f(x) as p(x) becuase we're getting robot pose
+
+### Core Idea
 
 Previously, we used an odometry motion model in particle filters. This model is used here only
 for comparison and explanation and *we will be using something slightly different.*
@@ -107,10 +119,10 @@ We will now represent the prediction step as a non-linear function g(x,u) with s
 
 ![](/images/SLAM/EKF/motion_pred_with_unc_2.png)
 
-## Sensor Model
+# Predicting Landmark State
 
 Given the range r and bearing β readings from a laser rangefinder, we can estimate the location of landmarks
-in the global frame given a known robot state. We will use this as our measurement prediction model
+in the global frame given a known robot state. We will use this as our measurement **prediction** model
 h(p_t, β, r)
 
 Therefore the landmark predictions are mathematically defined as:
@@ -149,7 +161,7 @@ In the EKF algorithm we will update parts of the above covariance matrix in diff
 ![](/images/SLAM/EKF/algo.png)
 
 
-## Setup and Initialization
+## Setup and Initialization - (Required to be completed before EKF)
 
 Previously we saw the following image of what our state vector and covariance matrix would look
 
@@ -322,6 +334,18 @@ def init_landmarks(init_measure, init_measure_cov, init_pose, init_pose_cov):
 
 ## Main Loop of Algorithm
 
+We'll follow the structure mentioned below:
+
+```
+├── EKF Main Loop
+    ├── Prediction Step Theory
+    ├── Prediction Step Code
+    |
+    ├── Update Step Theory
+    └── Update Step Code
+```
+
+
 Once we have setup our state vector and covariance matrix, we start the series of
 **prediction and update steps**. This is done in code as follows:
 
@@ -331,7 +355,7 @@ for line in data_file:
     fields = re.split('[\t ]', line)[:-1]
     arr = np.array([float(field) for field in fields])
 
-    # Control
+    ########### Prediction (aka Control step) ############
     if arr.shape[0] == 2:
         print(f'{t}: Predict step')
         d, alpha = arr[0], arr[1]
@@ -339,7 +363,7 @@ for line in data_file:
 
         X_pre, P_pre = predict(X, P, control, control_cov, k)
 
-    # Measurement
+    ########### Measurement (aka Update step) ############
     else:
         print(f'{t}: Update step')
         measure = np.expand_dims(arr, axis=1)
@@ -428,7 +452,7 @@ def predict(X, P, control, control_cov, k):
     return X_pred, P_pred
 ```
 
-### Update Step - A comparison step
+### Update Step - A Comparison Step
 
 ![](/images/SLAM/EKF/update_graph.png)
 
@@ -438,11 +462,13 @@ Using this estimate of where the robot and landmarks are located, we check the d
 between what sensor reading we expect to get at these estimated poses
 **(predicted sensor reading)** and where the robot actually is **(actual sensor reading)**
 
-The method to predict a sensor reading **given an estimated robot and landmark pose** is by
-defining a measurement model.
+**The method to predict a sensor reading given an estimated robot and landmark pose is by
+defining a measurement model.**
 
 
-#### Measurement Model Definition
+### Measurement Model Definition
+
+**Goal: Given robot state, predict what will be the sensor reading**
 
 Using state vector p_t (contains robot pose and landmark) for the j’th landmark, the bearing **β**
 and range **r** estimate for the j’th landmark is predicted as **h(p_t , j)**
@@ -452,7 +478,19 @@ Where h(p_t , j) = measurement model
 ![](/images/SLAM/EKF/meas_model.png)
 
 
-#### Using the Measurement Model
+Now, since the measurement model is non-linear, **we will do the 'E' part of 'EKF'**. i.e.
+we will find the 1st order Taylor expansion of the non-linear measurement function:
+
+![](/images/SLAM/EKF/e_of_ekf.png)
+
+This jacobian will comprise of two parts:
+
+1. ![](/images/SLAM/EKF/J_wrt_pose.png)
+2. ![](/images/SLAM/EKF/J_wrt_landmark.png)
+3. All put together
+   ![](/images/SLAM/EKF/jac_H.png)
+
+### Final Comparison Step
 
 The comparison step happens in the final parts of the algorithm shown below:
 
@@ -467,10 +505,6 @@ equation above is clear in it's purpose and is explained below:
 - The RHS part of this equation shows how we compare the real sensor reading **z** and the
   predicted sensor reading **ẑ**
 - The variable **K** then acts as a scaling factor only
-
-#### Deriving H_t
-
-![](/images/SLAM/EKF/jac_H.png)
 
 ### Update Step in Code
 

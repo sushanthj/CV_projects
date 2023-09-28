@@ -148,8 +148,10 @@
 <ol id="markdown-toc">
   <li><a href="#extended-kalman-filter" id="markdown-toc-extended-kalman-filter">Extended Kalman Filter</a></li>
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
-  <li><a href="#robot-state" id="markdown-toc-robot-state">Robot State</a>    <ol>
-      <li><a href="#motion-model" id="markdown-toc-motion-model">Motion Model</a>        <ol>
+  <li><a href="#predicting-robot-state" id="markdown-toc-predicting-robot-state">Predicting Robot State</a>    <ol>
+      <li><a href="#motion-model---used-to-predict-where-robot-will-be-in-next-timestep" id="markdown-toc-motion-model---used-to-predict-where-robot-will-be-in-next-timestep">Motion Model - Used to Predict where robot will be in next timestep</a>        <ol>
+          <li><a href="#refresher" id="markdown-toc-refresher">Refresher</a></li>
+          <li><a href="#core-idea" id="markdown-toc-core-idea">Core Idea</a></li>
           <li><a href="#2d-robot-motion-model" id="markdown-toc-2d-robot-motion-model">2D Robot Motion Model</a></li>
           <li><a href="#using-motion-model-in-prediction" id="markdown-toc-using-motion-model-in-prediction">Using Motion Model in Prediction</a>            <ol>
               <li><a href="#noise-free-prediction" id="markdown-toc-noise-free-prediction">Noise Free Prediction</a></li>
@@ -158,12 +160,12 @@
           </li>
         </ol>
       </li>
-      <li><a href="#sensor-model" id="markdown-toc-sensor-model">Sensor Model</a></li>
     </ol>
   </li>
+  <li><a href="#predicting-landmark-state" id="markdown-toc-predicting-landmark-state">Predicting Landmark State</a></li>
   <li><a href="#ekf-algorithm" id="markdown-toc-ekf-algorithm">EKF Algorithm</a>    <ol>
       <li><a href="#algorithm-overview" id="markdown-toc-algorithm-overview">Algorithm Overview</a></li>
-      <li><a href="#setup-and-initialization" id="markdown-toc-setup-and-initialization">Setup and Initialization</a>        <ol>
+      <li><a href="#setup-and-initialization---required-to-be-completed-before-ekf" id="markdown-toc-setup-and-initialization---required-to-be-completed-before-ekf">Setup and Initialization - (Required to be completed before EKF)</a>        <ol>
           <li><a href="#landmark-initialization---finding-landmark-pose-covariance" id="markdown-toc-landmark-initialization---finding-landmark-pose-covariance">Landmark Initialization - Finding Landmark Pose Covariance</a></li>
         </ol>
       </li>
@@ -173,12 +175,9 @@
             </ol>
           </li>
           <li><a href="#prediction-step-code" id="markdown-toc-prediction-step-code">Prediction Step Code</a></li>
-          <li><a href="#update-step---a-comparison-step" id="markdown-toc-update-step---a-comparison-step">Update Step - A comparison step</a>            <ol>
-              <li><a href="#measurement-model-definition" id="markdown-toc-measurement-model-definition">Measurement Model Definition</a></li>
-              <li><a href="#using-the-measurement-model" id="markdown-toc-using-the-measurement-model">Using the Measurement Model</a></li>
-              <li><a href="#deriving-h_t" id="markdown-toc-deriving-h_t">Deriving H_t</a></li>
-            </ol>
-          </li>
+          <li><a href="#update-step---a-comparison-step" id="markdown-toc-update-step---a-comparison-step">Update Step - A Comparison Step</a></li>
+          <li><a href="#measurement-model-definition" id="markdown-toc-measurement-model-definition">Measurement Model Definition</a></li>
+          <li><a href="#final-comparison-step" id="markdown-toc-final-comparison-step">Final Comparison Step</a></li>
           <li><a href="#update-step-in-code" id="markdown-toc-update-step-in-code">Update Step in Code</a></li>
         </ol>
       </li>
@@ -242,10 +241,10 @@ update the pose estimates of the robot and those landmarks alone.</p>
 
 <p>The sensor model uses a laser rangefinder to give the landmark position in robot frame (which
 is later converted into global coordinates)</p>
-      <h1 id="robot-state">
+      <h1 id="predicting-robot-state">
         
         
-          <a href="#robot-state" class="anchor-heading" aria-labelledby="robot-state"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Robot State
+          <a href="#predicting-robot-state" class="anchor-heading" aria-labelledby="predicting-robot-state"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Predicting Robot State
         
         
       </h1>
@@ -261,13 +260,40 @@ Robot pose has three variables (x,y,theta) and landmark position has two variabl
 for each landmark.</p>
 
 <p>This results in a <strong>large state vector which is one of the drawbacks of EKF</strong>.</p>
-      <h2 id="motion-model">
+      <h2 id="motion-model---used-to-predict-where-robot-will-be-in-next-timestep">
         
         
-          <a href="#motion-model" class="anchor-heading" aria-labelledby="motion-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Motion Model
+          <a href="#motion-model---used-to-predict-where-robot-will-be-in-next-timestep" class="anchor-heading" aria-labelledby="motion-model---used-to-predict-where-robot-will-be-in-next-timestep"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Motion Model - Used to Predict where robot will be in next timestep
         
         
       </h2>
+    
+
+<p>This is simply a non-linear state space equation:</p>
+      <h3 id="refresher">
+        
+        
+          <a href="#refresher" class="anchor-heading" aria-labelledby="refresher"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Refresher
+        
+        
+      </h3>
+    
+
+<ul>
+  <li>Linear: f(x) = Ax + b</li>
+  <li>
+    <p>Non_Linear: f(x) = g(x)</p>
+  </li>
+  <li>Here we do Non-Linear with some noise: f(x) = g(x) + noise</li>
+  <li>Here we’ll call f(x) as p(x) becuase we’re getting robot pose</li>
+</ul>
+      <h3 id="core-idea">
+        
+        
+          <a href="#core-idea" class="anchor-heading" aria-labelledby="core-idea"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Core Idea
+        
+        
+      </h3>
     
 
 <p>Previously, we used an odometry motion model in particle filters. This model is used here only
@@ -349,17 +375,17 @@ body frame. However, it will be allowed to rotate along it’s central axis by <
 <p><img src="/images/SLAM/EKF/motion_pred_with_unc_1.png" alt="" /></p>
 
 <p><img src="/images/SLAM/EKF/motion_pred_with_unc_2.png" alt="" /></p>
-      <h2 id="sensor-model">
+      <h1 id="predicting-landmark-state">
         
         
-          <a href="#sensor-model" class="anchor-heading" aria-labelledby="sensor-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Sensor Model
+          <a href="#predicting-landmark-state" class="anchor-heading" aria-labelledby="predicting-landmark-state"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Predicting Landmark State
         
         
-      </h2>
+      </h1>
     
 
 <p>Given the range r and bearing β readings from a laser rangefinder, we can estimate the location of landmarks
-in the global frame given a known robot state. We will use this as our measurement prediction model
+in the global frame given a known robot state. We will use this as our measurement <strong>prediction</strong> model
 h(p_t, β, r)</p>
 
 <p>Therefore the landmark predictions are mathematically defined as:</p>
@@ -409,10 +435,10 @@ mean and covariance matrices.</p>
     
 
 <p><img src="/images/SLAM/EKF/algo.png" alt="" /></p>
-      <h2 id="setup-and-initialization">
+      <h2 id="setup-and-initialization---required-to-be-completed-before-ekf">
         
         
-          <a href="#setup-and-initialization" class="anchor-heading" aria-labelledby="setup-and-initialization"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Setup and Initialization
+          <a href="#setup-and-initialization---required-to-be-completed-before-ekf" class="anchor-heading" aria-labelledby="setup-and-initialization---required-to-be-completed-before-ekf"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Setup and Initialization - (Required to be completed before EKF)
         
         
       </h2>
@@ -596,6 +622,16 @@ lines:</p>
       </h2>
     
 
+<p>We’ll follow the structure mentioned below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── EKF Main Loop
+    ├── Prediction Step Theory
+    ├── Prediction Step Code
+    |
+    ├── Update Step Theory
+    └── Update Step Code
+</code></pre></div></div>
+
 <p>Once we have setup our state vector and covariance matrix, we start the series of
 <strong>prediction and update steps</strong>. This is done in code as follows:</p>
 
@@ -604,7 +640,7 @@ lines:</p>
     <span class="n">fields</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'[</span><span class="se">\t</span><span class="s"> ]'</span><span class="p">,</span> <span class="n">line</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">])</span>
 
-    <span class="c1"># Control
+    <span class="c1">########### Prediction (aka Control step) ############
 </span>    <span class="k">if</span> <span class="n">arr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s">: Predict step'</span><span class="p">)</span>
         <span class="n">d</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -612,7 +648,7 @@ lines:</p>
 
         <span class="n">X_pre</span><span class="p">,</span> <span class="n">P_pre</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">control</span><span class="p">,</span> <span class="n">control_cov</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
-    <span class="c1"># Measurement
+    <span class="c1">########### Measurement (aka Update step) ############
 </span>    <span class="k">else</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s">: Update step'</span><span class="p">)</span>
         <span class="n">measure</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -721,7 +757,7 @@ in sensor measurements i.e. update step)</span></p>
       <h3 id="update-step---a-comparison-step">
         
         
-          <a href="#update-step---a-comparison-step" class="anchor-heading" aria-labelledby="update-step---a-comparison-step"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Update Step - A comparison step
+          <a href="#update-step---a-comparison-step" class="anchor-heading" aria-labelledby="update-step---a-comparison-step"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Update Step - A Comparison Step
         
         
       </h3>
@@ -735,16 +771,18 @@ in sensor measurements i.e. update step)</span></p>
 between what sensor reading we expect to get at these estimated poses
 <strong>(predicted sensor reading)</strong> and where the robot actually is <strong>(actual sensor reading)</strong></p>
 
-<p>The method to predict a sensor reading <strong>given an estimated robot and landmark pose</strong> is by
-defining a measurement model.</p>
-      <h4 id="measurement-model-definition">
+<p><strong>The method to predict a sensor reading given an estimated robot and landmark pose is by
+defining a measurement model.</strong></p>
+      <h3 id="measurement-model-definition">
         
         
           <a href="#measurement-model-definition" class="anchor-heading" aria-labelledby="measurement-model-definition"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Measurement Model Definition
         
         
-      </h4>
+      </h3>
     
+
+<p><strong>Goal: Given robot state, predict what will be the sensor reading</strong></p>
 
 <p>Using state vector p_t (contains robot pose and landmark) for the j’th landmark, the bearing <strong>β</strong>
 and range <strong>r</strong> estimate for the j’th landmark is predicted as <strong>h(p_t , j)</strong></p>
@@ -752,13 +790,27 @@ and range <strong>r</strong> estimate for the j’th landmark is predicted as <s
 <p>Where h(p_t , j) = measurement model</p>
 
 <p><img src="/images/SLAM/EKF/meas_model.png" alt="" /></p>
-      <h4 id="using-the-measurement-model">
+
+<p>Now, since the measurement model is non-linear, <strong>we will do the ‘E’ part of ‘EKF’</strong>. i.e.
+we will find the 1st order Taylor expansion of the non-linear measurement function:</p>
+
+<p><img src="/images/SLAM/EKF/e_of_ekf.png" alt="" /></p>
+
+<p>This jacobian will comprise of two parts:</p>
+
+<ol>
+  <li><img src="/images/SLAM/EKF/J_wrt_pose.png" alt="" /></li>
+  <li><img src="/images/SLAM/EKF/J_wrt_landmark.png" alt="" /></li>
+  <li>All put together
+<img src="/images/SLAM/EKF/jac_H.png" alt="" /></li>
+</ol>
+      <h3 id="final-comparison-step">
         
         
-          <a href="#using-the-measurement-model" class="anchor-heading" aria-labelledby="using-the-measurement-model"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Using the Measurement Model
+          <a href="#final-comparison-step" class="anchor-heading" aria-labelledby="final-comparison-step"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Final Comparison Step
         
         
-      </h4>
+      </h3>
     
 
 <p>The comparison step happens in the final parts of the algorithm shown below:</p>
@@ -776,16 +828,6 @@ equation above is clear in it’s purpose and is explained below:</p>
 predicted sensor reading <strong>ẑ</strong></li>
   <li>The variable <strong>K</strong> then acts as a scaling factor only</li>
 </ul>
-      <h4 id="deriving-h_t">
-        
-        
-          <a href="#deriving-h_t" class="anchor-heading" aria-labelledby="deriving-h_t"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deriving H_t
-        
-        
-      </h4>
-    
-
-<p><img src="/images/SLAM/EKF/jac_H.png" alt="" /></p>
       <h3 id="update-step-in-code">
         
         
