@@ -5,13 +5,13 @@ permalink: /intro/
 nav_order: 2
 ---
 
-# Computer Vision References
+<!-- # Computer Vision References
 
 [Main Vision Reference](https://szeliski.org/Book/){: .btn .fs-3 .mb-4 .mb-md-0 }
 
 [Reference Book 1](https://drive.google.com/file/d/1jqEB739EfifhSyiCK6vdbPIz7gX9Ywmr/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
 [Reference Book 2](https://drive.google.com/file/d/1Kn6dilDeR_7leIctuVa87-czuqBoxJh-/view?usp=sharing){: .btn .fs-3 .mb-4 .mb-md-0 }
-
+ -->
 
 # Bulding the Webpage
 
