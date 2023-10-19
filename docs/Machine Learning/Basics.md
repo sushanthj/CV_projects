@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Basics
-parent: Intro to ML
+parent: Machine Learning
 nav_order: 1
 ---
 

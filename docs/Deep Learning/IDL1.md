@@ -1,7 +1,7 @@
 ---
 layout: default
 title: MLPs (IDL1)
-parent: DL Overview
+parent: Deep Learning
 nav_order: 2
 ---
 

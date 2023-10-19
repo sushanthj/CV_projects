@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Deep Learning Starter
-parent: DL Overview
+parent: Deep Learning
 nav_order: 1
 ---
 
@@ -15,6 +15,8 @@ nav_order: 1
 </details>
 
 ## Before you Begin
+
+My Primary Reference is my 11-785 Intro to Deep Learning at CMU
 
 [Ref: CS231N](https://cs231n.github.io/linear-classify/){: .btn .fs-3 .mb-4 .mb-md-0 }
 [Ref: CS229](https://www.youtube.com/watch?v=WViuTuAOPlM&list=PLoROMvodv4rNH7qL6-efu_q2_bPuy0adh&index=6&ab_channel=StanfordOnline){: .btn .fs-3 .mb-4 .mb-md-0 }

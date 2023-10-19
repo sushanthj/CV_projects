@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Intro to ML
+title: Machine Learning
 nav_order: 8
 has_children: true
-permalink: /docs/Intro to ML
+permalink: /docs/Machine Learning
 ---
 
 # Introduction to ML

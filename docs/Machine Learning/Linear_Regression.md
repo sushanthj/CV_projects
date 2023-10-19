@@ -1,8 +1,8 @@
 ---
 layout: default
 title: Linear Regression
-parent: Intro to ML
-nav_order: 1
+parent: Machine Learning
+nav_order: 2
 ---
 
 <details open markdown="block">
@@ -13,6 +13,3 @@ nav_order: 1
 1. TOC
 {:toc}
 </details>
-
-# Common Misunderstanding
-

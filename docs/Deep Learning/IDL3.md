@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Optimizers and Regularizers (IDL3)
-parent: DL Overview
+parent: Deep Learning
 nav_order: 4
 ---
 

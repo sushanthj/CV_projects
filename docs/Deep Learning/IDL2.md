@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Classifiers (IDL2)
-parent: DL Overview
+parent: Deep Learning
 nav_order: 3
 ---
 

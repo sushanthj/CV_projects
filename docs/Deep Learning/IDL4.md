@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Intro to CNNs
-parent: DL Overview
+parent: Deep Learning
 nav_order: 5
 ---
 
