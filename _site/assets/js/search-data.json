@@ -1,51 +1,51 @@
 {"0": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Before you Begin",
     "content": " ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#before-you-begin",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#before-you-begin"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#before-you-begin",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#before-you-begin"
   },"1": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Linear Algebra Review",
     "content": ". ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#linear-algebra-review",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#linear-algebra-review"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#linear-algebra-review",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#linear-algebra-review"
   },"2": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Defining Linear Boundaries",
     "content": "The most basic equation of a line is y = mx + c. This leads us to the formulation of a baseline linear function to be: . wx + b = 0 which essentially defines a line . ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#defining-linear-boundaries",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#defining-linear-boundaries"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#defining-linear-boundaries",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#defining-linear-boundaries"
   },"3": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Perceptron",
     "content": "This basic algorithm is our intro to linear classifiers. The special part here is that it only works on sign(prediction) and not on how good the actual prediction turns out. ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#perceptron",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#perceptron"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#perceptron",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#perceptron"
   },"4": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Algorithm",
     "content": ". ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#algorithm",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#algorithm"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#algorithm",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#algorithm"
   },"5": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Need for Intercept",
     "content": ". ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#need-for-intercept",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#need-for-intercept"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#need-for-intercept",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#need-for-intercept"
   },"6": {
-    "doc": "Basics",
+    "doc": "ML Basics",
     "title": "Summary",
     "content": ". ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html#summary",
-    "relUrl": "/docs/Machine%20Learning/Basics.html#summary"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html#summary",
+    "relUrl": "/docs/Deep%20Learning/Basics.html#summary"
   },"7": {
-    "doc": "Basics",
-    "title": "Basics",
+    "doc": "ML Basics",
+    "title": "ML Basics",
     "content": "{: .text-delta } . | Before you Begin . | Linear Algebra Review | Defining Linear Boundaries | . | Perceptron . | Algorithm | Need for Intercept | Summary | . | . ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Basics.html",
-    "relUrl": "/docs/Machine%20Learning/Basics.html"
+    "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html",
+    "relUrl": "/docs/Deep%20Learning/Basics.html"
   },"8": {
     "doc": "Constrained RRT",
     "title": "Why Constrained RRT?",
@@ -773,113 +773,113 @@
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL4.html",
     "relUrl": "/docs/Deep%20Learning/IDL4.html"
   },"129": {
-    "doc": "Lessons Learnt CNNs",
+    "doc": "Lessons Learnt 1",
     "title": "Before you Begin",
     "content": "Ref: 11-785 . This course has become quite intense to try and document. I’ll be posting highlights here which are my biggest takeaways . ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#before-you-begin",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#before-you-begin"
   },"130": {
-    "doc": "Lessons Learnt CNNs",
+    "doc": "Lessons Learnt 1",
     "title": "CNN Architechtures Studied",
     "content": " ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#cnn-architechtures-studied",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#cnn-architechtures-studied"
   },"131": {
-    "doc": "Lessons Learnt CNNs",
+    "doc": "Lessons Learnt 1",
     "title": "RESNET",
     "content": "Convolutional Neural Nets are really good at extracting features. My understanding on why we use RESNETs: . | It prevents overfitting and limits the non-linearity to the necessary amount by allowing for gradients to skip neurons on the backward pass | It solves the issue of vanishing gradients | . A simple network would have following form: . Now, if we add a skip connection, we get the following structure: . Note. The new activation is g(z + a) . ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#resnet",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#resnet"
   },"132": {
-    "doc": "Lessons Learnt CNNs",
-    "title": "ConvNext : A ConvNet for the 2020s",
-    "content": " ",
-    "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#convnext--a-convnet-for-the-2020s",
-    "relUrl": "/docs/Deep%20Learning/IDL5.html#convnext--a-convnet-for-the-2020s"
-  },"133": {
-    "doc": "Lessons Learnt CNNs",
+    "doc": "Lessons Learnt 1",
     "title": "Numbers and Math",
     "content": " ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#numbers-and-math",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#numbers-and-math"
-  },"134": {
-    "doc": "Lessons Learnt CNNs",
+  },"133": {
+    "doc": "Lessons Learnt 1",
     "title": "Shared Parameter Network (Thinking wise: Neurons -&gt; Filters)",
-    "content": "We previously saw that the number of params of a CNN were much lesser than an MLP. A better understand of why this would be true can be understood from the below diagram . | The above shows an MLP scanning 1D data. now, the MLP in the raw form above can be seen taking 8 inputs at time. | Additionally, each layer of the MLP is seen to have neurons which do the same work. Therefore, such neurons can be set to hold the same shared parameters (same color) | . If we think of only the most minimalist structure of the MLP which is required (discarding any duplicates nuerons), we can make it a scanning MLP of the below structure: . From the above image the equivalent CNN will have the following structure: . The first hidden layer has 4 filters of kernel-width 2 and stride 2; the second layer has 3 filters of kernel-width 2 and stride 2; the third layer has 2 filters of kernel-width 2 and stride 2 . Also, such a CNN which is moving over 1D input (mostly time) is called a Time Delay Neural Network (TDNN) . Implications . | Lower nubmer of params | Due to shared params, if 4 filters in the lower layer feeds 1 filter above, then the gradient at the higher filter will be equally rerouted (not split!) amongst the 4 lower layer fiters. See the below Andrej’s explanation for a backprop refresher: . | . ",
+    "content": "We previously saw that the number of params of a CNN were much lesser than an MLP. A better understand of why this would be from the below diagram . | The above shows an MLP scanning 1D data. now, the MLP in the raw form above can be seen taking 8 inputs at time. | Additionally, each layer of the MLP is seen to have neurons which do the same work. Therefore, such neurons can be set to hold the same shared parameters (same color) | . If we think of only the most minimalist structure of the MLP which is required (discarding any duplicates nuerons), we can make it a scanning MLP of the below structure: . From the above image the equivalent CNN will have the following structure: . The first hidden layer has 4 filters of kernel-width 2 and stride 2; the second layer has 3 filters of kernel-width 2 and stride 2; the third layer has 2 filters of kernel-width 2 and stride 2 . Also, such a CNN which is moving over 1D input (mostly time) is called a Time Delay Neural Network (TDNN) . Implications . | Lower nubmer of params | Due to shared params, if 4 filters in the lower layer feeds 1 filter above, then the gradient at the higher filter will be equally rerouted (not split!) amongst the 4 lower layer fiters. See the below Andrej’s explanation for a backprop refresher: . | . ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#shared-parameter-network-thinking-wise-neurons---filters",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#shared-parameter-network-thinking-wise-neurons---filters"
-  },"135": {
-    "doc": "Lessons Learnt CNNs",
+  },"134": {
+    "doc": "Lessons Learnt 1",
     "title": "Kernal, Stride, Padding and Output Shape Calculation",
     "content": "The pytorch website has a bad looking equation, I prefer the simple one below . output_shape = (input_shape + 2*padding - kernel)/(stride) + 1 . ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#kernal-stride-padding-and-output-shape-calculation",
     "relUrl": "/docs/Deep%20Learning/IDL5.html#kernal-stride-padding-and-output-shape-calculation"
+  },"135": {
+    "doc": "Lessons Learnt 1",
+    "title": "Divergence and Loss Functions",
+    "content": " ",
+    "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#divergence-and-loss-functions",
+    "relUrl": "/docs/Deep%20Learning/IDL5.html#divergence-and-loss-functions"
   },"136": {
-    "doc": "Lessons Learnt CNNs",
-    "title": "Lessons Learnt CNNs",
-    "content": "{: .text-delta } . | Before you Begin | CNN Architechtures Studied . | RESNET | ConvNext : A ConvNet for the 2020s | . | Numbers and Math . | Shared Parameter Network (Thinking wise: Neurons -&gt; Filters) . | Implications | . | Kernal, Stride, Padding and Output Shape Calculation | . | . ",
+    "doc": "Lessons Learnt 1",
+    "title": "L2 Loss",
+    "content": ". | The 1/2 as you can see is a scaling factor which makes derivative clean | . Intuition behind the derivative . | d = desired value / label = 1 | y = network output = 1.5 | In the above case, increasing y will increase the loss | Hence, the derivative (think of it like slope here) will be positive (i.e rise/run is positive) | The magnitude of this derivative will also be dependent on error (y - d) | Hence, the derivative formula above = (y - d) and will be positive when y &gt; d | . To do gradient descent, we will therefore go in the negative direction of this derivative by doing: . new_value_of_weights = current_value_of_weights - (derivative_of_divergence * step_size) . ",
+    "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#l2-loss",
+    "relUrl": "/docs/Deep%20Learning/IDL5.html#l2-loss"
+  },"137": {
+    "doc": "Lessons Learnt 1",
+    "title": "KL Divergence and CE Loss",
+    "content": ". Try to think about why we have the log term in this divergence? . Intuition on Loss Function . | In binary classification, we can either be fully correct (d=0 and y=0) or fully wrong(d=0 and y=1) | Now, ideally we don’t want to do anything when we are fully correct | ‘don’t want to do anything’ is just english for make the penalty zero | When we are fully wrong, we want a harsh penalty on the network and ask it to correct itself | ‘harsh penalty’ is english for make the penalty infinite . | Let’s plug in the values and see if the above intuition is applied. Let d = 1 and Y = 0 | Plugging in values, Div = - 1 * log(0), and log(0) = - infinity, therefore Div = + infinity | In the above line, note that because log(0) is negative infinity, that’s why we multiply by -1 in the begging | . Intuition behind Derivative . | d = desired, y = actual output | If d = 1 and y = 0.9, then increasing y will decrease the loss | As you can see above, since increase in y will make loss go lower, the slope would be negative, i.e. derivative will be negative | The above intuition is verified from the equation . | Now if d = 0 and y = 0.9, then increasing y will increase loss. Hence, derivative is positive | . ",
+    "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#kl-divergence-and-ce-loss",
+    "relUrl": "/docs/Deep%20Learning/IDL5.html#kl-divergence-and-ce-loss"
+  },"138": {
+    "doc": "Lessons Learnt 1",
+    "title": "Why KL over L2?",
+    "content": ". ",
+    "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html#why-kl-over-l2",
+    "relUrl": "/docs/Deep%20Learning/IDL5.html#why-kl-over-l2"
+  },"139": {
+    "doc": "Lessons Learnt 1",
+    "title": "Lessons Learnt 1",
+    "content": "{: .text-delta } . | Before you Begin | CNN Architechtures Studied . | RESNET | . | Numbers and Math . | Shared Parameter Network (Thinking wise: Neurons -&gt; Filters) . | Implications | . | Kernal, Stride, Padding and Output Shape Calculation | . | Divergence and Loss Functions . | L2 Loss . | Intuition behind the derivative | . | KL Divergence and CE Loss . | Intuition on Loss Function | Intuition behind Derivative | . | Why KL over L2? | . | . ",
     "url": "http://localhost:4000/docs/Deep%20Learning/IDL5.html",
     "relUrl": "/docs/Deep%20Learning/IDL5.html"
-  },"137": {
+  },"140": {
     "doc": "Building this Page",
     "title": "Bulding the Webpage",
     "content": "For Jekyll reference see just_the_docs . The following pages are built in order to understand Computer Vision and Machine Learning . To deploy on heroku follow the steps in the link below (and use the gem files, rake files and proc files in this repo for reference) . The following files will need to be copied from this repo: . | config.ru | Rakefile | Procfile | static.json | config.yaml (modify this file as per requirement) | Gemfile | . And only if necessary: . | Gemfile.lock | remove _sites from .gitignore | . Run bundle once to intialize Run bundle exec jekyll serve Go to the specified webpage by the above command . After copying these files (or their necessary contents), install heroku cli and do heroku login: . curl https://cli-assets.heroku.com/install.sh | sh heroku login . Then directly start with heroku create as per the below link and the other steps necessary (git push heroku master) . Deploy jekyll on heroku . Finally, go to heroku page -&gt; settings -&gt; change the name of the app and find the url . ",
     "url": "http://localhost:4000/intro/#bulding-the-webpage",
     "relUrl": "/intro/#bulding-the-webpage"
-  },"138": {
+  },"141": {
     "doc": "Building this Page",
     "title": "To better your experience of writing in code",
     "content": "Download the following extensions in vscode: . | Markdown All in one | code runner (see youtube video on how to setup vscode for C++) | . ",
     "url": "http://localhost:4000/intro/#to-better-your-experience-of-writing-in-code",
     "relUrl": "/intro/#to-better-your-experience-of-writing-in-code"
-  },"139": {
+  },"142": {
     "doc": "Building this Page",
     "title": "Shortcuts in general pour toi",
     "content": ". | Once Markdown all in one is installed, you can do ctrl+shift+v to see preview of markdown immediately | To run any C++ file it’s just ctrl+shift+n | If you want to bold any specific text in markdown just select the text by holding down ctrl+shift and using arrow keys to select the required text. Then once text is selected just do ctrl+b to bolden and ctrl+i to italicize . | click on tab after using - for normal bullet pointing to get sub-points | . | To get numbered list continuously, in-between two headings 1. and 2. all content should be indented with 4 spaces in the markdown script . | To shift between windows in ubuntu, just do windows_key+shift+right/left_arrow | To minimize or unmaximize any window in hold down alt and press space, then choose to minimize | To then maximize or move window to right half/left half of screen, windows_key+shift+right/left_arrow | . ",
     "url": "http://localhost:4000/intro/#shortcuts-in-general-pour-toi",
     "relUrl": "/intro/#shortcuts-in-general-pour-toi"
-  },"140": {
+  },"143": {
     "doc": "Building this Page",
     "title": "Building this Page",
     "content": " ",
     "url": "http://localhost:4000/intro/",
     "relUrl": "/intro/"
-  },"141": {
-    "doc": "Linear Regression",
-    "title": "Linear Regression",
-    "content": "{: .text-delta } ",
-    "url": "http://localhost:4000/docs/Machine%20Learning/Linear_Regression.html",
-    "relUrl": "/docs/Machine%20Learning/Linear_Regression.html"
-  },"142": {
+  },"144": {
     "doc": "MRSD Capstone Project",
     "title": "Introduction",
     "content": "I’m currently pursuing my Master’s in Robotic Systems Development at Carnegie Mellon University. Our program is unique in that we emulate the systems engineering process which usually runs in a robotics company. This process runs parallel to our capstone project where we build a robot, secure funding and work within a budget, adhere to a timeline, and deliver on key performance requirements. I’ve been documenting my progress on the project work on a separate website which is accessed by my peers occasionally. MRSD Project Website . ",
     "url": "http://localhost:4000/mrsd_proj/#introduction",
     "relUrl": "/mrsd_proj/#introduction"
-  },"143": {
+  },"145": {
     "doc": "MRSD Capstone Project",
     "title": "SLAM in 2D",
     "content": "I used a version of AMCL particle filters tuned with more particles and larger resampling radius to allow for accurate localization even in sparse maps. ",
     "url": "http://localhost:4000/mrsd_proj/#slam-in-2d",
     "relUrl": "/mrsd_proj/#slam-in-2d"
-  },"144": {
+  },"146": {
     "doc": "MRSD Capstone Project",
     "title": "MRSD Capstone Project",
     "content": ". | Introduction | SLAM in 2D | . ",
     "url": "http://localhost:4000/mrsd_proj/",
     "relUrl": "/mrsd_proj/"
-  },"145": {
-    "doc": "Machine Learning",
-    "title": "Introduction to ML",
-    "content": "Credits: 16-601 CMU . ",
-    "url": "http://localhost:4000/docs/Machine%20Learning#introduction-to-ml",
-    "relUrl": "/docs/Machine Learning#introduction-to-ml"
-  },"146": {
-    "doc": "Machine Learning",
-    "title": "Machine Learning",
-    "content": " ",
-    "url": "http://localhost:4000/docs/Machine%20Learning",
-    "relUrl": "/docs/Machine Learning"
   },"147": {
     "doc": "Least Squares SLAM",
     "title": "Background",

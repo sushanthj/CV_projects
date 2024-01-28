@@ -2,7 +2,7 @@
 layout: default
 title: Optimizers and Regularizers (IDL3)
 parent: Deep Learning
-nav_order: 4
+nav_order: 5
 ---
 
 <details open markdown="block">

@@ -2,7 +2,7 @@
 layout: default
 title: Deep Learning Starter
 parent: Deep Learning
-nav_order: 1
+nav_order: 2
 ---
 
 <details open markdown="block">

@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Basics
-parent: Machine Learning
+title: ML Basics
+parent: Deep Learning
 nav_order: 1
 ---
 

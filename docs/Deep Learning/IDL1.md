@@ -2,7 +2,7 @@
 layout: default
 title: MLPs (IDL1)
 parent: Deep Learning
-nav_order: 2
+nav_order: 3
 ---
 
 <details open markdown="block">

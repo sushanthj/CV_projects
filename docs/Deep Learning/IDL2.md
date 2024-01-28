@@ -2,7 +2,7 @@
 layout: default
 title: Classifiers (IDL2)
 parent: Deep Learning
-nav_order: 3
+nav_order: 4
 ---
 
 <details open markdown="block">

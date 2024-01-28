@@ -2,7 +2,7 @@
 layout: default
 title: Intro to CNNs
 parent: Deep Learning
-nav_order: 5
+nav_order: 6
 ---
 
 <details open markdown="block">
