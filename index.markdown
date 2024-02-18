@@ -30,10 +30,13 @@ grapevine pointclouds for pruning weight estimation.
 
 # Previous Work
 
+![](/images/magna_homepage.png)
+
+_____________________________________________________________________________________________
+
 ![](/images/ts_homepage.png)
 
-I worked on see-and-spray systems on the perception team of [TartanSense](https://www.tartansense.com/).
-
+I worked on the perception team at [Niqo Robotics](https://www.youtube.com/watch?v=Sap3Z-9vSow).
 
 _____________________________________________________________________________________________
 
