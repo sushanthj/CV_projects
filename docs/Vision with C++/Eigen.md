@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Linear Algebra in Eigen
-parent: Computer Vision using C++
+parent: Computer Vision Libraries in C++
 nav_order: 1
 ---
 

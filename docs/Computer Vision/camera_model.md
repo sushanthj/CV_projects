@@ -1,8 +1,8 @@
 ---
-layout: page
-title: Camera Models
-permalink: /camera_model/
-nav_order: 11
+layout: default
+title: Camera Models and Projections
+parent: Computer Vision Theory
+nav_order: 1
 ---
 
 <details open markdown="block">

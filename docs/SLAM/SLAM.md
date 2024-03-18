@@ -1,7 +1,7 @@
 ---
 layout: page
 title: SLAM
-nav_order: 8
+nav_order: 15
 has_children: true
 permalink: /docs/SLAM
 ---

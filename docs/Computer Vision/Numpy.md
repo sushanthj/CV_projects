@@ -1,8 +1,8 @@
 ---
-layout: page
-title: Numpy
-permalink: /numpy/
-nav_order: 12
+layout: default
+title: Numpy for CV
+parent: Computer Vision Theory
+nav_order: 2
 ---
 
 <details open markdown="block">

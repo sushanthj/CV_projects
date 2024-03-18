@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Eigen, OpenCV, and Images
-parent: Computer Vision using C++
+parent: Computer Vision Libraries in C++
 nav_order: 2
 ---
 

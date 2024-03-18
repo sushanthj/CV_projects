@@ -1,22 +1,11 @@
 ---
-layout: page
-title: Spatial Pyramid Matching for Scene Classification
-permalink: /spatial_pyramid_matching/
-nav_order: 7
+layout: default
+title: Spatial Pyramids and Bag of Words
+parent: Computer Vision Theory
+nav_order: 10
 ---
 
 ![](/images/Intro_ML/cva_assignment_1.png)
-
-
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-1. TOC
-{:toc}
-</details>
-
 
 ## Before you Begin
 

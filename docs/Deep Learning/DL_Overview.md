@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Deep Learning
-nav_order: 8
+nav_order: 12
 has_children: true
 permalink: /docs/Deep Learning
 ---
