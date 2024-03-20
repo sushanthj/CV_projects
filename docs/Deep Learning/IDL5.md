@@ -140,4 +140,43 @@ Try to think about why we have the log term in this divergence?
 
 ## Why KL over L2?
 
+
+# Activation Functions
+
 ![](/images/DL_Lessons/kl_vs_l2.png)
+
+## What is Inductive Bias? How does ReLU have it?
+
+Inductive bias is the inherent, baked-in, bias that some activation functions like ReLU has
+which has started becoming evident. This is what gave rise to GELU as mentioned in
+the [ConvNext Paper](https://arxiv.org/pdf/2201.03545.pdf) and why it's gained prominance
+in vision transformers and modern CNNs.
+
+### When is it bad to have inductive bias?
+
+- The inductive bias of ReLU is that it prioritizes smooth linear boundaries which is useful
+when working with very high dimensional data (as it prevents overfitting I assume).
+- However, if we work on low-dimensional models, which can be simple cases like trying to
+  reconstruct a singular image, or even super useful networks like NERFs
+- In this [RI Seminar by Prof. Simon Lucey](https://www.youtube.com/watch?v=JOVPWLBIo5Q&t=1641s&ab_channel=CMURoboticsInstitute)
+  he talks about the case where a simple network with ReLU activations is used in an encoder-decoder
+  like fashion to reconstruct **one image**.
+    - ![](/images/DL_Lessons/inductive_bias.gif)
+- The above seems to fail and the reasoning is stated to be the inductive bias of ReLU
+
+Here's an example of what happens when we remove the inductive bias by replacing ReLU with
+another activation function (Gaussians here) which are said to have higher bandwidth (i.e. can
+represent higher number of frequencies (think of a neural net as giving a signal as an output))
+
+![](/images/DL_Lessons/without_inductive_bias.png)
+
+### When is it good to have this inductive bias?
+
+For large networks like vision transformers which are trained on many classes, and a ton of
+data which should not be overfit, in those cases the inductive bias of ReLU is okay
+
+**Bottom Line:
+Do not use ReLU in combination with any form of position encoding (like in NERFs)**
+
+### What is the probabalistic interpretation of Sigmoid?
+
