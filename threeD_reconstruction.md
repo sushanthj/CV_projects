@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 3D_reconstruction
+title: 3D Reconstruction
 permalink: /3D_reconstruction/
 nav_order: 4
 ---
