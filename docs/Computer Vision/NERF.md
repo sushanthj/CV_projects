@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Volume Rendering and NERFs
-parent: Computer Vision Theory
+parent: Computer Vision
 nav_order: 3
 ---
 

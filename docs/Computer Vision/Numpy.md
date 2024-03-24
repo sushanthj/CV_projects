@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Numpy for CV
-parent: Computer Vision Theory
+parent: Computer Vision
 nav_order: 2
 ---
 

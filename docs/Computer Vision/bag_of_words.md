@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Spatial Pyramids and Bag of Words
-parent: Computer Vision Theory
+parent: Computer Vision
 nav_order: 10
 ---
 

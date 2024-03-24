@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Camera Models and Projections
-parent: Computer Vision Theory
+parent: Computer Vision
 nav_order: 1
 ---
 

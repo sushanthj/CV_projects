@@ -47,14 +47,14 @@
     "url": "http://localhost:4000/docs/Deep%20Learning/Basics.html",
     "relUrl": "/docs/Deep%20Learning/Basics.html"
   },"8": {
-    "doc": "Computer Vision Theory",
+    "doc": "Computer Vision",
     "title": "Theory and Tools in CV",
     "content": " ",
     "url": "http://localhost:4000/docs/Vision_General#theory-and-tools-in-cv",
     "relUrl": "/docs/Vision_General#theory-and-tools-in-cv"
   },"9": {
-    "doc": "Computer Vision Theory",
-    "title": "Computer Vision Theory",
+    "doc": "Computer Vision",
+    "title": "Computer Vision",
     "content": " ",
     "url": "http://localhost:4000/docs/Vision_General",
     "relUrl": "/docs/Vision_General"
