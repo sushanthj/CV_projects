@@ -138,16 +138,37 @@
   </summary>
 <ol id="markdown-toc">
   <li><a href="#convnext" id="markdown-toc-convnext">ConvNext</a></li>
+  <li><a href="#why-i-love-convnext" id="markdown-toc-why-i-love-convnext">Why I Love ConvNext</a></li>
   <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ol>
-      <li><a href="#drawbacks-of-vanilla-vision-transformers-vits" id="markdown-toc-drawbacks-of-vanilla-vision-transformers-vits">Drawbacks of Vanilla Vision Transformers (ViTs)</a>        <ol>
-          <li><a href="#time-complexities-of-matrix-multipications-move-to-appendix" id="markdown-toc-time-complexities-of-matrix-multipications-move-to-appendix">Time Complexities of Matrix Multipications (Move to appendix)</a></li>
-          <li><a href="#time-complexity-analysis-in-tranformers" id="markdown-toc-time-complexity-analysis-in-tranformers">Time Complexity Analysis in Tranformers</a>            <ol>
-              <li><a href="#comparison-with-rnns" id="markdown-toc-comparison-with-rnns">Comparison with RNNs</a></li>
+      <li><a href="#drawbacks-of-vanilla-vision-transformers-vits" id="markdown-toc-drawbacks-of-vanilla-vision-transformers-vits">Drawbacks of Vanilla Vision Transformers (ViTs)</a></li>
+      <li><a href="#enter-hierarchial-vits-like-swin-transformer" id="markdown-toc-enter-hierarchial-vits-like-swin-transformer">Enter Hierarchial ViTs like SWIN Transformer</a></li>
+    </ol>
+  </li>
+  <li><a href="#approach" id="markdown-toc-approach">Approach</a>    <ol>
+      <li><a href="#training-optimizations" id="markdown-toc-training-optimizations">Training Optimizations</a></li>
+      <li><a href="#network-modernization" id="markdown-toc-network-modernization">Network Modernization</a>        <ol>
+          <li><a href="#understanding-resnets" id="markdown-toc-understanding-resnets">Understanding ResNets</a></li>
+          <li><a href="#macro-design" id="markdown-toc-macro-design">Macro Design</a></li>
+          <li><a href="#making-it-more-lean-to-reduce-params" id="markdown-toc-making-it-more-lean-to-reduce-params">Making it more Lean (to reduce params)</a></li>
+          <li><a href="#resnextify" id="markdown-toc-resnextify">ResNextify</a>            <ol>
+              <li><a href="#why-depthwise-convolutions" id="markdown-toc-why-depthwise-convolutions">Why Depthwise Convolutions</a></li>
             </ol>
           </li>
         </ol>
       </li>
-      <li><a href="#enter-hierarchial-vits-like-swin-transformer" id="markdown-toc-enter-hierarchial-vits-like-swin-transformer">Enter Hierarchial ViTs like SWIN Transformer</a></li>
+    </ol>
+  </li>
+  <li><a href="#appendix" id="markdown-toc-appendix">Appendix</a>    <ol>
+      <li><a href="#time-complexities-analyses" id="markdown-toc-time-complexities-analyses">Time Complexities Analyses</a>        <ol>
+          <li><a href="#simple-matrix-multiplication" id="markdown-toc-simple-matrix-multiplication">Simple Matrix Multiplication</a></li>
+          <li><a href="#time-complexity-analysis-in-tranformers" id="markdown-toc-time-complexity-analysis-in-tranformers">Time Complexity Analysis in Tranformers</a>            <ol>
+              <li><a href="#comparison-with-rnns" id="markdown-toc-comparison-with-rnns">Comparison with RNNs</a></li>
+              <li><a href="#comparisons-with-separable-and-non-separable-convs" id="markdown-toc-comparisons-with-separable-and-non-separable-convs">Comparisons with Separable and Non-Separable Convs</a></li>
+              <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion:</a></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
     </ol>
   </li>
 </ol>
@@ -174,6 +195,24 @@ in terms of:</p>
   <li>Inductive Biases</li>
   <li>And more so ..</li>
 </ul>
+      <h1 id="why-i-love-convnext">
+        
+        
+          <a href="#why-i-love-convnext" class="anchor-heading" aria-labelledby="why-i-love-convnext"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Why I Love ConvNext
+        
+        
+      </h1>
+    
+
+<p>This is one of the few architechtures which I have re-written from scratch including the
+Dataloaders. I used ConvNext for Face Classification and beat 250+ students and TAs in my
+class on a <a href="https://www.kaggle.com/competitions/11-785-f23-hw2p2-classification/leaderboard">Kaggle Competition</a>.</p>
+
+<p>I not only re-wrote it in a simple manner, <strong>I also had to make many design decisions in
+reducing the channel widths and reducing network depth to brind down the trainable params
+from 29 Million to just 11 million</strong></p>
+
+<p><img src="/images/ConvNext/kaggle.png" alt="" /></p>
       <h1 id="introduction">
         
         
@@ -198,10 +237,216 @@ in terms of:</p>
 fed to the transformer) grows quadratically with image size</li>
   <li>For real world images, this issue is a big problem!</li>
 </ul>
-      <h3 id="time-complexities-of-matrix-multipications-move-to-appendix">
+      <h2 id="enter-hierarchial-vits-like-swin-transformer">
         
         
-          <a href="#time-complexities-of-matrix-multipications-move-to-appendix" class="anchor-heading" aria-labelledby="time-complexities-of-matrix-multipications-move-to-appendix"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Time Complexities of Matrix Multipications (Move to appendix)
+          <a href="#enter-hierarchial-vits-like-swin-transformer" class="anchor-heading" aria-labelledby="enter-hierarchial-vits-like-swin-transformer"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Enter Hierarchial ViTs like SWIN Transformer
+        
+        
+      </h2>
+    
+
+<p><img src="/images/ConvNext/swin.png" alt="" /></p>
+
+<ul>
+  <li>Instead of just global attention, introduce attention locally to a window (red boundary)</li>
+  <li>A fixed number of image patches form a window</li>
+  <li>
+    <p>This reduces the time complexity from being quadratic in image size for generic ViTs
+to now being linear w.r.t image size</p>
+  </li>
+  <li><strong>This linear time complexity w.r.t image size made ViTs tractable for all vision tasks like
+detection, segmentation and classification</strong></li>
+</ul>
+      <h1 id="approach">
+        
+        
+          <a href="#approach" class="anchor-heading" aria-labelledby="approach"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Approach
+        
+        
+      </h1>
+    
+
+<p>The use of shifted-windows as in Swin Transformers and the learnings from the era of ViTs
+motivate the authors of ConvNext to begin ‘modernizing’ CNNs.</p>
+
+<p>They begin by taking a simple ResNet-50 model and reshaping it from the learning of ViTs. They
+do this in two steps:</p>
+
+<ul>
+  <li>New Training Methods</li>
+  <li>New Network Architectures which include:
+    <ul>
+      <li>Macro Design changes</li>
+      <li>ResNextify</li>
+      <li>Inverted Bottleneck</li>
+      <li>Larger Kernel Sizes</li>
+      <li>Layer-wise micro designs</li>
+    </ul>
+  </li>
+</ul>
+      <h2 id="training-optimizations">
+        
+        
+          <a href="#training-optimizations" class="anchor-heading" aria-labelledby="training-optimizations"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Training Optimizations
+        
+        
+      </h2>
+    
+
+<p>This mainly included new optimizers, larger training epochs, and new augmentation methods. 
+Specifically:</p>
+
+<ul>
+  <li>AdamW over Adam</li>
+  <li>Augmentations such as: Mixup, Cutmix, RandAugment, Random Erasing</li>
+  <li>Regularization schemes including Stochastic Depth and Label Smoothing</li>
+</ul>
+
+<p>Stochastic depth is when we choose to keep a residual block active or inactive based on
+some probability (maybe bernoulli or a uniform probability distribution) as shown below:</p>
+
+<p><img src="/images/ConvNext/stochastic_depth.png" alt="" /></p>
+      <h2 id="network-modernization">
+        
+        
+          <a href="#network-modernization" class="anchor-heading" aria-labelledby="network-modernization"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Network Modernization
+        
+        
+      </h2>
+    
+      <h3 id="understanding-resnets">
+        
+        
+          <a href="#understanding-resnets" class="anchor-heading" aria-labelledby="understanding-resnets"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Understanding ResNets
+        
+        
+      </h3>
+    
+
+<p>It’s beneficial to first see how a resnet works. Firstly note that we have two variants
+of the ResNet block</p>
+<ul>
+  <li>Simple Block (used in ResNet34)</li>
+  <li><strong>BottleNeck Block</strong> (used in all other ResNets)</li>
+</ul>
+
+<p><img src="/images/ConvNext/resnet_types.png" alt="" /></p>
+
+<p>The overall architechture of Resnet is captured in the below diagrams:</p>
+
+<p><img src="/images/ConvNext/resnet_arch.png" alt="" /></p>
+
+<p>Where the final 1000x1 vector is for the 1000 ImageNet classes. Also note the number of
+repeating ResNet block in each layer (50-layer or ResNet50 being referred below):</p>
+<ul>
+  <li>Conv2_x has 3 blocks</li>
+  <li>Conv3_x has 4 blocks</li>
+</ul>
+
+<p>Overall we have (3,4,6,3) as <strong>‘stage compute ratio’</strong> as defined by authors.</p>
+      <h3 id="macro-design">
+        
+        
+          <a href="#macro-design" class="anchor-heading" aria-labelledby="macro-design"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Macro Design
+        
+        
+      </h3>
+    
+
+<p>We saw (3,4,6,3) as <strong>‘stage compute ratio’</strong> in ResNet50 as explained previously. In Swin-Transformer the same block distribution was (1,1,9,1).</p>
+
+<p>Hence, <strong>ConvNext tries to follow the same and uses (3,3,9,3) as the block distributions</strong>.</p>
+      <h3 id="making-it-more-lean-to-reduce-params">
+        
+        
+          <a href="#making-it-more-lean-to-reduce-params" class="anchor-heading" aria-labelledby="making-it-more-lean-to-reduce-params"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Making it more Lean (to reduce params)
+        
+        
+      </h3>
+    
+
+<p>However, I had to cut down on this to reduce parameter limit and changed the ratios to 
+<strong>(6,5,4,4)</strong>. This was chosen after a few ablations but also higher numbers for the initial
+blocks were chosen to allow for an optimization on the number of channels at input/output of
+each ConvNext stage. Specifically:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># number of channels at input/output of each res_blocks
+# Updated Config
+</span><span class="bp">self</span><span class="p">.</span><span class="n">channel_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span>
+
+<span class="c1"># Original Config
+# self.channel_list = [96, 192, 384, 768]
+</span>
+<span class="c1"># number of repeats for each res_block
+# Updated Config
+</span><span class="bp">self</span><span class="p">.</span><span class="n">block_repeat_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># Original Config
+# self.block_repeat_list = [3,3,9,3]
+</span></code></pre></div></div>
+
+<p>As you can see, to maintain the relative number of channels at each stage (at least keep it
+monotonically increasing as in the original config), I had to increase the initial block_repeats
+where the channel size is small and decrease the block_repeats when channel size was larger</p>
+      <h3 id="resnextify">
+        
+        
+          <a href="#resnextify" class="anchor-heading" aria-labelledby="resnextify"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> ResNextify
+        
+        
+      </h3>
+    
+
+<p>ResNext utilized group convolution in the 3x3 conv layer of bottleneck blocks. What is group
+convolution?</p>
+
+<p><img src="/images/ConvNext/group_conv.png" alt="" /></p>
+
+<p>The authors of ConvNext decided to use a special case of group convolution where the number of
+groups equals number of channels. <strong>That is literally just Depthwise Seperable Convs!!!</strong></p>
+      <h4 id="why-depthwise-convolutions">
+        
+        
+          <a href="#why-depthwise-convolutions" class="anchor-heading" aria-labelledby="why-depthwise-convolutions"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Why Depthwise Convolutions
+        
+        
+      </h4>
+    
+
+<p>The simple answer is the computational complexitites:</p>
+<ul>
+  <li>Depth-wise Separable = <code class="language-plaintext highlighter-rouge">O(n**2*d + n*d**2)</code> -&gt; as per Attention is all you need</li>
+  <li>Generic Convolution = <code class="language-plaintext highlighter-rouge">O(n**2 * d**2)</code> -&gt; Think of n = filter size spatial, d = filter size depth (num channels)</li>
+  <li><a href="https://arxiv.org/pdf/1704.04861.pdf">Reference : <em>MobileNet</em></a></li>
+  <li><a href="https://papers.nips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Reference : <em>Attention is All You Need</em></a></li>
+</ul>
+
+<p>However, while those numbers may seem weird, for a more practical example you can
+view <a href="https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728#:~:text=two%20smaller%20kernels.-,Depthwise%20Separable%20Convolutions,it%20is%20more%20commonly%20used.">this post</a>.</p>
+
+<p><strong>Bottomline, MobileNet shows that Depthwise Seperable Conv has much lesser FLOPs than conventional
+convolution layers.</strong></p>
+      <h1 id="appendix">
+        
+        
+          <a href="#appendix" class="anchor-heading" aria-labelledby="appendix"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Appendix
+        
+        
+      </h1>
+    
+      <h2 id="time-complexities-analyses">
+        
+        
+          <a href="#time-complexities-analyses" class="anchor-heading" aria-labelledby="time-complexities-analyses"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Time Complexities Analyses
+        
+        
+      </h2>
+    
+      <h3 id="simple-matrix-multiplication">
+        
+        
+          <a href="#simple-matrix-multiplication" class="anchor-heading" aria-labelledby="simple-matrix-multiplication"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Simple Matrix Multiplication
         
         
       </h3>
@@ -222,7 +467,7 @@ fed to the transformer) grows quadratically with image size</li>
   </li>
 </ul>
 
-<p>Hence, overall time complexity = <code class="language-plaintext highlighter-rouge">N * D * D</code> = <code class="language-plaintext highlighter-rouge">N D^2</code></p>
+<p>Hence, overall time complexity = <code class="language-plaintext highlighter-rouge">N * D * D</code> = <code class="language-plaintext highlighter-rouge">N * D**2</code></p>
       <h3 id="time-complexity-analysis-in-tranformers">
         
         
@@ -270,19 +515,39 @@ the calculation of Q,K,V</strong></p>
     
 
 <p>RNNs have a hidden state neuron which is connected across the time series as shown below:</p>
-      <h2 id="enter-hierarchial-vits-like-swin-transformer">
+
+<p><img src="/images/ConvNext/RNN_simple.png" alt="" /></p>
+
+<p>The hidden neuron computation is simply: <code class="language-plaintext highlighter-rouge">h(t)​ = f(U x(t)​ + W h(t−1)​)</code></p>
+
+<p>Hence, they are modelled as O(n * d<em>*2) *(as it’s an MLP with matrix multiplication, see Appendix)</em> with O(n) sequential operations</p>
+      <h4 id="comparisons-with-separable-and-non-separable-convs">
         
         
-          <a href="#enter-hierarchial-vits-like-swin-transformer" class="anchor-heading" aria-labelledby="enter-hierarchial-vits-like-swin-transformer"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Enter Hierarchial ViTs like SWIN Transformer
+          <a href="#comparisons-with-separable-and-non-separable-convs" class="anchor-heading" aria-labelledby="comparisons-with-separable-and-non-separable-convs"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Comparisons with Separable and Non-Separable Convs
         
         
-      </h2>
+      </h4>
     
 
 <ul>
-  <li>Instead of just global attention, introduce attention locally in image patches</li>
-  <li>This reduces the time</li>
+  <li>Depth-wise Separable = <code class="language-plaintext highlighter-rouge">O(n**2*d + n*d**2)</code> = Self Attention + Feed Forward MLP</li>
+  <li>Generic Convolution = <code class="language-plaintext highlighter-rouge">O(n**2 * d**2)</code></li>
 </ul>
+      <h4 id="conclusion">
+        
+        
+          <a href="#conclusion" class="anchor-heading" aria-labelledby="conclusion"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Conclusion:
+        
+        
+      </h4>
+    
+
+<p>The authors of <em>Attention is All You Need</em> therefore claim that Self Attention (<code class="language-plaintext highlighter-rouge">O(N**2*D)</code> or truly <code class="language-plaintext highlighter-rouge">O(N**2*D + N*D**2)</code>) is parallelizable
+and faster than the next best option -&gt; i.e. Depthwise Separable Convolution (<code class="language-plaintext highlighter-rouge">O(N**2*D + N*D**2)</code>)</p>
+
+<p>Considering the true calculation of Scaled Dot Product Attention, it seems to be the same
+as Depthwise Separable Convolution.</p>
 
         
 
