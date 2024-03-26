@@ -24,6 +24,8 @@ This is one of the few architechtures which I have re-written from scratch inclu
 Dataloaders. I used ConvNext for Face Classification and beat 250+ students and TAs in my
 class on a [Kaggle Competition](https://www.kaggle.com/competitions/11-785-f23-hw2p2-classification/leaderboard).
 
+[Github](https://github.com/sushanthj/ConvNext-Lean/blob/main/Classification.ipynb){: .btn .fs-2 .mb-2 .mb-md-0 }
+
 I not only re-wrote it in a simple manner, **I also had to make many design decisions in
 reducing the channel widths and reducing network depth to brind down the trainable params
 from 29 Million to just 11 million**
