@@ -127,7 +127,7 @@
   },"21": {
     "doc": "ConvNext",
     "title": "Why I Love ConvNext",
-    "content": "This is one of the few architechtures which I have re-written from scratch including the Dataloaders. I used ConvNext for Face Classification and beat 250+ students and TAs in my class on a Kaggle Competition. I not only re-wrote it in a simple manner, I also had to make many design decisions in reducing the channel widths and reducing network depth to brind down the trainable params from 29 Million to just 11 million . | ConvNext | Why I Love ConvNext | Introduction . | Drawbacks of Vanilla Vision Transformers (ViTs) | Enter Hierarchial ViTs like SWIN Transformer | . | Approach . | Training Optimizations | Network Modernization . | Understanding ResNets | Macro Design | Making it more Lean (to reduce params) | ResNextify . | Why Depthwise Convolutions | . | Inverted BottleNeck and Large Kernels | Activations | . | . | Implementation . | ConvNext Block | Network Setup | Stochastic Depth and Training | . | Appendix . | Time Complexities Analyses . | Simple Matrix Multiplication | Time Complexity Analysis in Tranformers . | Comparison with RNNs | Comparisons with Separable and Non-Separable Convs | Conclusion: | . | . | . | . ",
+    "content": "This is one of the few architechtures which I have re-written from scratch including the Dataloaders. I used ConvNext for Face Classification and beat 250+ students and TAs in my class on a Kaggle Competition. Github . I not only re-wrote it in a simple manner, I also had to make many design decisions in reducing the channel widths and reducing network depth to brind down the trainable params from 29 Million to just 11 million . | ConvNext | Why I Love ConvNext | Introduction . | Drawbacks of Vanilla Vision Transformers (ViTs) | Enter Hierarchial ViTs like SWIN Transformer | . | Approach . | Training Optimizations | Network Modernization . | Understanding ResNets | Macro Design | Making it more Lean (to reduce params) | ResNextify . | Why Depthwise Convolutions | . | Inverted BottleNeck and Large Kernels | Activations | . | . | Implementation . | ConvNext Block | Network Setup | Stochastic Depth and Training | . | Appendix . | Time Complexities Analyses . | Simple Matrix Multiplication | Time Complexity Analysis in Tranformers . | Comparison with RNNs | Comparisons with Separable and Non-Separable Convs | Conclusion: | . | . | . | . ",
     "url": "http://localhost:4000/ConvNext/#why-i-love-convnext",
     "relUrl": "/ConvNext/#why-i-love-convnext"
   },"22": {
@@ -1212,16 +1212,16 @@
     "relUrl": "/docs/Computer%20Vision/Numpy.html"
   },"202": {
     "doc": "Optical Flow and Image Alignment",
-    "title": "PDF Download",
-    "content": "Assignment Questionnaire . My Answers . ",
-    "url": "http://localhost:4000/optical_flow/#pdf-download",
-    "relUrl": "/optical_flow/#pdf-download"
+    "title": "Writeup",
+    "content": "Questionnaire . Writeup . ",
+    "url": "http://localhost:4000/docs/Computer%20Vision/Optical%20Flow.html#writeup",
+    "relUrl": "/docs/Computer%20Vision/Optical%20Flow.html#writeup"
   },"203": {
     "doc": "Optical Flow and Image Alignment",
     "title": "Optical Flow and Image Alignment",
-    "content": ". | PDF Download | . ",
-    "url": "http://localhost:4000/optical_flow/",
-    "relUrl": "/optical_flow/"
+    "content": ". ",
+    "url": "http://localhost:4000/docs/Computer%20Vision/Optical%20Flow.html",
+    "relUrl": "/docs/Computer%20Vision/Optical%20Flow.html"
   },"204": {
     "doc": "Particle Filters Theory",
     "title": "Before you Begin",
