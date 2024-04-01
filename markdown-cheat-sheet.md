@@ -128,3 +128,65 @@ Wrap the button in a container that uses the [font-size utility classes]({% link
 <span class="fs-3">
 [Tiny ass button](http://example.com/){: .btn }
 </span>
+
+### Add Image with Caption (modelled as a table)
+
+| ![](data/rendering_pipeline.png) |
+|:--:|
+| *Accelerating 3D Deep Learning with PyTorch3D. Ravi et. al.* |
+
+### Add MathJax support
+
+# MathJax v3 Configuration
+
+In `_includes/head_custom.html` add, for example:
+
+{% raw %}
+```html
+{% case page.math %}
+
+  {% when "mathjax3" %}
+
+    <script>
+      MathJax = { 
+        tex: { 
+          tags: 'ams',
+          packages: {'[+]': ['textmacros']},
+        },
+        loader: {
+          load: ['[tex]/textmacros']
+        }
+      };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
+{% endcase %}
+```
+{% endraw %}
+
+See also [further MathJax v3 configuration options](http://docs.mathjax.org/en/latest/web/configuration.html).
+
+In the front matter of pages using MathJax v3 (or as a global front-matter default) add:
+
+```yaml
+layout: default
+title: Homework 4
+nav_order: 1
+description: Cats Generator Playground
+permalink: /
+math: mathjax3
+```
+
+(The suggested field name `math` and the key `mathjax3` can be replaced.)
+
+
+After that, simply wrap the math symbols with two double-dollar sign ```$$```
+```
+$$E=mc^2$$
+```
+
+For further examples visit: https://github.com/pdmosses/just-the-docs-tests-old/blob/master/docs/math/mathjax3/tests.md
+
