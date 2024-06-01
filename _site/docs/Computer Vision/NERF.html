@@ -152,6 +152,19 @@
 <p>NERF gave us a whole new way of approaching general computer vision tasks like
 Novel View Synthesis (NVS), 3D Reconstruction, etc. in a more physics informed way.</p>
 
+<p>The NeRF is basically an MLP that learns the 3D density and 5D light field of a given scene from image
+observations and corresponding perspective transforms.</p>
+
+<p>Q. What’s 5D Light Field?</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ans. Choosing any ray (i.e. choosing any starting origin and direction) in the scene,
+     we should be able to find the total radiance coming from that ray.
+</code></pre></div></div>
+
+<p>Q. What is Radiance?</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ans. Measure of Radiant Energy (joules) per unit time, per unit area, per unit solid angle
+     AKA: The amount of irradiance per unit solid angle
+</code></pre></div></div>
+
 <p>Since the formulation of rendering is crucial to understanding NERFs we’ll do that first.</p>
       <h1 id="part-1--volume-rendering">
         
@@ -329,7 +342,15 @@ transmittance <code class="language-plaintext highlighter-rouge">(T_i+1) = T(i) 
       </h3>
     
 
-<p><strong>Stratified Sampling (discretizing into tiny volumes)</strong></p>
+<p>This will be done in two steps:</p>
+      <h4 id="1-discretize-the-space-into-small-volumes-just-define-the-sampling-points">
+        
+        
+          <a href="#1-discretize-the-space-into-small-volumes-just-define-the-sampling-points" class="anchor-heading" aria-labelledby="1-discretize-the-space-into-small-volumes-just-define-the-sampling-points"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 1. Discretize the space into small volumes (just define the sampling points)
+        
+        
+      </h4>
+    
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ray_utils</span> <span class="kn">import</span> <span class="n">RayBundle</span>
@@ -350,12 +371,11 @@ transmittance <code class="language-plaintext highlighter-rouge">(T_i+1) = T(i) 
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ray_bundle</span><span class="p">,</span> <span class="c1"># NOTE ray_bundle is a class defined in ray_utils.py
-</span>    <span class="p">):</span>
+        <span class="n">ray_bundle</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="c1"># Compute z values for self.n_pts_per_ray points uniformly sampled between [near, far]
 </span>        <span class="n">z_vals</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">min_depth</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">max_depth</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_pts_per_ray</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">ray_bundle</span><span class="p">.</span><span class="n">origins</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="c1"># z_vals.shape = (self.n_pts_per_ray,)
-</span>
+
         <span class="c1"># Sample points from z values
 </span>        <span class="s">"""
         NOTE: if image_plane_points.shape = torch.Size([65536, 3]),
@@ -367,12 +387,9 @@ transmittance <code class="language-plaintext highlighter-rouge">(T_i+1) = T(i) 
 </span>        <span class="n">origins_expanded</span> <span class="o">=</span> <span class="n">origins_expanded</span><span class="p">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_pts_per_ray</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Shape: (N, D, 3)
 </span>        <span class="n">directions_expanded</span> <span class="o">=</span> <span class="n">ray_bundle</span><span class="p">.</span><span class="n">directions</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Shape: (N, 1, 3)
 </span>        <span class="n">directions_expanded</span> <span class="o">=</span> <span class="n">directions_expanded</span><span class="p">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">n_pts_per_ray</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Shape: (N, D, 3)
-</span>        <span class="c1"># convert z_vals to shape Shape: (1, D, 1)
 </span>        <span class="n">z_vals_expanded</span> <span class="o">=</span> <span class="n">z_vals</span><span class="p">.</span><span class="n">expand</span><span class="p">(</span><span class="n">ray_bundle</span><span class="p">.</span><span class="n">origins</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Shape: (1, D, 1)
 </span>
-        <span class="c1"># Compute sample points
-</span>        <span class="c1"># (N, D, 3) = (N, 1, 3) + (1, D, 1) * (N, 1, 3)
-</span>        <span class="n">new_sample_points</span> <span class="o">=</span> <span class="n">origins_expanded</span> <span class="o">+</span> <span class="n">z_vals_expanded</span> <span class="o">*</span> <span class="n">directions_expanded</span>
+        <span class="n">new_sample_points</span> <span class="o">=</span> <span class="n">origins_expanded</span> <span class="o">+</span> <span class="n">z_vals_expanded</span> <span class="o">*</span> <span class="n">directions_expanded</span>
 
         <span class="c1"># Return
 </span>        <span class="k">return</span> <span class="n">ray_bundle</span><span class="p">.</span><span class="n">_replace</span><span class="p">(</span>
@@ -380,12 +397,94 @@ transmittance <code class="language-plaintext highlighter-rouge">(T_i+1) = T(i) 
             <span class="n">sample_lengths</span><span class="o">=</span><span class="n">z_vals_expanded</span> <span class="o">*</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">new_sample_points</span><span class="p">[...,</span> <span class="p">:</span><span class="mi">1</span><span class="p">]),</span> <span class="c1"># shape = (N, D, 1)
 </span>        <span class="p">)</span>
 </code></pre></div></div>
+      <h4 id="2-get-the-density-and-color-of-each-small-volume-this-step-is-done-by-the-nerf-mlp">
+        
+        
+          <a href="#2-get-the-density-and-color-of-each-small-volume-this-step-is-done-by-the-nerf-mlp" class="anchor-heading" aria-labelledby="2-get-the-density-and-color-of-each-small-volume-this-step-is-done-by-the-nerf-mlp"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 2. Get the density and color of each small volume (This step is Done by the NERF MLP.)
+        
+        
+      </h4>
+    
+      <h4 id="3-aggregate-the-density-and-color-of-each-small-volume-to-get-the-final-color-at-the-origin-of-each-ray">
+        
+        
+          <a href="#3-aggregate-the-density-and-color-of-each-small-volume-to-get-the-final-color-at-the-origin-of-each-ray" class="anchor-heading" aria-labelledby="3-aggregate-the-density-and-color-of-each-small-volume-to-get-the-final-color-at-the-origin-of-each-ray"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 3. Aggregate the density and color of each small volume to get the final color at the origin of each ray
+        
+        
+      </h4>
+    
+      <h4 id="note">
+        
+        
+          <a href="#note" class="anchor-heading" aria-labelledby="note"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> NOTE:
+        
+        
+      </h4>
+    
+<p>During training, density is not explicitly trained for. Instead, we check what the final color
+of a ray should be and compare with what the NERF MLP is telling us. This comparison gives us our
+loss which will update ray marching.</p>
 
-<p>Later on we’ll see that the <strong>NERF will predict the density at all sample locations for all rays</strong>.
-We will use this density prediciton to find the overall transmittance and the overall color of all
-rays.</p>
+<p>Because we don’t optimize for density directly, that’s why the NeRF Depth output is bad. That’s
+what prompted people to move to Neural SDFs so that geometry would be better optimized.</p>
+      <h1 id="part-2--nerf-pipeline">
+        
+        
+          <a href="#part-2--nerf-pipeline" class="anchor-heading" aria-labelledby="part-2--nerf-pipeline"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Part 2 : NERF Pipeline
+        
+        
+      </h1>
+    
+      <h2 id="overview">
+        
+        
+          <a href="#overview" class="anchor-heading" aria-labelledby="overview"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Overview:
+        
+        
+      </h2>
+    
 
-<p>NOTE: overall color of all rays = image</p>
+<ul>
+  <li>Define a set of rays (origin, direction):
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="n">RayBundle</span>
+<span class="p">(</span>
+  <span class="n">rays_origin</span><span class="p">,</span>
+  <span class="n">rays_d</span><span class="p">,</span>
+  <span class="n">sample_lengths</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">rays_origin</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+  <span class="n">sample_points</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">rays_origin</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Give rays (origin, direction) to StratifiedRaysampler to get the sample points along the rays
+    <ul>
+      <li>i.e. Do the discretization step of Ray Marching
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Sample points along the ray
+</span><span class="n">cur_ray_bundle</span> <span class="o">=</span> <span class="n">StratifiedSampler</span><span class="p">(</span><span class="n">cur_ray_bundle</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>Pass the sample points to the NERF MLP to get the density and color of each sample point
+    <ul>
+      <li>Note: These sample points are anywhere along the rays (think of it like random camera
+positions and randomly close to the object) and we want to predict the density and color
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predictions</span> <span class="o">=</span> <span class="n">NeRF_MLP</span><span class="p">(</span><span class="n">cur_ray_bundle</span><span class="p">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>The next two steps are a bit involved</strong></p>
+<ul>
+  <li>Aggregate the density and color of each sample point to get the final color at the origin
+of each ray. (the final color of all rays forms the IMAGE!)</li>
+  <li>Compare the final colors (Image) with the GT image to get the loss</li>
+</ul>
+
+<p>Check out the forward function in the Volume Renderer class below reference:</p>
+
+<p class="btn fs-5 mb-4 mb-md-0"><a href="https://github.com/sushanthj/L3D/blob/main/HW3/renderer.py">Reference</a></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predicted_density_for_all_samples_for_all_rays_in_chunk</span> <span class="o">=</span> <span class="n">NERF_MLP_output</span><span class="p">[</span><span class="s">'density'</span><span class="p">]</span> <span class="c1"># shape = (self._chunk_size*n_pts, 1) : The density value of that discrete volume
 </span><span class="n">predicted_colors_for_all_samples_for_all_rays_in_chunk</span> <span class="o">=</span> <span class="n">NERF_MLP_output</span><span class="p">[</span><span class="s">'feature'</span><span class="p">]</span> <span class="c1"># shape = (self._chunk_size*n_pts, 3) : Emittance for each discrete volume for RGB channels
@@ -483,28 +582,40 @@ rays.</p>
 <p><img src="/images/Computer_Vision/NERFs/transmittance.png" alt="" /></p>
 
 <p>And _aggreate finds the <code class="language-plaintext highlighter-rouge">L(x,ω)</code> which can be color or depth for each ray</p>
-      <h3 id="next-steps-from-ray-marching">
+      <h2 id="nerf-training-loop-simple">
         
         
-          <a href="#next-steps-from-ray-marching" class="anchor-heading" aria-labelledby="next-steps-from-ray-marching"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Next Steps from Ray Marching
+          <a href="#nerf-training-loop-simple" class="anchor-heading" aria-labelledby="nerf-training-loop-simple"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> NeRF Training Loop (Simple)
         
         
-      </h3>
+      </h2>
     
 
-<p>As you saw above, we need to predict two things:</p>
-<ul>
-  <li>The density of each small volume sample</li>
-  <li>The color of each small volume sample</li>
-</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">iteration</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">t_range</span><span class="p">:</span>
+            <span class="n">image</span><span class="p">,</span> <span class="n">camera</span><span class="p">,</span> <span class="n">camera_idx</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">values</span><span class="p">()</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">cuda</span><span class="p">().</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">camera</span> <span class="o">=</span> <span class="n">camera</span><span class="p">.</span><span class="n">cuda</span><span class="p">()</span>
 
-<p>Therefore, if we discretize volume into 10 small volumes, we will need to predict:</p>
-<ul>
-  <li>(10,3) colors where 3 is for RGB</li>
-  <li>(10,1) densities for each of the small volumes</li>
-</ul>
+            <span class="c1"># Sample rays
+</span>            <span class="n">xy_grid</span> <span class="o">=</span> <span class="n">get_random_pixels_from_image</span><span class="p">(</span>
+                <span class="n">cfg</span><span class="p">.</span><span class="n">training</span><span class="p">.</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">cfg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">image_size</span><span class="p">,</span> <span class="n">camera</span>
+            <span class="p">)</span>
+            <span class="n">ray_bundle</span> <span class="o">=</span> <span class="n">get_rays_from_pixels</span><span class="p">(</span>
+                <span class="n">xy_grid</span><span class="p">,</span> <span class="n">cfg</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">image_size</span><span class="p">,</span> <span class="n">camera</span>
+            <span class="p">)</span>
+            <span class="n">rgb_gt</span> <span class="o">=</span> <span class="n">sample_images_at_xy</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">xy_grid</span><span class="p">)</span>
 
-<p>This prediction will be done by NERF!</p>
+            <span class="c1"># Run model forward
+</span>            <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">ray_bundle</span><span class="p">)</span>
+
+            <span class="c1"># TODO (Q3.1): Calculate loss
+</span>            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s">'feature'</span><span class="p">],</span> <span class="n">rgb_gt</span><span class="p">)</span>
+
+            <span class="c1"># Take the training step.
+</span>            <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
 
         
 

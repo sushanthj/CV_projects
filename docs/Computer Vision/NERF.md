@@ -10,6 +10,21 @@ nav_order: 3
 NERF gave us a whole new way of approaching general computer vision tasks like
 Novel View Synthesis (NVS), 3D Reconstruction, etc. in a more physics informed way.
 
+The NeRF is basically an MLP that learns the 3D density and 5D light field of a given scene from image
+observations and corresponding perspective transforms.
+
+Q. What's 5D Light Field?
+```
+Ans. Choosing any ray (i.e. choosing any starting origin and direction) in the scene,
+     we should be able to find the total radiance coming from that ray.
+```
+
+Q. What is Radiance?
+```
+Ans. Measure of Radiant Energy (joules) per unit time, per unit area, per unit solid angle
+     AKA: The amount of irradiance per unit solid angle
+```
+
 Since the formulation of rendering is crucial to understanding NERFs we'll do that first.
 
 # Part 1 : Volume Rendering
@@ -132,7 +147,9 @@ transmittance ```(T_i+1) = T(i) * T(small volume of i+1)```
 
 ### Implementing Ray Marching
 
-**Stratified Sampling (discretizing into tiny volumes)**
+This will be done in two steps:
+
+#### 1. Discretize the space into small volumes (just define the sampling points)
 
 ```python
 import torch
@@ -154,11 +171,10 @@ class StratifiedRaysampler(torch.nn.Module):
 
     def forward(
         self,
-        ray_bundle, # NOTE ray_bundle is a class defined in ray_utils.py
+        ray_bundle,
     ):
         # Compute z values for self.n_pts_per_ray points uniformly sampled between [near, far]
         z_vals = torch.linspace(self.min_depth, self.max_depth, self.n_pts_per_ray, device=ray_bundle.origins.device)
-        # z_vals.shape = (self.n_pts_per_ray,)
 
         # Sample points from z values
         """
@@ -171,11 +187,8 @@ class StratifiedRaysampler(torch.nn.Module):
         origins_expanded = origins_expanded.expand(-1, self.n_pts_per_ray, -1)  # Shape: (N, D, 3)
         directions_expanded = ray_bundle.directions.unsqueeze(1)  # Shape: (N, 1, 3)
         directions_expanded = directions_expanded.expand(-1, self.n_pts_per_ray, -1)  # Shape: (N, D, 3)
-        # convert z_vals to shape Shape: (1, D, 1)
         z_vals_expanded = z_vals.expand(ray_bundle.origins.shape[0], -1).unsqueeze(-1)  # Shape: (1, D, 1)
 
-        # Compute sample points
-        # (N, D, 3) = (N, 1, 3) + (1, D, 1) * (N, 1, 3)
         new_sample_points = origins_expanded + z_vals_expanded * directions_expanded
 
         # Return
@@ -185,12 +198,59 @@ class StratifiedRaysampler(torch.nn.Module):
         )
 ```
 
+#### 2. Get the density and color of each small volume (This step is Done by the NERF MLP.)
 
-Later on we'll see that the **NERF will predict the density at all sample locations for all rays**.
-We will use this density prediciton to find the overall transmittance and the overall color of all
-rays.
+#### 3. Aggregate the density and color of each small volume to get the final color at the origin of each ray
 
-NOTE: overall color of all rays = image
+
+#### NOTE:
+During training, density is not explicitly trained for. Instead, we check what the final color
+of a ray should be and compare with what the NERF MLP is telling us. This comparison gives us our
+loss which will update ray marching.
+
+Because we don't optimize for density directly, that's why the NeRF Depth output is bad. That's
+what prompted people to move to Neural SDFs so that geometry would be better optimized.
+
+
+# Part 2 : NERF Pipeline
+
+## Overview:
+
+- Define a set of rays (origin, direction):
+```python
+return RayBundle
+(
+    rays_origin,
+    rays_d,
+    sample_lengths=torch.zeros_like(rays_origin).unsqueeze(1),
+    sample_points=torch.zeros_like(rays_origin).unsqueeze(1),
+)
+```
+
+- Give rays (origin, direction) to StratifiedRaysampler to get the sample points along the rays
+  - i.e. Do the discretization step of Ray Marching
+```python
+# Sample points along the ray
+cur_ray_bundle = StratifiedSampler(cur_ray_bundle)
+```
+
+- Pass the sample points to the NERF MLP to get the density and color of each sample point
+  - Note: These sample points are anywhere along the rays (think of it like random camera
+    positions and randomly close to the object) and we want to predict the density and color
+```python
+predictions = NeRF_MLP(cur_ray_bundle)
+```
+
+**The next two steps are a bit involved**
+- Aggregate the density and color of each sample point to get the final color at the origin
+  of each ray. (the final color of all rays forms the IMAGE!)
+- Compare the final colors (Image) with the GT image to get the loss
+
+Check out the forward function in the Volume Renderer class below reference:
+
+[Reference](https://github.com/sushanthj/L3D/blob/main/HW3/renderer.py)
+{: .btn .fs-5 .mb-4 .mb-md-0}
+
 
 ```python
 predicted_density_for_all_samples_for_all_rays_in_chunk = NERF_MLP_output['density'] # shape = (self._chunk_size*n_pts, 1) : The density value of that discrete volume
@@ -294,16 +354,31 @@ Basically, compute_weights finds the ```T(x, x_t) * (1 - e^{−σ(x) * δx})``` 
 And _aggreate finds the ```L(x,ω)``` which can be color or depth for each ray
 
 
+## NeRF Training Loop (Simple)
 
-### Next Steps from Ray Marching
+```python
+for iteration, batch in t_range:
+            image, camera, camera_idx = batch[0].values()
+            image = image.cuda().unsqueeze(0)
+            camera = camera.cuda()
 
-As you saw above, we need to predict two things:
-- The density of each small volume sample
-- The color of each small volume sample
+            # Sample rays
+            xy_grid = get_random_pixels_from_image(
+                cfg.training.batch_size, cfg.data.image_size, camera
+            )
+            ray_bundle = get_rays_from_pixels(
+                xy_grid, cfg.data.image_size, camera
+            )
+            rgb_gt = sample_images_at_xy(image, xy_grid)
 
-Therefore, if we discretize volume into 10 small volumes, we will need to predict:
-- (10,3) colors where 3 is for RGB
-- (10,1) densities for each of the small volumes
+            # Run model forward
+            out = model(ray_bundle)
 
+            # TODO (Q3.1): Calculate loss
+            loss = criterion(out['feature'], rgb_gt)
 
-This prediction will be done by NERF!
+            # Take the training step.
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+```
