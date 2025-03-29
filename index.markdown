@@ -8,27 +8,31 @@ permalink: /
 
 # About Me
 
+Hello!
+
+I'm Sushanth and I currently work on Computer Vision applications for surgical robots at Intuitive Surgical.
+
 ![](/images/DP2.jpeg)
-
-I'm Sushanth Jayanth, presently pursuing my Master's in Robotics Systems Development (MRSD) at CMU. I'm super interested in Computer Vision. This website was originally meant for me to revise topics
-in vision. However, with SLAM, ML and DL, I've been learning a lot more on Robotics.
-
-![](/images/MRSD.png)
-
-____________________________________________________________________________________________
 
 
 [Resume](https://drive.google.com/file/d/1h79l90dx6f5ZIugohDiFdYD6kPRZtsKt/view?usp=sharing){: .btn .fs-5 .mb-4 .mb-md-0 }
 
+____________________________________________________________________________________________
 
-# Current Work
+![](/images/MRSD.png)
 
-I'm currently doing part-time research at [Kantor Lab](https://labs.ri.cmu.edu/kantorlab/research/) at CMU's Field Robotics Center, working on Robotics for Agriculture. I work on a robotic grapevine pruning project involving 3D skeletonization of
+In 2024, I earned my Master’s in Robotic Systems Development (MRSD) from Carnegie Mellon University, specializing in Computer Vision. This website originally served as a resource for revisiting key vision concepts.
+
+____________________________________________________________________________________________
+
+# Previous Work
+
+Part-time research at [Kantor Lab](https://labs.ri.cmu.edu/kantorlab/research/) at CMU's Field Robotics Center, working on Robotics for Agriculture. I work on a robotic grapevine pruning project involving 3D skeletonization of
 grapevine pointclouds for pruning weight estimation.
 
 ![](/images/pure_vine.gif)
 
-# Previous Work
+_____________________________________________________________________________________________
 
 ![](/images/magna_homepage.png)
 
