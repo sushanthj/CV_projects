@@ -17,8 +17,7 @@
 remote_theme: just-the-docs/just-the-docs
 title: Navigating Robotics
 email: sushanth.jayanth@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Projects and assignments during my time in CMU
+description: Projects and assignments during my time in CMU
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -105,23 +104,15 @@ color_scheme: light
 ga_tracking: G-0VNMB6VPJF
 ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
 
-plugins:
-  - jekyll-seo-tag
-  - jekyll-feed
-  
 kramdown:
   syntax_highlighter_opts:
     block:
       line_numbers: false
 
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  startings: []
-  blanklines: false
-  profile: false
-  # ignore:
-  #   envs: all
-
-exclude: ['config.ru', 'Gemfile', 'Gemfile.lock', 'vendor', 'Procfile']
+# Footer "Edit this page on GitHub" link text
+gh_edit_link: true # show or hide edit this page link
+gh_edit_link_text: "GitHub Repository" # text for the edit link
+gh_edit_repository: "https://github.com/sushanthj/projects" # the github URL for your repo
+gh_edit_branch: "master" # the branch that your docs is served from
+gh_edit_source: /root # the source that your files originate from
+gh_edit_view_mode: "edit" # "tree" or "edit" if you want the user to jump into the editor immediately
