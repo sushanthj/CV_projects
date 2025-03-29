@@ -109,7 +109,7 @@ In the above format, ensure there is no whitespace between the backslash and the
 
 # Button size
 
-Wrap the button in a container that uses the [font-size utility classes]({% link docs/utilities/typography.md %}) to scale buttons:
+Wrap the button in a container that uses the font-size utility classes to scale buttons:
 
 <div class="code-example" markdown="1">
 <span class="fs-6">

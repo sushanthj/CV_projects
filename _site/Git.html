@@ -13,26 +13,10 @@
 
   <style id="jtd-nav-activation">
   
-
-    
-    .site-nav > ul.nav-list:first-child > li:not(:nth-child(8)) > a,
-    .site-nav > ul.nav-list:first-child > li > ul > li a {
+    .site-nav ul li a {
       background-image: none;
     }
 
-    .site-nav > ul.nav-list:not(:first-child) a,
-    .site-nav li.external a {
-      background-image: none;
-    }
-
-    .site-nav > ul.nav-list:first-child > li:nth-child(8) > a {
-      font-weight: 600;
-      text-decoration: none;
-    }.site-nav > ul.nav-list:first-child > li:nth-child(8) > button svg {
-      transform: rotate(-90deg);
-    }.site-nav > ul.nav-list:first-child > li.nav-list-item:nth-child(8) > ul.nav-list {
-      display: block;
-    }
   </style>
 
   
@@ -62,20 +46,20 @@
 
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Deep Learning | Navigating Robotics</title>
+<title>Navigating Robotics | Projects and assignments during my time in CMU</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="Deep Learning" />
+<meta property="og:title" content="Navigating Robotics" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Projects and assignments during my time in CMU" />
 <meta property="og:description" content="Projects and assignments during my time in CMU" />
-<link rel="canonical" href="http://localhost:4000/docs/Deep%20Learning" />
-<meta property="og:url" content="http://localhost:4000/docs/Deep%20Learning" />
+<link rel="canonical" href="http://localhost:4000/Git.html" />
+<meta property="og:url" content="http://localhost:4000/Git.html" />
 <meta property="og:site_name" content="Navigating Robotics" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Deep Learning" />
+<meta property="twitter:title" content="Navigating Robotics" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Projects and assignments during my time in CMU","headline":"Deep Learning","url":"http://localhost:4000/docs/Deep%20Learning"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"Projects and assignments during my time in CMU","headline":"Navigating Robotics","url":"http://localhost:4000/Git.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -226,54 +210,282 @@
       <div id="main-content" class="main-content">
         <main>
           
-            <h1 id="deep-learning">
+            <!-- ---
+layout: default
+title: Git Concepts
+permalink: git_concepts
+nav_order: 14
+---
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details> -->
+<h1 class="fs-9" id="before-you-begin">
   
   
-    <a href="#deep-learning" class="anchor-heading" aria-labelledby="deep-learning"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Deep Learning
+    <a href="#before-you-begin" class="anchor-heading" aria-labelledby="before-you-begin"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Before you Begin
   
   
 </h1>
     
 
-<p>Introduction and Overview of DL as done in 11-785 IDL and 16720 Computer Vision class</p>
+<p class="btn fs-5 mb-4 mb-md-0"><a href="https://www.w3schools.com/git/git_getstarted.asp?remote=github">Reference</a></p>
 
-          
+<p>In the above link, follow the procedures, but instead of using username and password each time, 
+setup the ssh keys and use them more often</p>
 
-          
-            <hr>
-<h2 class="text-delta">Table of contents</h2>
+<p><em>ssh keys are found in ./.ssh folder (or lookup keygen to generate your keys)</em></p>
+<h1 id="basics-of-generating-new-content-in-local-and-pushing-to-github">
+  
+  
+    <a href="#basics-of-generating-new-content-in-local-and-pushing-to-github" class="anchor-heading" aria-labelledby="basics-of-generating-new-content-in-local-and-pushing-to-github"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Basics of generating new content in local and pushing to github
+  
+  
+</h1>
+    
+<h2 id="process-for-adding-to-a-github-page">
+  
+  
+    <a href="#process-for-adding-to-a-github-page" class="anchor-heading" aria-labelledby="process-for-adding-to-a-github-page"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Process for adding to a github page
+  
+  
+</h2>
+    
+
+<p>git add . <br />
+git commit -m “made new code” <br />
+git push or git push origin develop (if you cloned from develop branch)</p>
+<h2 id="if-you-want-to-track-a-different-branch">
+  
+  
+    <a href="#if-you-want-to-track-a-different-branch" class="anchor-heading" aria-labelledby="if-you-want-to-track-a-different-branch"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> If you want to track a different branch
+  
+  
+</h2>
+    
 
 <ul>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/Basics.html">ML Basics</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/DL.html">Deep Learning Starter</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/IDL1.html">MLPs (IDL1)</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/IDL2.html">Classifiers (IDL2)</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/IDL3.html">Optimizers and Regularizers (IDL3)</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/IDL4.html">Intro to CNNs</a>
-  </li>
-  
-  <li>
-    <a href="/docs/Deep%20Learning/IDL5.html">Lessons Learnt 1</a>
-  </li>
-  
+  <li>git branch –set-upstream-to=origin/master <br />
+git add . <br />
+git push</li>
 </ul>
+
+<p>or make a new remote</p>
+
+<ul>
+  <li>git remote add ts_origin_wiki git@github.com:sjayanth21/BR_Wiki.git <br />
+git push –set-upstream ts_origin_wiki master <br />
+git push ts_origin_wiki_master</li>
+</ul>
+<h2 id="working-with-remotes">
+  
+  
+    <a href="#working-with-remotes" class="anchor-heading" aria-labelledby="working-with-remotes"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Working with remotes
+  
+  
+</h2>
+    
+
+<p>Any folder can have a number of remotes like:
+origin and ts_origin_github</p>
+
+<p>To make local branch master track a different remote branch (branch in your cloud github repo) do:
+git branch –set-upstream-to=origin/master</p>
+
+<p>or git branch –set-upstream-to=origin/develop</p>
+<h2 id="handling-merge-conflicts">
+  
+  
+    <a href="#handling-merge-conflicts" class="anchor-heading" aria-labelledby="handling-merge-conflicts"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Handling merge conflicts
+  
+  
+</h2>
+    
+
+<p>If you cloned a repo or forked your own branch 
+you may need to pull from upstream to update your codebase.
+However, running a simple ‘git pull’ may throw merge conflicts</p>
+
+<p>Let’s begin by assuming our local branch is called ‘feature/sj’ <br />
+Our remote branch is called ‘develop’</p>
+
+<p>So do the following</p>
+<ol>
+  <li>Run a ‘git fetch’ to get the updates on all branches (and if any new branch has been added)</li>
+  <li>In your personal branch commit all changes by doing: git add, commit and push</li>
+  <li>sudo apt install meld</li>
+  <li>Now to get the upstream updates do ‘git checkout main’ 
+(or whichever is the upstream branch with latest updates)</li>
+  <li>Now to put this in your personal branch run ‘git checkout feature/sj’</li>
+  <li>Now we do the actual merging using ‘git merge develop’ <strong>(this will merge everythin in 
+deveop into the current branch viz feature/sj)</strong></li>
+  <li>The above step would have thrown some merge conflicts, to solve that run ‘git mergetool’</li>
+  <li>The above step opens meld, make all necessary resolutions and save</li>
+  <li>Now our codebase would have been updated to whatever we resolved in meld</li>
+  <li>Now run ‘git commit’ without any arguments as it is a ‘merge commit’</li>
+  <li>Now as usual do ‘git push origin feature/sj’ to push your updated personal branch to github</li>
+</ol>
+
+<p>Note. When you open meld, the <strong>middle window is the final merged file</strong> which you will finally
+get as output. Your job will be to choose which lines of code :</p>
+<ul>
+  <li>from develop</li>
+  <li>from feature/sj
+that will be going into your final output. develop may be on the right window and feature/sj may
+be on the left window. You will have two options:
+    <ol>
+      <li>Move the lines from the left into both middle and right windows (the code highlight for that
+ line should vanish)</li>
+      <li>Move the lines from the right into both middle and left windows (the code highlight for that
+ line should vanish)</li>
+    </ol>
+  </li>
+</ul>
+<h2 id="points-to-note">
+  
+  
+    <a href="#points-to-note" class="anchor-heading" aria-labelledby="points-to-note"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Points to Note
+  
+  
+</h2>
+    
+
+<ul>
+  <li>
+    <p>If you checkout a file ‘git checkout blade.py’ 
+it resets the file to whatever is the latest from that branch in upstream</p>
+  </li>
+  <li>
+    <p>If you want to physically add or change remotes go to the respective folder
+and do ‘nano .git/config’</p>
+  </li>
+  <li>
+    <p>the correct syntax for the merge command is: <br />
+‘git merge ts_origin/master’ <br />
+What this does is that if the current branch is origin/develop it will merge the files of <br />
+current branch i.e origin/develop with ts_origin/master</p>
+  </li>
+  <li>
+    <p>Note that even if ts_origin/master is in ts_github account and origin/master is in sushanthj 
+github account, it will still merge as long as remotes exist for both these accounts. 
+If remotes don’t exist, you can always add as shown up above</p>
+  </li>
+</ul>
+<h3 id="concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts">
+  
+  
+    <a href="#concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts" class="anchor-heading" aria-labelledby="concepts-for-working-with-two-repos-or-two-repos-on-two-different-github-accounts"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Concepts for working with two repos or two repos on two different github accounts:
+  
+  
+</h3>
+    
+
+<p>Basically locally you will have ‘master’ branch if you do ‘git branch’ <br />
+This master can track two upstream branches using two different remotes <br />
+One remote is added automatically when you clone the repo <br />
+The next remote will have to be added manually to your other git account or other repo</p>
+
+<p>Then to push the same commit to both branches first do ‘git push’ <br />
+and see which repo it pushes to (say it pushes to origin/master <br />
+Then do ‘git push –set-upstream ts_origin/develop’ to push to your second repo <br />
+However, do note that your local branch always tracks to the latest branch you pushed to <br />
+i.e if you do a git pull, it will pull from the latest branch to which you pushed <br />
+in this case it will pull from ts_origin/develop</p>
+<h3 id="saving-a-patch-file">
+  
+  
+    <a href="#saving-a-patch-file" class="anchor-heading" aria-labelledby="saving-a-patch-file"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Saving a patch file
+  
+  
+</h3>
+    
+<p>If you have changes made which you want to save locally and not push to remote, 
+you can save a patch file</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff <span class="o">&gt;</span> new_changes.patch
+</code></pre></div></div>
+
+<p>Now to apply this patch onto any branch, do:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git apply new_changes.patch
+</code></pre></div></div>
+<h3 id="saving-changes-by-stashing">
+  
+  
+    <a href="#saving-changes-by-stashing" class="anchor-heading" aria-labelledby="saving-changes-by-stashing"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Saving changes by stashing
+  
+  
+</h3>
+    
+
+<p>Instead of saving a specific file for changes (such as a patch file), 
+you could also stash your changes locally</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash
+</code></pre></div></div>
+<p>The above command will stash all tracked changes. 
+You could also stash only committed changes. 
+Refer: <a href="https://www.atlassian.com/git/tutorials/saving-changes/git-stash">stashing</a></p>
+
+<p>To then apply the stashed changes (one time use only as pop will remove from stash)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash pop
+</code></pre></div></div>
+
+<p>To apply without popping do:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash apply
+</code></pre></div></div>
+
+<p>To remove any particular item in stash:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash drop
+</code></pre></div></div>
+
+<p>To view all entries in stash and then apply specific one do:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git stash list
+git stash apply n
+</code></pre></div></div>
+
+<p>n = stash item number</p>
+<h2 id="nomenclature-of-git-branches">
+  
+  
+    <a href="#nomenclature-of-git-branches" class="anchor-heading" aria-labelledby="nomenclature-of-git-branches"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Nomenclature of Git Branches
+  
+  
+</h2>
+    
+
+<p>Usually you will need to follow the branch nomenclature which your company uses. <br />
+However, it’s good to know the common industry practice:</p>
+
+<ol>
+  <li>The branch which will be running on all production would be main (or master)</li>
+  <li>The main branch in which developers will push finalized code would be develop 
+(sometimes develop can itself be production branch)</li>
+  <li>For any new addition that an employee wants to propose to the codebase, 
+a branch called ‘feature/sj’ will be created (sj is my initials). This feature branch will be
+merged with the develop branch only after some extensive code review and testing</li>
+</ol>
+<h3 id="maintaining-better-commit-history">
+  
+  
+    <a href="#maintaining-better-commit-history" class="anchor-heading" aria-labelledby="maintaining-better-commit-history"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Maintaining better commit history
+  
+  
+</h3>
+    
+<p>It is also common practice to tag certain commits of the develop branch.
+<a href="https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag">(see tagging)</a></p>
+
+<p>This tagging allows for easy identification as to what major release correspondeds to that commit</p>
+
+          
+
+          
+            
           
         </main>
         
