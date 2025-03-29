@@ -10,7 +10,7 @@ permalink: /
 
 Hello!
 
-I'm Sushanth and I currently work on Computer Vision applications for surgical robots at Intuitive Surgical.
+I'm Sushanth and I currently work on Computer Vision applications for surgical robots at Intuitive Surgical. This website originally served as a resource for revisiting key vision concepts.
 
 ![](/images/DP2.jpeg)
 
@@ -21,7 +21,7 @@ ________________________________________________________________________________
 
 ![](/images/MRSD.png)
 
-In 2024, I earned my Master’s in Robotic Systems Development (MRSD) from Carnegie Mellon University, specializing in Computer Vision. This website originally served as a resource for revisiting key vision concepts.
+In 2024, I earned my Master’s in Robotic Systems Development (MRSD) from Carnegie Mellon University, specializing in Computer Vision.
 
 ____________________________________________________________________________________________
 
