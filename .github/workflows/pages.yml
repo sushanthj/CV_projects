@@ -26,8 +26,7 @@ jobs:
         gem install bundler
     - name: Install dependencies
       run: |
-        cd docs
         bundle config set --local path 'vendor/bundle'
         bundle install
     - name: Build Jekyll site
-      run: bundle exec jekyll build
+      run: bundle exec jekyll build -d _site --config _config.yml
