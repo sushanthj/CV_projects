@@ -22,7 +22,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-paginate-v2
-theme: just-the-docs
+# theme: just-the-docs
 title: Navigating Robotics
 email: sushanth.jayanth@gmail.com
 description: Projects and assignments during my time in CMU
