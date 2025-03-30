@@ -15,7 +15,6 @@
 # in the templates via {{ site.myvariable }}.
 
 theme: just-the-docs
-remote_theme: just-the-docs
 title: Navigating Robotics
 email: sushanth.jayanth@gmail.com
 description: Projects and assignments during my time in CMU

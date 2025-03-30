@@ -29,4 +29,4 @@ jobs:
         bundle config set --local path 'vendor/bundle'
         bundle install
     - name: Build Jekyll site
-      run: bundle exec jekyll build -d _site
+      run: bundle exec jekyll build

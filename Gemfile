@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Theme
-gem "just-the-docs"
+gem "just-the-docs", github: "pmarsceill/just-the-docs"
 gem "html-proofer"
 
 # Github
