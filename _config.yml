@@ -14,6 +14,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
+remote_theme: pmarsceill/just-the-docs
+plugins:
+  - jekyll-remote-theme # add this line to the plugins list
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-paginate-v2
 theme: just-the-docs
 title: Navigating Robotics
 email: sushanth.jayanth@gmail.com
