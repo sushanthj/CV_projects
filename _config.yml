@@ -13,6 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+
 theme: just-the-docs/just-the-docs
 remote_theme: just-the-docs/just-the-docs
 title: Navigating Robotics
@@ -110,9 +111,9 @@ kramdown:
       line_numbers: false
 
 # Footer "Edit this page on GitHub" link text
-gh_edit_link: true # show or hide edit this page link
-gh_edit_link_text: "GitHub Repository" # text for the edit link
-gh_edit_repository: "https://github.com/sushanthj/projects" # the github URL for your repo
-gh_edit_branch: "master" # the branch that your docs is served from
-gh_edit_source: /root # the source that your files originate from
-gh_edit_view_mode: "edit" # "tree" or "edit" if you want the user to jump into the editor immediately
+# gh_edit_link: true # show or hide edit this page link
+# gh_edit_link_text: "GitHub Repository" # text for the edit link
+# gh_edit_repository: "https://github.com/sushanthj/projects" # the github URL for your repo
+# gh_edit_branch: "master" # the branch that your docs is served from
+# gh_edit_source: /root # the source that your files originate from
+# gh_edit_view_mode: "edit" # "tree" or "edit" if you want the user to jump into the editor immediately
