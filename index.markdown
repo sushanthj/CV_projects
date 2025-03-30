@@ -21,7 +21,7 @@ ________________________________________________________________________________
 
 ![](/images/MRSD.png)
 
-In 2024, I earned my Master’s in Robotic Systems Development (MRSD) from Carnegie Mellon University, specializing in Computer Vision.
+In 2024, I earned my Master’s in Robotic Systems Development (MRSD) from Carnegie Mellon University, specializing in Computer Vision. 
 
 ____________________________________________________________________________________________
 
